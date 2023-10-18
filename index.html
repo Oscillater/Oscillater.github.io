@@ -203,7 +203,7 @@ mjx-container[display="true"] + br {
   <div class="wall wall-index">
     <div class="wall-main" id="wall-main">
       <div class="wall-title">凌川的小站</div>
-      <div class="wall-subtitle">仍在努力修建中...</div>
+      <div class="wall-subtitle">施工中...</div>
       <div class="wall-description">“以彼无尽景，寓我有限年。”</div>
     </div>
     <div class="wall-bg">
@@ -248,45 +248,6 @@ mjx-container[display="true"] + br {
       </div>
     </div>
   </div>
-  
-    <div class="timeline">
-      <div class="timeline-head">
-        <div class="title">时间线</div>
-        <div class="radio-wrapper">
-          
-            <div class="radio">
-              <input id="radio-article"
-                     type="checkbox"
-                     />
-              <label class="radio-skin--article" for="radio-article"></label>
-            </div>
-          
-            <div class="radio">
-              <input id="radio-app"
-                     type="checkbox"
-                     checked/>
-              <label class="radio-skin--app" for="radio-app"></label>
-            </div>
-          
-            <div class="radio">
-              <input id="radio-event"
-                     type="checkbox"
-                     />
-              <label class="radio-skin--event" for="radio-event"></label>
-            </div>
-          
-        </div>
-      </div>
-      <div class="timeline-body">
-        <div class="timeline-item-first">
-          <div class="line-anchor line-anchor--now"></div>
-        </div>
-        <div class="timeline-list" id="timeline-list"></div>
-        <div class="timeline-item-last">
-          <div class="line-anchor line-anchor--end"></div>
-        </div>
-      </div>
-    </div>
   
 
     </div>
@@ -485,61 +446,6 @@ mjx-container[display="true"] + br {
   })();
 </script>
   
-  
-  <script type="text/javascript">
-    const timelineData = {"types":["article","app","event"],"posts":[]}
-    const {types, posts} = timelineData
-    listEl = document.querySelector("#timeline-list");
-
-    elRefs = getElRefs(types)
-    bindListener(types, elRefs)
-
-    setTimeout(init.bind(this, types, elRefs))
-
-    function getElRefs(types) {
-      return types.map(type => document.querySelector(`#radio-${type}`))
-    }
-
-    function bindListener(names, els) {
-      names.map((name, i) => els[i].addEventListener('change', e => updateList(name, e.target.checked)))
-    }
-
-    function updateList(type, value) {
-      listDom
-        .filter(line => line.type === type)
-        .forEach(line => {
-          line.el.className = line
-            .el
-            .className
-            .replace(
-              /(--hidden)?$/, value
-              ? ""
-              : "--hidden");
-        });
-    }
-
-    const listDom = posts.map(t => getLine(t));
-    listEl.append(...listDom.map(i => i.el));
-
-    function getLine(data) {
-      const item = document.createElement("DIV");
-      item.className = `timeline-item-${data.type} timeline-item--hidden`;
-      item.innerHTML = `
-                          <div class="line-date">
-                          <div class="line-date-tag">${data.date}</div></div>
-                          <div class="line-anchor"></div>
-                          <div class="line-title">
-                              <img class="text-icon" src="${data.icon}"/><a class="timeline-post" href="${data.path}">${data.title}</a>
-                          </div>
-                          `;
-      return {el: item, type: data.type};
-    };
-
-    function init(names, els) {
-      names.map((name, i) => updateList(name, els[i].checked))
-    }
-  </script >
-
   
 
   </body>

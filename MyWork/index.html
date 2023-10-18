@@ -85,7 +85,7 @@
     </div>
     <div class="body">
       
-  <div class="wall wall-category--plain">
+  <div class="wall wall-category">
     <div class="wall-main">
       <div class="wall-category-title">
         <div class="title-icon"
@@ -94,7 +94,7 @@
       </div>
       <div class="wall-category-description">小说、随笔及其他</div>
       <div class="wall-category-tags">
-        <div id="tags-outer"><a href="/tags/%E5%B0%8F%E8%AF%B4/" style="font-size: 1em;">小说</a> <a href="/tags/%E6%96%87%E5%AD%A6%E8%AF%84%E8%AE%BA/" style="font-size: 1em;">文学评论</a> <a href="/tags/%E7%A7%91%E5%B9%BB%E9%9A%8F%E7%AC%94/" style="font-size: 1em;">科幻随笔</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 1em;">随笔</a></div>
+        <div id="tags-outer"><canvas width="500" height="500" id="tagCanvas"><a href="/tags/%E5%B0%8F%E8%AF%B4/" style="font-size: 14px;">小说</a> <a href="/tags/%E6%96%87%E5%AD%A6%E8%AF%84%E8%AE%BA/" style="font-size: 14px;">文学评论</a> <a href="/tags/%E7%A7%91%E5%B9%BB%E9%9A%8F%E7%AC%94/" style="font-size: 14px;">科幻随笔</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 14px;">随笔</a><canvas></div>
       </div>
     </div>
   </div>
@@ -245,6 +245,35 @@
     </div>
     
     
+  
+    <script type="text/javascript"
+            charset="utf-8"
+            src="/js/tagcanvas.min.js"></script>
+    <script type = "text/javascript">
+        window.onload = function() {
+            try {
+                TagCanvas.Start('tagCanvas', '', {
+                    outlineThickness: 1,
+                    maxSpeed: 0.03,
+                    // freezeActive: true,
+                    // freezeDecel: true,
+                    textColour: null,
+                    textColour: null,
+                    outlineColour: "#aaa",
+                    weight: true,
+                    padding: 4,
+                    // clickToFront: 200,
+                    fadIn: 200,
+                    // pinchZoom: true,
+                    wheelZoom: false,
+                    initial: [0.1, -0.03]
+                });
+            } catch (e) {
+                // something went wrong, hide the canvas container
+                document.getElementById('tags-outer').style.display = 'none';
+            }
+        };
+    </script>
   
 
   </body>
