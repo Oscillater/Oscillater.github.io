@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf8"/>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
+    <title>
+      
+        周记：24.1.8-24.1.14 | 凌川的小站
+      
+    </title>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    
+      <link rel="apple-touch-icon"
+            sizes="180x180"
+            href="/images/apple-touch-icon.png"/>
+    
+    
+      <link rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/images/favicon-32x32.png"/>
+    
+    
+      <link rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/images/favicon-16x16.png"/>
+    
+    
+      <link rel="mask-icon"
+            href="/images/logo.svg"
+            color=""/>
+    
+    
+    
+      
+  <style>
+    @font-face {
+        font-family:sourceHanSerif;
+        src: url(/font/regular.ttf);
+        font-weight: regular;
+    }
+  </style>
+
+  <style>
+    @font-face {
+        font-family:sourceHanSerif;
+        src: url(/font/bold.ttf);
+        font-weight: bold;
+    }
+  </style>
+
+
+    
+    <link rel="stylesheet"
+          type="text/css"
+          href='/css/layout.css'/>
+    
+    
+  <link rel="stylesheet" type="text/css" href="/css/post.css" />
+  
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+  <body>
+    <div class="head">
+      <div class="nav">
+        <a href='/' class="nav-logo">
+          <img alt="logo" height="60px" width="60px" src="/images/logo.svg"/>
+        </a>
+        <input id="navBtn" type="checkbox"/>
+        <div class="nav-menu">
+          
+            
+              <a class="nav-menu-item" href="/NOTES-phy">格物</a>
+            
+              <a class="nav-menu-item" href="/NOTES-philo">致知</a>
+            
+              <a class="nav-menu-item" href="/MyWork">有所得</a>
+            
+          
+          
+        </div>
+        <label class="nav-btn" for="navBtn"></label>
+      </div>
+    </div>
+    <div class="body">
+      
+  <article class="post-content">
+    <div class="post-inner">
+      <div class="post-content__head">
+        <div class="post-title">周记：24.1.8-24.1.14</div>
+        <div class="post-info">
+          
+  <a href="/tags/%E5%91%A8%E8%AE%B0/" class="post-tag">#周记</a>
+
+
+          <span class="post-date">2024-01-14</span>
+        </div>
+      </div>
+      
+      <div class="post-content__body">
+        
+          <div class="post-gallery">
+            
+          </div>
+        
+        <p>考完试一直在摆烂、坐车，以及吃很多东西，玩耍，所以没怎么学习×</p>
+<h1 id="jyy-调试理论"><a href="#jyy-调试理论" class="headerlink" title="jyy-调试理论"></a>jyy-调试理论</h1><ul>
+<li>debug的困难<pre class="mermaid">
+flowchart LR
+Fault:程序bug --> Error:状态出现错误:::B
+Error:状态出现错误:::B --> Failure:可以观测到的错误
+classDef B fill:#b22222</pre>
+二分查找：定位到第一个Error，时间复杂度$O(n\log n)$；单步调试时间复杂度很高。</li>
+<li>两个工具<br><code>printf</code>快速定位问题大概位置，但不要插入太多——对二分查找的近似<br><code>gdb</code>精确，语句极的定义</li>
+<li>debug很多东西<br>输入&#x2F;配置也可以作为程序的一部分</li>
+</ul>
+<h1 id="基于hexo的自建博客的latex显示问题"><a href="#基于hexo的自建博客的latex显示问题" class="headerlink" title="基于hexo的自建博客的latex显示问题"></a>基于hexo的自建博客的latex显示问题</h1><p>个人博客使用“致远”主题，并使用第三方插件“hexo-filter-mathjax”进行服务端渲染。<br>目前发现上传含latex文档时遇到以下问题</p>
+<ul>
+<li>在使用latex显示分数时，例如<code>\frac&#123;&#123;1&#125;&#125;&#123;2&#125;</code>这样的式子会在generate hexo 文件时就出现问题，需要把它们改成不带括号的样子<code>\frac&#123;1&#125;&#123;2&#125;</code>。</li>
+<li>根据其github主页上的提示，发现由于latex与markdown语法的冲突，带有下划线的式子需要进行重新处理：例如<code>\mu_&#123;0&#125;</code>需要改为<code>\mu\_0</code><br>针对这个问题利用gpt+python+正则表达式写了个脚本：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.md&#x27;</span>, <span class="string">&#x27;r&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    content = file.read()</span><br><span class="line"></span><br><span class="line">latex_statements_inline = re.findall(<span class="string">r&#x27;\$.*?\$&#x27;</span>, content)</span><br><span class="line"></span><br><span class="line">processed_statements = []</span><br><span class="line"><span class="keyword">for</span> statement <span class="keyword">in</span> latex_statements_inline:</span><br><span class="line">    statement = statement.replace(<span class="string">&#x27;_&#x27;</span>, <span class="string">&#x27;\_&#x27;</span>)</span><br><span class="line">    <span class="comment">#替换&#x27;_&#x27;为&#x27;\_&#x27;，解决latex语法与markdown冲突的问题</span></span><br><span class="line">    statement = re.sub(<span class="string">r&#x27;&#123;&#123;([^&#125;]*)&#125;&#125;&#x27;</span>,<span class="string">r&#x27;&#123;\1&#125;&#x27;</span>,statement)</span><br><span class="line">    <span class="comment">#删除公式内无用的括号，方便latex显示插件解析</span></span><br><span class="line">    processed_statements.append(statement)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> original, processed <span class="keyword">in</span> <span class="built_in">zip</span>(latex_statements_inline, processed_statements):</span><br><span class="line">    content = content.replace(original, processed)</span><br><span class="line"></span><br><span class="line">latex_statements_outline = re.findall(<span class="string">r&#x27;\$\$.*?\$\$&#x27;</span>, content, re.DOTALL)</span><br><span class="line"><span class="comment"># 对行间latex语句做同样的操作</span></span><br><span class="line">processed_statements = []</span><br><span class="line"><span class="keyword">for</span> statement <span class="keyword">in</span> latex_statements_outline:</span><br><span class="line">    statement = statement.replace(<span class="string">&#x27;_&#x27;</span>, <span class="string">&#x27;\_&#x27;</span>)</span><br><span class="line">    statement = re.sub(<span class="string">r&#x27;&#123;&#123;([^&#125;]*)&#125;&#125;&#x27;</span>, <span class="string">r&#x27;&#123;\1&#125;&#x27;</span>, statement)</span><br><span class="line">    processed_statements.append(statement)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> original, processed <span class="keyword">in</span> <span class="built_in">zip</span>(latex_statements_outline, processed_statements):</span><br><span class="line">    content = content.replace(original, processed)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.md&#x27;</span>, <span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(content)</span><br></pre></td></tr></table></figure>
+以及花了一些时间做<a target="_blank" rel="noopener" href="https://regex101.com/">regex101: build, test, and debug regex</a>上的练习，显然没做完（甚至不到十个）<br>写脚本的时间远小于做练习+读正则相关英文资料的时间XD，最后似乎也没有学到什么（躺</li>
+</ul>
+<h1 id="阅读-写作"><a href="#阅读-写作" class="headerlink" title="阅读&amp;写作"></a>阅读&amp;写作</h1><ul>
+<li>写作啥都没干，摆了</li>
+<li>回家车上读完了《文本盗猎者》，但是没做笔记相当于没读（躺</li>
+<li>开始看厚砖头般的《20世纪思想史》，就像流水账，达尔文还真是无处不在啊……下周估计也看不完。</li>
+</ul>
+
+      </div>
+    </div>
+  </article>
+  <div class="post__foot">
+    
+    <div class="post-nav">
+  
+    <div class="post-nav-item-left"></div>
+  
+  <div class="vhr"></div>
+  
+    <a class="post-nav-item-right" href="/2024/01/12/%E5%A4%A7%E7%89%A9%E7%9F%A5%E8%AF%86%E6%B1%87%E6%80%BB/">
+      <div class="text-align">
+        <span class="text-small">下一篇</span>
+        <svg t="1670570876164"
+             class="icon"
+             viewBox="0 0 1024 1024"
+             transform="scale(-1,-1)"
+             width="16"
+             height="16">
+          <path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z" p-id="14596"/>
+        </svg>
+      </div>
+      大物知识汇总
+    </a>
+  
+</div>
+
+    
+    
+  </div>
+
+    </div>
+    <div class="foot">
+      <div class="foot-inner">
+        <div class="foot__head">
+          
+            <div class="foot-line">
+              
+                <div class="matts">我</div>
+              
+                <div class="matts">行</div>
+              
+                <div class="matts">日</div>
+              
+                <div class="matts">夜</div>
+              
+                <div class="matts">向</div>
+              
+                <div class="matts">江</div>
+              
+                <div class="matts">海</div>
+              
+            </div>
+          
+        </div>
+        <div class="foot__body">
+          
+          
+            <div class="foot-item">
+              <div class="foot-item__head">账号</div>
+              <div class="foot-item__body">
+                
+                  <div class="text">
+                    <img alt="link" height="20px" width="20px" src="/images/logo-github.svg"/>
+                    <a class="foot-link" target="_blank" rel="noopener" href="https://github.com/Oscillater">Oscillater</a>
+                  </div>
+                
+                  <div class="text">
+                    <img alt="link" height="20px" width="20px" src="/images/logo-zh.svg"/>
+                    <a class="foot-link" target="_blank" rel="noopener" href="https://www.zhihu.com/people/che-87-47">凌川</a>
+                  </div>
+                
+              </div>
+            </div>
+          
+          <div class="foot-item">
+            <div class="foot-item__head">联系</div>
+            <div class="foot-item__body">
+              <div class="text">
+                <img alt="link" height="20px" width="20px" src="/images/icon/icon-email.svg"/>
+                <a class="foot-link" href="mailto:chetianwen@163.com">chetianwen@163.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="copyright">
+          <a href="http://example.com">凌川的小站</a> &nbsp;|&nbsp;由&nbsp;<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>&nbsp;及&nbsp;
+          <svg width="20" height="20" viewBox="0 0 725 725">
+            <path fill-rule="evenodd" fill="rgb(221, 221, 221)" d="M145.870,236.632 L396.955,103.578 L431.292,419.44 L156.600,522.53 L145.870,236.632 Z"/>
+            <path fill-rule="evenodd" fill="rgb(159, 159, 159)" d="M396.955,103.578 L564.345,234.486 L611.558,513.469 L431.292,419.44 L396.955,103.578 Z"/>
+            <path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M431.292,419.44 L611.558,513.469 L358.327,595.18 L156.600,522.53 L431.292,419.44 Z"/>
+          </svg>
+          <a target="_blank" rel="noopener" href="https://github.com/hooozen/hexo-theme-tranquility">致远</a>&nbsp;驱动
+        </div>
+      </div>
+    </div>
+    
+    
+  
+
+  </body>
+</html>
