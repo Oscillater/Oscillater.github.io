@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
     <title>
       
-        数电-绪论 | 凌川的小站
+        周记：24.1.22-24.1.28 | 凌川的小站
       
     </title>
     <meta name="description" content=""/>
@@ -201,13 +201,13 @@ mjx-container[display="true"] + br {
   <article class="post-content">
     <div class="post-inner">
       <div class="post-content__head">
-        <div class="post-title">数电-绪论</div>
+        <div class="post-title">周记：24.1.22-24.1.28</div>
         <div class="post-info">
           
-  <a href="/tags/%E6%95%B0%E7%94%B5/" class="post-tag">#数电</a>
+  <a href="/tags/%E5%91%A8%E8%AE%B0/" class="post-tag">#周记</a>
 
 
-          <span class="post-date">2023-10-18</span>
+          <span class="post-date">2024-01-28</span>
         </div>
       </div>
       
@@ -217,32 +217,43 @@ mjx-container[display="true"] + br {
             
           </div>
         
-        <ul>
-<li>数字对应“离散”，模拟对应“连续”</li>
-<li>关注离散的电信号</li>
-<li>电子技术：研究电子器件/电子器件应用</li>
-<li>电子电路：处理信息，能量转换<ul>
-<li>模拟电路：用连续的模拟电压、流值来表示信息</li>
-<li>数字电路：用离散的电压序列来表示信息</li>
+        <h1 id="CS61A-lab11"><a href="#CS61A-lab11" class="headerlink" title="CS61A-lab11"></a>CS61A-lab11</h1><ul>
+<li>将两个dictionary相加：<code>dic1.update(dic2)</code></li>
 </ul>
-</li>
-<li>结构<ul>
-<li>按层次，每个层次有确定的复杂度</li>
-<li>复用</li>
+<h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><p>在Python中，<code>raise</code>和<code>catch</code>都与异常处理相关。<br><code>raise</code>用于引发异常。当出现错误或不正常的情况时，我们可以使用<code>raise</code>语句来主动引发异常。通过引发异常，我们可以中断当前的代码执行路径，并将控制权交给异常处理机制。<br><code>catch</code>用于捕获异常。使用<code>try-except</code>语句可以捕获并处理特定类型的异常。<code>try</code>块中的代码用于监视潜在的异常，而<code>except</code>块中的代码用于处理或响应捕获到的异常。<br>区别在于，<code>raise</code>是引发异常，而<code>catch</code>是捕获异常并处理它们。<code>raise</code>是在代码中主动引发异常，而<code>catch</code>是在异常出现时捕获并处理它们。<br>以下是一个示例，展示了<code>raise</code>和<code>catch</code>的用法：</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true"># 引发异常 </span>
+<span class="token keyword">def</span> <span class="token function">divide</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">:</span>     
+    <span class="token keyword">if</span> b <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>         
+    <span class="token keyword">raise</span> ZeroDivisionError<span class="token punctuation">(</span><span class="token string">"除数不能为0"</span><span class="token punctuation">)</span>     
+    <span class="token keyword">return</span> a <span class="token operator">/</span> b 
+<span class="token comment" spellcheck="true"># 捕获异常并处理 </span>
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    result <span class="token operator">=</span> divide<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> 
+<span class="token keyword">except</span> ZeroDivisionError <span class="token keyword">as</span> e<span class="token punctuation">:</span>     
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"捕获到异常:"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span>
+</code></pre>
+<p>在上面的示例中，<code>divide</code>函数引发了一个<code>ZeroDivisionError</code>异常，当除数为0时，<code>try</code>块中的代码尝试调用<code>divide</code>函数，并在捕获到<code>ZeroDivisionError</code>异常时打印错误消息。<br>可以利用出现异常，相关值则不会返回的特性来判断<code>try</code>中的语句是否出现异常。</p>
+<h1 id="CS61A-hw07"><a href="#CS61A-hw07" class="headerlink" title="CS61A-hw07"></a>CS61A-hw07</h1><h2 id="传统递归与尾递归"><a href="#传统递归与尾递归" class="headerlink" title="传统递归与尾递归"></a>传统递归与尾递归</h2><p>计算阶乘时：<br>传统递归：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">factorial</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> n <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token number">1</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> n <span class="token operator">*</span> factorial<span class="token punctuation">(</span>n<span class="token number">-1</span><span class="token punctuation">)</span>
+</code></pre>
+<p>尾递归：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">factorial_tail</span><span class="token punctuation">(</span>n<span class="token punctuation">,</span> result<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> n <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> result
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> factorial_tail<span class="token punctuation">(</span>n<span class="token number">-1</span><span class="token punctuation">,</span> result<span class="token operator">*</span>n<span class="token punctuation">)</span>
+</code></pre>
+<p>传统递归中，每次递归调用后还需要执行乘法操作，而在尾递归中，乘法操作是在递归调用之前完成的，递归调用本身不需要进行额外的计算。这使得尾递归可以被优化成循环形式，避免了栈溢出的问题，并提高了性能。</p>
+<h2 id="Macro-scheme中的宏"><a href="#Macro-scheme中的宏" class="headerlink" title="Macro-scheme中的宏"></a>Macro-scheme中的宏</h2><ul>
+<li>macro与procedure的区别<br>在一般的procedure里，我们会先把一个operater中的operands先执行掉，再执行整个operator。<br>但是在macro中，我们首先执行macro中的语句——拿到整个operands语句之后，我们不执行operands，而是把它整体“记录”下来。最后我们再执行整个macro语句，其中的operands也被执行。</li>
+<li>scheme中list和quotation的用处<br>list和quotation做到了类似macro中的作用，它使得被引的语句暂缓执行。想要执行被引用的语句，需要在其外面使用<code>eval()</code></li>
+<li>一个简单的相等：<br>procedure中：使用list+quotation+eval可以达到使用macro的效果，但显然后者更为简洁。</li>
 </ul>
-</li>
-<li>接口<ul>
-<li>隔离系统</li>
-<li>系统具有良好的扩展与外设性</li>
-</ul>
-</li>
-<li>好的设计<ul>
-<li>最少的技术达到最大的功效</li>
-<li>可靠性</li>
-<li>兼容性</li>
-</ul>
-</li>
-</ul>
+<h1 id="阅读"><a href="#阅读" class="headerlink" title="阅读"></a>阅读</h1><p>继续读《二十世纪思想史》，开始看《置身事内》。<br>大学生常常以嘲弄的口吻谈论经济，包括但不限于房价和A股。在这之后，话题常常会引申到就业压力以及如何在毕业后生存。嘲弄的口吻本身就是焦虑的一种表达方式。<br>前几天看到项飚的一个访谈，呼吁焦虑的年轻人重构自己与周围“日常”之间的关系。除去关注身边的人事物之外，需要关注的另一重“日常”是被嘲弄话语覆盖之下的权力结构。理解这种权力结构本身，也就消解了焦虑、愤怒以及许许多多的其他情绪。</p>
 
       </div>
     </div>
@@ -259,23 +270,11 @@ mjx-container[display="true"] + br {
     
     <div class="post-nav">
   
-    <a class="post-nav-item-left" href="/2023/10/18/%E4%BF%A1%E6%81%AF%E5%92%8C%E7%BC%96%E7%A0%81%EF%BC%9A%E7%BC%96%E7%A0%81%E7%9A%84%E7%9B%AE%E7%9A%84%E5%92%8C%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E7%A0%81/">
-      <div class="text-align">
-        <svg t="1670570876164"
-             class="icon"
-             viewBox="0 0 1024 1024"
-             width="16"
-             height="16">
-          <path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z" p-id="14596"/>
-        </svg>
-        <span class="text-small">上一篇</span>
-      </div>
-      <div>信息和编码：编码的目的和二进制编码</div>
-    </a>
+    <div class="post-nav-item-left"></div>
   
   <div class="vhr"></div>
   
-    <a class="post-nav-item-right" href="/2023/10/17/%E8%AF%BB%E8%AE%BA%E6%96%87%EF%BC%9A%E3%80%8A%E4%B8%89%E4%BD%93%E3%80%8B%E4%B8%8E%E5%BD%93%E4%BB%A3%E6%96%87%E5%AD%A6/">
+    <a class="post-nav-item-right" href="/2024/01/23/%E7%A7%91%E7%9B%AE%E4%BA%8C%EF%BC%9A%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E8%80%83%E8%BF%87/">
       <div class="text-align">
         <span class="text-small">下一篇</span>
         <svg t="1670570876164"
@@ -287,7 +286,7 @@ mjx-container[display="true"] + br {
           <path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z" p-id="14596"/>
         </svg>
       </div>
-      读论文：《三体》与当代文学
+      科目二：从入门到考过
     </a>
   
 </div>
