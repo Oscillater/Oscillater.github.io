@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
     <title>
       
-        数电-绪论 | 凌川的小站
+        周记：24.2.5-24.2.18 | 凌川的小站
       
     </title>
     <meta name="description" content=""/>
@@ -201,13 +201,13 @@ mjx-container[display="true"] + br {
   <article class="post-content">
     <div class="post-inner">
       <div class="post-content__head">
-        <div class="post-title">数电-绪论</div>
+        <div class="post-title">周记：24.2.5-24.2.18</div>
         <div class="post-info">
           
-  <a href="/tags/%E6%95%B0%E7%94%B5/" class="post-tag">#数电</a>
+  <a href="/tags/%E5%91%A8%E8%AE%B0/" class="post-tag">#周记</a>
 
 
-          <span class="post-date">2023-10-18</span>
+          <span class="post-date">2024-02-26</span>
         </div>
       </div>
       
@@ -217,32 +217,34 @@ mjx-container[display="true"] + br {
             
           </div>
         
-        <ul>
-<li>数字对应“离散”，模拟对应“连续”</li>
-<li>关注离散的电信号</li>
-<li>电子技术：研究电子器件/电子器件应用</li>
-<li>电子电路：处理信息，能量转换<ul>
-<li>模拟电路：用连续的模拟电压、流值来表示信息</li>
-<li>数字电路：用离散的电压序列来表示信息</li>
+        <h1 id="cs61a-lab12"><a href="#cs61a-lab12" class="headerlink" title="cs61a-lab12"></a>cs61a-lab12</h1><p>在debug的过程中遇到的报错，须从函数开始寻找第一个报错的函数并加以解决（细细想来很像是jyy讲过的内容×）</p>
+<h1 id="CS61A-lab14"><a href="#CS61A-lab14" class="headerlink" title="CS61A-lab14"></a>CS61A-lab14</h1><h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><ul>
+<li><strong>在Python中，变量名只是对对象的引用，而不是对象本身</strong>（想一下那个变量指来指去的图图！</li>
+<li>调用Python中类函数的两种方法：类名.函数名(参数) or 实例名.函数名(参数)</li>
+<li>学会用help(啥函数)，不要啥都问GPT</li>
+<li>lab14的<code>num_splits</code>的思路很好，似乎并非数学的思路，而是有点“象形”的味道。</li>
 </ul>
-</li>
-<li>结构<ul>
-<li>按层次，每个层次有确定的复杂度</li>
-<li>复用</li>
-</ul>
-</li>
-<li>接口<ul>
-<li>隔离系统</li>
-<li>系统具有良好的扩展与外设性</li>
-</ul>
-</li>
-<li>好的设计<ul>
-<li>最少的技术达到最大的功效</li>
-<li>可靠性</li>
-<li>兼容性</li>
+<h2 id="Scheme-Macro"><a href="#Scheme-Macro" class="headerlink" title="Scheme-Macro"></a>Scheme-Macro</h2><p>在Scheme这样的Lisp语言中， Code is Data 。<br>A macro is an operation performed on the source code of a program before evaluation.</p>
+<ul>
+<li>Evaluation procedure of a macro call expression<ul>
+<li>Evaluate the operator sub-expression, which evaluates to a macro.</li>
+<li>Call the macro procedure on the operand expressions <strong>without evaluating them first</strong>。相当于使用括号括住了 operand expressions ，也就是 macro 中使用的 expressions 。也就是把 Code 看作 Data 看待。</li>
+<li>Evaluate the expression returned from the macro procedure.</li>
 </ul>
 </li>
 </ul>
+<p>以下两段代码起到相同效果</p>
+<pre class=" language-scheme"><code class="language-scheme"><span class="token punctuation">(</span><span class="token keyword">define</span> <span class="token punctuation">(</span><span class="token function">twice</span> expr<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">list</span> <span class="token string">'begin</span> expr expr<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">(</span><span class="token builtin">eval</span> <span class="token punctuation">(</span><span class="token function">twice</span> <span class="token string">'</span><span class="token punctuation">(</span><span class="token function">print</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<pre class=" language-scheme"><code class="language-scheme"><span class="token punctuation">(</span><span class="token keyword">define</span>-macro <span class="token punctuation">(</span><span class="token function">twice</span> expr<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">list</span> <span class="token string">'begin</span> expr expr<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<h1 id="CS61A-hw09"><a href="#CS61A-hw09" class="headerlink" title="CS61A-hw09"></a>CS61A-hw09</h1><ul>
+<li>Python 中 <code>yield</code> 的用法跟 Scheme 中的 Stream 好像耶</li>
+<li>Python的递归，总要注意，递归达到终点之后回溯的值是否能够正确变化或者返回。（一定多写几个return）</li>
+</ul>
+<h1 id="别的"><a href="#别的" class="headerlink" title="别的"></a>别的</h1><p>过年了，开学了，看了点书。</p>
+<p>到这里算是把61a完结了，后面打算看看web相关，可能看react吧，然后搓项目玩。</p>
 
       </div>
     </div>
@@ -259,23 +261,11 @@ mjx-container[display="true"] + br {
     
     <div class="post-nav">
   
-    <a class="post-nav-item-left" href="/2023/10/18/%E4%BF%A1%E6%81%AF%E5%92%8C%E7%BC%96%E7%A0%81%EF%BC%9A%E7%BC%96%E7%A0%81%E7%9A%84%E7%9B%AE%E7%9A%84%E5%92%8C%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E7%A0%81/">
-      <div class="text-align">
-        <svg t="1670570876164"
-             class="icon"
-             viewBox="0 0 1024 1024"
-             width="16"
-             height="16">
-          <path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z" p-id="14596"/>
-        </svg>
-        <span class="text-small">上一篇</span>
-      </div>
-      <div>信息和编码：编码的目的和二进制编码</div>
-    </a>
+    <div class="post-nav-item-left"></div>
   
   <div class="vhr"></div>
   
-    <a class="post-nav-item-right" href="/2023/10/17/%E8%AF%BB%E8%AE%BA%E6%96%87%EF%BC%9A%E3%80%8A%E4%B8%89%E4%BD%93%E3%80%8B%E4%B8%8E%E5%BD%93%E4%BB%A3%E6%96%87%E5%AD%A6/">
+    <a class="post-nav-item-right" href="/2024/02/06/%E4%BB%8E%E2%80%9C%E6%AD%8C%E8%80%85%E2%80%9D%E5%BD%A2%E8%B1%A1%E6%B5%85%E6%9E%90%E4%B9%9D%E5%8D%81%E5%B9%B4%E4%BB%A3%E8%87%B3%E4%BB%8A%E6%AD%8C%E8%AF%8D%E4%B8%AD%E4%B8%BB%E4%BD%93%E6%80%A7%E7%9A%84%E5%BB%BA%E6%9E%84/">
       <div class="text-align">
         <span class="text-small">下一篇</span>
         <svg t="1670570876164"
@@ -287,7 +277,7 @@ mjx-container[display="true"] + br {
           <path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z" p-id="14596"/>
         </svg>
       </div>
-      读论文：《三体》与当代文学
+      从“歌者”形象浅析九十年代至今歌词中主体性的建构
     </a>
   
 </div>
