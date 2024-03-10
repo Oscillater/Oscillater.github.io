@@ -234,11 +234,10 @@ mjx-container[display="true"] + br {
 </li>
 </ul>
 <p>以下两段代码起到相同效果</p>
-<pre class=" language-scheme"><code class="language-scheme"><span class="token punctuation">(</span><span class="token keyword">define</span> <span class="token punctuation">(</span><span class="token function">twice</span> expr<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">list</span> <span class="token string">'begin</span> expr expr<span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token punctuation">(</span><span class="token builtin">eval</span> <span class="token punctuation">(</span><span class="token function">twice</span> <span class="token string">'</span><span class="token punctuation">(</span><span class="token function">print</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre>
-<pre class=" language-scheme"><code class="language-scheme"><span class="token punctuation">(</span><span class="token keyword">define</span>-macro <span class="token punctuation">(</span><span class="token function">twice</span> expr<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token builtin">list</span> <span class="token string">'begin</span> expr expr<span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="built_in">define</span></span> (<span class="name">twice</span> expr) (<span class="name"><span class="built_in">list</span></span> <span class="symbol">'begin</span> expr expr))</span><br><span class="line">(<span class="name"><span class="built_in">eval</span></span> (<span class="name">twice</span> '(print <span class="number">2</span>)))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">define-macro</span> (<span class="name">twice</span> expr) (<span class="name"><span class="built_in">list</span></span> <span class="symbol">'begin</span> expr expr))</span><br></pre></td></tr></table></figure>
+
 <h1 id="CS61A-hw09"><a href="#CS61A-hw09" class="headerlink" title="CS61A-hw09"></a>CS61A-hw09</h1><ul>
 <li>Python 中 <code>yield</code> 的用法跟 Scheme 中的 Stream 好像耶</li>
 <li>Python的递归，总要注意，递归达到终点之后回溯的值是否能够正确变化或者返回。（一定多写几个return）</li>
