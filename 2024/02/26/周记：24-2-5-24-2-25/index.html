@@ -173,8 +173,7 @@ mjx-container[display="true"] {
 mjx-container[display="true"] + br {
   display: none;
 }
-</style><link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+</style><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
   <body>
     <div class="head">
       <div class="nav">
@@ -235,9 +234,9 @@ mjx-container[display="true"] + br {
 </li>
 </ul>
 <p>以下两段代码起到相同效果</p>
-<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs scheme">(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">twice</span> expr) (<span class="hljs-name"><span class="hljs-built_in">list</span></span> <span class="hljs-symbol">'begin</span> expr expr))<br>(<span class="hljs-name"><span class="hljs-built_in">eval</span></span> (<span class="hljs-name">twice</span> '(print <span class="hljs-number"><code class="language-hljs scheme">(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">twice</span> expr) (<span class="hljs-name"><span class="hljs-built_in">list</span></span> <span class="hljs-symbol">'begin</span> expr expr))<br>(<span class="hljs-name"><span class="hljs-built_in">eval</span></span> (<span class="hljs-name">twice</span> '(print <span class="hljs-number">2</span>)))<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre class=" language-hljs scheme">(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">twice</span> expr) (<span class="hljs-name"><span class="hljs-built_in">list</span></span> <span class="hljs-symbol">'begin</span> expr expr))<br>(<span class="hljs-name"><span class="hljs-built_in">eval</span></span> (<span class="hljs-name">twice</span> '(print <span class="hljs-number"><code class="language-hljs scheme">(<span class="hljs-name"><span class="hljs-built_in">define</span></span> (<span class="hljs-name">twice</span> expr) (<span class="hljs-name"><span class="hljs-built_in">list</span></span> <span class="hljs-symbol">'begin</span> expr expr))<br>(<span class="hljs-name"><span class="hljs-built_in">eval</span></span> (<span class="hljs-name">twice</span> '(print <span class="hljs-number">2</span>)))<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs scheme">(<span class="hljs-name">define-macro</span> (<span class="hljs-name">twice</span> expr) (<span class="hljs-name"><span class="hljs-built_in">list</span></span> <span class="hljs-symbol"><code class="language-hljs scheme">(<span class="hljs-name">define-macro</span> (<span class="hljs-name">twice</span> expr) (<span class="hljs-name"><span class="hljs-built_in">list</span></span> <span class="hljs-symbol">'begin</span> expr expr))<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre class=" language-hljs scheme">(<span class="hljs-name">define-macro</span> (<span class="hljs-name">twice</span> expr) (<span class="hljs-name"><span class="hljs-built_in">list</span></span> <span class="hljs-symbol"><code class="language-hljs scheme">(<span class="hljs-name">define-macro</span> (<span class="hljs-name">twice</span> expr) (<span class="hljs-name"><span class="hljs-built_in">list</span></span> <span class="hljs-symbol">'begin</span> expr expr))<br></code></pre></td></tr></table></figure>
 
 <h1 id="CS61A-hw09"><a href="#CS61A-hw09" class="headerlink" title="CS61A-hw09"></a>CS61A-hw09</h1><ul>
 <li>Python 中 <code>yield</code> 的用法跟 Scheme 中的 Stream 好像耶</li>
