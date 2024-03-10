@@ -218,7 +218,11 @@ mjx-container[display="true"] + br {
           </div>
         
         <h1 id="proj-scheme"><a href="#proj-scheme" class="headerlink" title="proj-scheme"></a>proj-scheme</h1><ul>
-<li>使用<code>lambda</code>表达式可以固定函数中的一个值<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre class=" language-hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">multiply</span>(<span class="hljs-params">x, y</span>):<br>    <span class="hljs-keyword">return</span> x * y<br><br>multiply_by_2 = <span class="hljs-keyword">lambda</span> x: multiply(x, <span class="hljs-number">2</span>)<br><span class="hljs-built_in">print</span>(multiply_by_2(<span class="hljs-number">3</span>))  <span class="hljs-comment"><code class="language-hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">multiply</span>(<span class="hljs-params">x, y</span>):<br>    <span class="hljs-keyword">return</span> x * y<br><br>multiply_by_2 = <span class="hljs-keyword">lambda</span> x: multiply(x, <span class="hljs-number">2</span>)<br><span class="hljs-built_in">print</span>(multiply_by_2(<span class="hljs-number">3</span>))  <span class="hljs-comment"># Output: 6</span><br></code></pre></td></tr></table></figure>
+<li>使用<code>lambda</code>表达式可以固定函数中的一个值<pre class="line-numbers language-python" data-language="python"><code class="language-python">def multiply(x, y):
+    return x * y
+
+multiply_by_2 = lambda x: multiply(x, 2)
+print(multiply_by_2(3))  # Output: 6<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 这周差不多算是磕磕绊绊把scheme给搞定了。后面两个optional没写，开摆了。果不其然是cs61a里面最难的项目。不过还挺有意思的。年前基本到此为止了——之后就是一些扫尾工作了。不过现在我对scheme的怨念依旧深重——谁！说！它！是！最！优！美！的！语！言！我！跟！谁！急！<br>之后假期的任务大概是把博客给整一下，把笔记都往上传一传，顺便看看jyy的算法相关。</li>
 </ul>
 <h1 id="阅读"><a href="#阅读" class="headerlink" title="阅读"></a>阅读</h1><p>啊，终于完结了《思想史》和《置身事内》<br>阅读还是很畅快的，下面读点轻松的小说和中国古代向的东西罢~</p>
