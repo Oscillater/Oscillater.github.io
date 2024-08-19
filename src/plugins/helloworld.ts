@@ -6,7 +6,7 @@ function helloWorld(context, options) {
     async contentLoaded({ actions }) {
       const { addRoute } = actions;
       addRoute({
-        path: '/blog/tags',
+        path: '/42',
         component: '@site/src/components/HelloWorld.tsx',
         exact: true,
       });

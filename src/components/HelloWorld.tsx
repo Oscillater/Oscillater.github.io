@@ -2,7 +2,7 @@ import React from 'react'
 
 const HelloWorld :React.FC= () => {
   return (
-    <div>HelloWorld</div>
+    <div>YOU FIND IT</div>
   )
 }
 
