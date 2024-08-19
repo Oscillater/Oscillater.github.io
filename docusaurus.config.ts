@@ -4,7 +4,6 @@ import type * as Preset from '@docusaurus/preset-classic';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import  '@docusaurus/theme-mermaid'
-
 const config: Config = {
   title: '凌川的小站',
   tagline: '浮沉随浪记今朝',
@@ -77,9 +76,7 @@ const config: Config = {
         },
       } satisfies Preset.Options,
     ],
-    
   ],
-
   themeConfig: {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
@@ -164,6 +161,7 @@ const config: Config = {
     },
   } satisfies Preset.ThemeConfig,
   themes: ['@docusaurus/theme-mermaid'],
+  plugins: [require.resolve('./src/plugins/helloworld')],
 };
 
 export default config;
