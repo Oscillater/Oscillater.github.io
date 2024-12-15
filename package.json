@@ -20,11 +20,13 @@
     "@docusaurus/theme-mermaid": "^3.5.2",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
+    "framer-motion": "^11.14.4",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "rehype-katex": "^7.0.0",
-    "remark-math": "^6.0.0"
+    "remark-math": "^6.0.0",
+    "wavify": "^1.0.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.5.2",

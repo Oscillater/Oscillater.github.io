@@ -9,6 +9,7 @@
   text-align: center;
   position: relative;
   overflow: hidden;
+  width:100%;
 }
 
 @media screen and (max-width: 996px) {
@@ -25,4 +26,10 @@
 
 .hero__subtitle{
   font-size:40px;
+}
+.waveAnimation {
+  position: absolute;
+  bottom: 0;
+  left:0;
+  height: 200px; /* Adjust height as needed */
 }
