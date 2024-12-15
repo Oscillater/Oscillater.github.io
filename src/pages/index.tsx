@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import styles from "./index.module.css";
 import { useState } from "react";
 import React, { useEffect, useRef } from 'react';
+
 const WaveAnimation = ({ width }: { width: number }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   useEffect(() => {
@@ -22,9 +23,9 @@ const WaveAnimation = ({ width }: { width: number }) => {
         };
         resizeCanvas();
         const waves = [
-          { amplitude: 20, frequency: 0.02, speed: 0.05, color: 'rgba(255, 255, 255, 0.5)', phase: 0 },
-          { amplitude: 30, frequency: 0.015, speed: 0.03, color: 'rgba(255, 255, 255, 0.3)', phase: 0 },
-          { amplitude: 40, frequency: 0.01, speed: 0.02, color: 'rgba(255, 255, 255, 0.1)', phase: 0 },
+          { amplitude: 20, frequency: 0.02, speed: 0.0125, color: 'rgba(255, 255, 255, 0.5)', phase: 0 },
+          { amplitude: 30, frequency: 0.015, speed: 0.0075, color: 'rgba(255, 255, 255, 0.3)', phase: 0 },
+          { amplitude: 40, frequency: 0.01, speed: 0.005, color: 'rgba(255, 255, 255, 0.1)', phase: 0 },
         ];
         const centerY = canvas.height*2 / 3;
         const startX = 0;
