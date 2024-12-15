@@ -63,11 +63,15 @@ const WaveAnimation = ({ width }: { width: number }) => {
 };
 function HomepageHeader({ width }: { width: number }) {
   const { siteConfig } = useDocusaurusContext();
+  const constraintsRef=useRef(null);
   return (
     <header className={clsx("hero hero--primary", styles.heroBanner)}>
-      <div className="container">
-      <motion.div
+      <motion.div className="container" ref={constraintsRef}>
+      <motion.div 
+        drag={true}
+        dragSnapToOrigin={true}
         className="container"
+        dragConstraints={constraintsRef}
       >
         <Heading as="h1" className={styles.hero__title}>
           {siteConfig.title}
@@ -75,7 +79,7 @@ function HomepageHeader({ width }: { width: number }) {
         <p className={styles.hero__subtitle}>{siteConfig.tagline}</p>
       </motion.div>
       <WaveAnimation width={width}/>
-      </div>
+      </motion.div>
     </header>
   );
 }
@@ -90,7 +94,7 @@ export default function Home(): JSX.Element {
   }, []);
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
+      title={`${siteConfig.tagline}`}
       description="Description will go into a meta tag in <head />"
     >
       <HomepageHeader width={width}/>

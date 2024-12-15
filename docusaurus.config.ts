@@ -7,7 +7,7 @@ import  '@docusaurus/theme-mermaid'
 const config: Config = {
   title: '凌川的小站',
   tagline: '浮沉随浪记今朝',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/lingchuan.ico',
 
   // Set the production url of your site here
   url: 'https://your-docusaurus-site.example.com',
@@ -84,7 +84,7 @@ const config: Config = {
       title: '凌川的小站',
       logo: {
         alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        src: 'img/lingchuan.svg',
       },
       items: [
         {
@@ -101,7 +101,7 @@ const config: Config = {
         },
         {to: '/blog', label: '有所得', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/Oscillater',
           label: 'GitHub',
           position: 'right',
         },
@@ -150,7 +150,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} 凌川的小站 , Inc. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
