@@ -1,0 +1,17 @@
+
+.cardBody {
+    display: flex;
+    align-items: center;
+  }
+  
+.content {
+    flex: 1;
+}
+.img{
+    width: '100%';
+    height: 'auto';
+    margin-right: 10px;
+}
+.name{
+    font-family: 'STZhongsong';
+}
