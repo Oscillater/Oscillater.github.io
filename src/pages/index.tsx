@@ -18,6 +18,7 @@ const WaveAnimation = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   useEffect(() => {
+    if(!width||!height) return;
     const canvas = canvasRef.current;
     if (canvas) {
       const ctx = canvas.getContext("2d");
@@ -40,14 +41,14 @@ const WaveAnimation = ({
             amplitude: 30,
             frequency: 0.015,
             speed: 0.0075,
-            color: "rgba(255, 255, 255, 0.3)",
+            color: "rgba(255, 255, 255, 0.35)",
             phase: 0,
           },
           {
             amplitude: 40,
             frequency: 0.01,
             speed: 0.005,
-            color: "rgba(255, 255, 255, 0.1)",
+            color: "rgba(255, 255, 255, 0.15)",
             phase: 0,
           },
         ];
@@ -112,7 +113,7 @@ function HomepageHeader({
           </Heading>
           <p className={styles.hero__subtitle}>{siteConfig.tagline}</p>
         </motion.div>
-        <WaveAnimation width={width} height={200} />
+        <WaveAnimation width={width===undefined?4096:width} height={200} />
       </motion.div>
     </header>
   );
@@ -120,12 +121,14 @@ function HomepageHeader({
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
-  const [width, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState<number | undefined>(undefined);
   const [scrollY, setScrollY] = useState(0);
   useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    if (typeof window !== "undefined") {
+      const handleResize = () => setWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, []);
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);

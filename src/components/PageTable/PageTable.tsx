@@ -23,7 +23,7 @@ const PagesTable: React.FC<TableItemsProps> = ({ Items, showImage }) => {
         {Items.map((item, index) => (
           <div className="col col--4 margin-bottom--lg" key={index}>
             <motion.div
-              className={clsx("card", styles.card, {
+              className={clsx("card", {
                 "shadow--tl": hovered === index,
                 "": hovered !== index,
               })}

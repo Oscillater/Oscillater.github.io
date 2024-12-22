@@ -1,8 +1,9 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import { PageHeading } from "./PageHeading";
-import PagesTable from "./PageTable";
+import { PageHeading } from "../components/PageHeading/PageHeading";
+import PagesTable from "../components/PageTable/PageTable";
+import BrowserOnly from '@docusaurus/BrowserOnly';
 function friends(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   const toolsList = [
@@ -17,7 +18,9 @@ function friends(): JSX.Element {
       description="Description will go into a meta tag in <head />"
     >
       <PageHeading string1="君子生非异也，" string2="善假于物也" />
-      <PagesTable Items={toolsList} showImage={false}/>
+      <BrowserOnly>
+      {() => <PagesTable Items={toolsList} showImage={true} />}
+      </BrowserOnly>
     </Layout>
   );
 }
