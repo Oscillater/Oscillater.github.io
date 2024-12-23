@@ -18,7 +18,7 @@ const config: Config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "oscillater", // Usually your GitHub org/user name.
   projectName: "oscillater.github.io", // Usually your repo name.
-
+  deploymentBranch: 'master',
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   // Even if you don't use internationalization, you can use this field to set
