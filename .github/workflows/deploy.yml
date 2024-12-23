@@ -21,7 +21,7 @@ jobs:
           cache: npm
 
       - name: 安装依赖
-        run: npm install --frozen-lockfile
+        run: npm install --frozen-lockfile --force
       - name: 构建网站
         run: npm run build
 
