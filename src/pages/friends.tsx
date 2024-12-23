@@ -8,37 +8,19 @@ function friends(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   const friendsList = [
     {
-      name: "测试",
-      url: "https://friend1.com",
+      name: " 绫波的小窝",
+      url: "https://ayanami1314.github.io/",
       description:
-        "测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试",
-      imageUrl: "https://avatars.githubusercontent.com/u/113521485?s=96&v=4",
+        "技术博客 & 个人随笔",
+      imageUrl: "https://s2.loli.net/2024/12/23/3F8USucjQOq1ys9.jpg",
     },
     {
-      name: "Friend 2",
-      url: "https://friend2.com",
-      description: "Description 2",
+      name: "???",
+      url: "/friends",
+      description: "加入友链，请将站名、URL、介绍与图片 URL 发至本人邮箱。",
       imageUrl: "https://via.placeholder.com/50",
     },
-    {
-      name: "Friend 3",
-      url: "https://friend3.com",
-      description: "Description 3",
-      imageUrl: "https://via.placeholder.com/50",
-    },
-    {
-      name: "测试",
-      url: "https://friend1.com",
-      description:
-        "测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试",
-      imageUrl: "https://avatars.githubusercontent.com/u/113521485?s=96&v=4",
-    },
-    {
-      name: "Friend 2",
-      url: "https://friend2.com",
-      description: "我住南海君北海寄雁传书谢不能桃李春风一杯酒江湖夜雨十年灯",
-      imageUrl: "https://via.placeholder.com/50",
-    },
+  
   ];
   
   return (

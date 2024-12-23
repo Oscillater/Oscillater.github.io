@@ -19,7 +19,7 @@ function friends(): JSX.Element {
     >
       <PageHeading string1="君子生非异也，" string2="善假于物也" />
       <BrowserOnly>
-      {() => <PagesTable Items={toolsList} showImage={true} />}
+      {() => <PagesTable Items={toolsList} showImage={false} />}
       </BrowserOnly>
     </Layout>
   );

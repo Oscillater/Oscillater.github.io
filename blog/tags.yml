@@ -1,19 +1,24 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+随笔:
+  label: 随笔
+  permalink: /suibi
+  description: 随手写的，怎么你了
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+论文试炼:
+  label: 文学评论
+  permalink: /lunwen
+  description: 不在樊笼，百无禁忌
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+小说:
+  label: 小说
+  permalink: /xiaoshuo
+  description: 一家之言，随便听听
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+游记:
+  label: 游记
+  permalink: /youji
+  description: 不拘时地，兴之所至
+
+诗歌:
+  label: 诗歌
+  permalink: /shige
+  description: 读着顺口，觉得有趣

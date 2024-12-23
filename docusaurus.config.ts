@@ -60,11 +60,11 @@ const config: Config = {
             type: ["rss", "atom"],
             xslt: true,
           },
+          blogSidebarTitle: 'All posts',
+          blogSidebarCount: 'ALL',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
-          // Useful options to enforce blogging best practices
+          
           onInlineTags: "warn",
           onInlineAuthors: "warn",
           onUntruncatedBlogPosts: "warn",
@@ -106,41 +106,42 @@ const config: Config = {
       style: "dark",
       links: [
         {
-          title: "Docs",
+          title: "个人账号",
           items: [
             {
-              label: "Tutorial",
-              to: "/docs/intro",
+              label: "Github",
+              href: "https://github.com/Oscillater",
             },
+            {
+              label: "知乎",
+              href: "https://www.zhihu.com/people/che-87-47",
+            },
+            {
+              label: "豆瓣",
+              href: "https://www.zhihu.com/people/che-87-47",
+            }
+            
           ],
         },
         {
-          title: "Community",
+          title: "联系我",
           items: [
             {
-              label: "Stack Overflow",
-              href: "https://stackoverflow.com/questions/tagged/docusaurus",
-            },
-            {
-              label: "Discord",
-              href: "https://discordapp.com/invite/docusaurus",
-            },
-            {
-              label: "Twitter",
-              href: "https://twitter.com/docusaurus",
-            },
+              label: "chetianwen@163.com",
+              href: "mailto:chetianwen@163.com",
+            }
           ],
         },
-        {
-          title: "More",
+        { 
+          title: "更多",
           items: [
             {
-              label: "Blog",
-              to: "/blog",
+              label: "本站基于 Docusaurus 搭建",
+              to: "https://docusaurus.io/",
             },
             {
-              label: "GitHub",
-              href: "https://github.com/facebook/docusaurus",
+              label: "简单上手教程",
+              href: "/docs/intro",
             },
           ],
         },
@@ -156,7 +157,6 @@ const config: Config = {
     },
   } satisfies Preset.ThemeConfig,
   themes: ["@docusaurus/theme-mermaid"],
-  plugins: [require.resolve("./src/plugins/helloworld")],
 };
 
 export default config;

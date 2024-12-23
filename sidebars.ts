@@ -25,7 +25,7 @@ const sidebars: SidebarsConfig = {
         title:"物理",
       },
       collapsed: false,
-      items: ["gewu/lllx","gewu/wldx"],
+      items: ["gewu/lllx","gewu/wldx","gewu/semi_phy","gewu/quan_phy"],
     },
     {
       type: "category",
@@ -35,7 +35,27 @@ const sidebars: SidebarsConfig = {
         title:"硬件学习相关",
       },
       collapsed: false,
-      items: ["gewu/szdzjs"],
+      items: ["gewu/szdzjs","gewu/re_szdzjs","gewu/dlll"],
+    },
+    {
+      type: "category",
+      label: "CS",
+      link: {
+        type: "generated-index",
+        title:"软件学习相关",
+      },
+      collapsed: false,
+      items: ["gewu/discretemath","gewu/ds","gewu/python","gewu/typescript"],
+    },
+    {
+      type: "category",
+      label: "Drive",
+      link: {
+        type: "generated-index",
+        title:"驾驶技术",
+      },
+      collapsed: false,
+      items: ["gewu/jsjs"],
     },
   ],
   zhizhi: [
