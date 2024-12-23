@@ -1,30 +1,51 @@
-name: Deploy Docusaurus website
+name: 部署到 GitHub Pages
 
 on:
   push:
     branches:
-      - master  # 或者你想要触发部署的其他分支
+      - main
+    # 如果你想要进一步定义触发、路径以及其他内容，请检阅 Github Actions 文档
+    # https://docs.github.com/zh/actions/using-workflows/workflow-syntax-for-github-actions#on
 
 jobs:
-  deploy:
+  build:
+    name: 构建 Docusaurus
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: yarn
 
-      - name: Install dependencies
-        run: npm install
+      - name: 安装依赖
+        run: yarn install --frozen-lockfile
+      - name: 构建网站
+        run: yarn build
 
-      - name: Build website
-        run: npm run build
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: 上传构建制品
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          path: build
+
+  deploy:
+    name: 部署到 GitHub Pages
+    needs: build
+
+    # 给予 GITHUB_TOKEN 进行 Pages 部署所必须的权限
+    permissions:
+      pages: write # 以部署到 Pages
+      id-token: write # 以验证部署来自恰当的源
+
+    # 部署到 Github Pages 环境
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
