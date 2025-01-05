@@ -35,7 +35,7 @@ const sidebars: SidebarsConfig = {
         title:"硬件学习相关",
       },
       collapsed: false,
-      items: ["gewu/szdzjs","gewu/re_szdzjs","gewu/dlll"],
+      items: ["gewu/szdzjs","gewu/re_szdzjs","gewu/dlll","gewu/dgx"],
     },
     {
       type: "category",
@@ -77,7 +77,7 @@ const sidebars: SidebarsConfig = {
         title:"经济",
       },
       collapsed: false,
-      items: ["zhizhi/zssn"],
+      items: ["zhizhi/zssn","zhizhi/zjwg"],
     },
     {
       type: "category",

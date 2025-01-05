@@ -15,6 +15,12 @@ function friends(): JSX.Element {
       imageUrl: "https://s2.loli.net/2024/12/23/3F8USucjQOq1ys9.jpg",
     },
     {
+      name: "Qiushao’s corner" ,
+      url: "https://qiushao-e.github.io/",
+      description: "学习记录&经验分享",
+      imageUrl: "https://qiushao-e.github.io/img/syq.jpg"
+    },
+    {
       name: "???",
       url: "/friends",
       description: "加入友链，请将站名、URL、介绍与图片 URL 发至本人邮箱。",

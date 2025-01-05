@@ -138,11 +138,7 @@ const config: Config = {
             {
               label: "本站基于 Docusaurus 搭建",
               to: "https://docusaurus.io/",
-            },
-            {
-              label: "简单上手教程",
-              href: "/docs/intro",
-            },
+            }
           ],
         },
       ],
