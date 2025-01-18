@@ -119,6 +119,7 @@ export default function HomepageFeatures(): JSX.Element {
                       本站总访问量<span id="busuanzi_value_site_pv"></span>次
                     </span>
                   </li>
+                  <li>本站中“格物”“致知”两板块中的内容受<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>协议保护，“有所得”板块保留所有权利。</li>
                 </ul>
               </div>
             </div>

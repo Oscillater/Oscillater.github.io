@@ -18,7 +18,7 @@ const config: Config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "oscillater", // Usually your GitHub org/user name.
   projectName: "oscillater.github.io", // Usually your repo name.
-  deploymentBranch: 'master',
+  deploymentBranch: "master",
   onBrokenLinks: "ignore",
   onBrokenMarkdownLinks: "warn",
   trailingSlash: false,
@@ -60,11 +60,11 @@ const config: Config = {
             type: ["rss", "atom"],
             xslt: true,
           },
-          blogSidebarTitle: 'All posts',
-          blogSidebarCount: 'ALL',
+          blogSidebarTitle: "All posts",
+          blogSidebarCount: "ALL",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          
+
           onInlineTags: "warn",
           onInlineAuthors: "warn",
           onUntruncatedBlogPosts: "warn",
@@ -98,6 +98,7 @@ const config: Config = {
           label: "致知",
         },
         { to: "/blog", label: "有所得", position: "left" },
+        { type: "search", position: "right" },
         { to: "/friends", label: "友链", position: "right" },
         { to: "/tools", label: "工具", position: "right" },
       ],
@@ -119,8 +120,7 @@ const config: Config = {
             {
               label: "豆瓣",
               href: "https://www.zhihu.com/people/che-87-47",
-            }
-            
+            },
           ],
         },
         {
@@ -129,16 +129,16 @@ const config: Config = {
             {
               label: "chetianwen@163.com",
               href: "mailto:chetianwen@163.com",
-            }
+            },
           ],
         },
-        { 
+        {
           title: "更多",
           items: [
             {
               label: "本站基于 Docusaurus 搭建",
               to: "https://docusaurus.io/",
-            }
+            },
           ],
         },
       ],
@@ -150,6 +150,15 @@ const config: Config = {
     },
     mermaid: {
       theme: { light: "neutral", dark: "forest" },
+    },
+    algolia: {
+      // The application ID provided by Algolia
+      appId: "XJDDYCQW2W",
+      // Public API key: it is safe to commit it
+      apiKey: "23bc5651f05f1d8f79bdaeebcb7d88e6",
+      indexName: "oscillaterio",
+      // Optional: see doc section below
+      contextualSearch: true,
     },
   } satisfies Preset.ThemeConfig,
   themes: ["@docusaurus/theme-mermaid"],
