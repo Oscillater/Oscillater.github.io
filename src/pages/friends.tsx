@@ -17,8 +17,14 @@ function friends(): JSX.Element {
     {
       name: "Qiushao’s corner" ,
       url: "https://qiushao-e.github.io/",
-      description: "学习记录&经验分享",
+      description: "学习记录 & 经验分享",
       imageUrl: "https://qiushao-e.github.io/img/syq.jpg"
+    },
+    {
+      name: "67's Blog",
+      url: "https://673376.xyz/",
+      description: "任草木枯荣,只道来日方长",
+      imageUrl: "https://673376.xyz/icons/web-app-manifest-192x192.png",
     },
     {
       name: "???",
@@ -26,7 +32,6 @@ function friends(): JSX.Element {
       description: "加入友链，请将站名、URL、介绍与图片 URL 发至本人邮箱。",
       imageUrl: "https://via.placeholder.com/50",
     },
-  
   ];
   
   return (
