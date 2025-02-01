@@ -23,8 +23,20 @@ function friends(): JSX.Element {
     {
       name: "67's Blog",
       url: "https://673376.xyz/",
-      description: "任草木枯荣,只道来日方长",
+      description: "任草木枯荣，只道来日方长",
       imageUrl: "https://673376.xyz/icons/web-app-manifest-192x192.png",
+    },
+    {
+      name: "donotknow的个人blog",
+      url: "http://donotknowsjtu.top/",
+      description: "know so little",
+      imageUrl: "http://donotknowsjtu.top/image/logo.gif",
+    },
+    {
+      name: "奶糖写字的地方",
+      url: "https://iwhite-rabbit.github.io/",
+      description: "美人如玉剑如虹",
+      imageUrl: "https://iwhite-rabbit.github.io/images/avatar.jpeg",
     },
     {
       name: "???",
