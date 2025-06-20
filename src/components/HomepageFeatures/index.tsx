@@ -33,7 +33,7 @@ function Feature({ title, description, href }: FeatureItem) {
   return (
     <div className={"col col--4"}>
       <motion.div
-        className={clsx("card", {
+        className={clsx("card margin-vert--sm", {
           "shadow--tl": hovered === title,
           "": hovered !== title,
         })}

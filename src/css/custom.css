@@ -5,6 +5,14 @@
  */
 
 /* You can override the default Infima variables here. */
+@font-face {
+  font-family: 'Montserrat'; /* 定义字体名称 */
+  src:url('../../static/fonts/Montserrat/Montserrat-VariableFont_wght.ttf'); /* 字体 URL */
+}
+@font-face {
+  font-family: 'Serif'; /* 定义字体名称 */
+  src:url('../../static/fonts/Serif/SourceHanSerif-VF.ttf'); /* 字体 URL */
+}
 :root {
   --ifm-color-primary: #00b3ff;
   --ifm-color-primary-dark: #00a1e6;
@@ -15,7 +23,7 @@
   --ifm-color-primary-lightest: #4dcaff;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-  font-family: "Century Gothic","STZhongsong";
+  font-family: "Montserrat","Serif";
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */

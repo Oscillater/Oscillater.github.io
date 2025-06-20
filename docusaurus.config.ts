@@ -77,7 +77,7 @@ const config: Config = {
   ],
   themeConfig: {
     // Replace with your project's social card
-    image: "img/docusaurus-social-card.jpg",
+    image: "img/lingchuan.png",
     navbar: {
       title: "凌川的小站",
       logo: {
@@ -119,7 +119,7 @@ const config: Config = {
             },
             {
               label: "豆瓣",
-              href: "https://www.zhihu.com/people/che-87-47",
+              href: "https://www.douban.com/people/241593114/",
             },
           ],
         },
