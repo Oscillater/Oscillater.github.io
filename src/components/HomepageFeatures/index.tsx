@@ -23,7 +23,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "有所得",
-    description: <>包括但不限于代码、小说和随笔</>,
+    description: <>包括但不限于代码（暂无）、小说和随笔</>,
     href: "/blog",
   },
 ];

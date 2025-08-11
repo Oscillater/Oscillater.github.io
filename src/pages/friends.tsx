@@ -39,11 +39,17 @@ function friends(): JSX.Element {
       imageUrl: "https://iwhite-rabbit.github.io/images/avatar.jpeg",
     },
     {
+      name: "CENTER OF ELECANNONIC",
+      url: "https://elecannonic.github.io/",
+      description: "Build real science",
+      imageUrl: "https://elecannonic.github.io/images/logo.png",
+    },
+    {
       name: "???",
       url: "/friends",
       description: "加入友链，请将站名、URL、介绍与图片 URL 发至本人邮箱。",
       imageUrl: "https://via.placeholder.com/50",
-    },
+    }
   ];
   
   return (

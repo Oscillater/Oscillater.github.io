@@ -1,6 +1,6 @@
 
 .heroBanner {
-    font-family: 'STSong';
+    font-family: 'Serif';
     padding: 4rem 0;
     text-align: center;
     position: relative;
@@ -10,8 +10,8 @@
 
 .hero__title {
   text-align: center;
-  font-family: "SimSun";
-  font-weight: bold;
+  font-family: "Serif";
   font-size:5vw;
+  font-weight:normal;
 }
   
