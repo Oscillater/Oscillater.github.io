@@ -144,6 +144,12 @@ const config: Config = {
       ],
       copyright: `Copyright © ${new Date().getFullYear()} 凌川的小站 , Inc. Built with Docusaurus.`,
     },
+    announcementBar: {
+      id: 'announcementBar',
+      content:
+        ' <a target="_blank" rel="noopener noreferrer" href="/blog">“有所得”</a>更新了新内容！',
+      isCloseable: true,
+    },
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
