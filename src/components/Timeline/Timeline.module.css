@@ -1,0 +1,44 @@
+.timelineSection {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 4rem;
+}
+.timeline {
+  list-style: none;
+  padding: 0;
+  position: relative;
+  border-left: 2px solid var(--ifm-color-primary);
+}
+.timelineItem {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+}
+.timelineDot {
+  position: absolute;
+  left: -10px;
+  top: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  background: var(--ifm-color-primary);
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px var(--ifm-color-primary);
+}
+.timelineContent {
+  margin-left: 0.5rem;
+}
+.timelineDate {
+  font-size: 0.9rem;
+  color: var(--ifm-color-secondary-darkest);
+  margin-bottom: 0.2rem;
+}
+.timelineTitle {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+.timelineDesc {
+  color: var(--ifm-font-color-base);
+  font-size: 0.95rem;
+}

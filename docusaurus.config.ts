@@ -101,6 +101,7 @@ const config: Config = {
         { type: "search", position: "right" },
         { to: "/friends", label: "友链", position: "right" },
         { to: "/tools", label: "工具", position: "right" },
+        { to: "/update", label: "日新", position: "right" },
       ],
     },
     footer: {
