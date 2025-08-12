@@ -4,6 +4,7 @@ import { PageHeading } from "../components/PageHeading/PageHeading";
 import PagesTable from "../components/PageTable/PageTable";
 import React, { useEffect, useState } from "react";
 import BrowserOnly from "@docusaurus/BrowserOnly";
+import Comment from "../components/Comment/Comment";
 function friends(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   const friendsList = [
@@ -62,6 +63,7 @@ function friends(): JSX.Element {
           <PageHeading string1="侠之小者，" string2="为友为邻" />
 
           <PagesTable Items={friendsList} showImage={true} />
+          <Comment/>
         </Layout>
       )}
     </BrowserOnly>
