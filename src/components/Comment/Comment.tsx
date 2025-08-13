@@ -6,21 +6,20 @@ export default function Comment() {
 const {colorMode} = useColorMode(); 
   return (
     // 前面放一个带 margin 的 div，美观
-    <div style={{ marginTop: "30px" }}>
+    <div className="margin-top--md">
       <Giscus
-        src="https://giscus.app/client.js"
-        data-repo="Oscillater/Oscillater.github.io"
-        data-repo-id="R_kgDOKhWymw"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOKhWym84CuFWa"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme={colorMode==="light"?"light_high_contrast":"dark_high_contrast"}
-        data-lang="zh-CN"
-        data-loading="lazy"
+        repo="Oscillater/Oscillater.github.io"
+        repoId="R_kgDOKhWymw"
+        category="Announcements"
+        categoryId="DIC_kwDOKhWym84CuFWa"
+        mapping="pathname"
+        strict="0"
+        reactionsEnabled="1"
+        emitMetadata="0"
+        inputPosition="top"
+        theme={colorMode==="light"?"light_high_contrast":"dark_high_contrast"}
+        lang="zh-CN"
+        loading="lazy"
         crossorigin="anonymous"
         async
       ></Giscus>

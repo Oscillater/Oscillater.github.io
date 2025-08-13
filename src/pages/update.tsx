@@ -18,6 +18,7 @@ const updates: TimelineItem[] = [
   { date: "2024-12-18", title: "添加友链页和工具页" },
   { date: "2025-01-18", title: "添加搜索和版权相关内容" },
   { date: "2025-08-12", title: "添加顶部通知栏与网站更新时间轴" },
+  { date: "2025-08-13", title: "使用giscus配置评论" },
 ];
 function update(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
