@@ -45,6 +45,18 @@ function friends(): JSX.Element {
       imageUrl: "https://elecannonic.github.io/images/logo.png",
     },
     {
+      name: "图案人的小站",
+      url: "https://florentine-blade-35f.notion.site/25119f251acc808c9d59cc3040b00541",
+      description: "HELLO，我是图案人，有时也叫NightKnight，这里是我的个人主页！",
+      imageUrl: "https://s21.ax1x.com/2025/08/21/pVDJn0S.png",
+    },
+      {
+      name: "椰椰的小世界",
+      url: "https://lyy0323.space/",
+      description: "且寄有涯岁，酬月戴花归。",
+      imageUrl: "http://lyy0323.space/writing/favicon.png",
+    },
+      {
       name: "???",
       url: "/friends",
       description: "加入友链，请将站名、URL、介绍与图片 URL 按格式写在评论区。",
