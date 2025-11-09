@@ -1,3 +1,19 @@
 {
-  "totalWords": 10022
+  "totalWords": 343610,
+  "totalChars": 484758,
+  "lastUpdated": "2025-11-09T12:13:52.482Z",
+  "blog": {
+    "count": 58,
+    "words": 127927
+  },
+  "docs": {
+    "gewu": {
+      "count": 13,
+      "words": 74871
+    },
+    "zhizhi": {
+      "count": 7,
+      "words": 140812
+    }
+  }
 }

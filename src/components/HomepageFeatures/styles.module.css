@@ -1,11 +1,318 @@
 .features {
   align-items: center;
-  padding: 2rem 0;
+  padding: 2rem 0 3rem 0;
   width: 100%;
+  min-height: 80vh;
 }
-.hero__title{
+
+.hero__title {
   font-family: "SimSun";
 }
-.card{
+
+.card {
   display: flex;
+}
+
+/* 统计区域样式 */
+.statsSection {
+  padding: 4rem 0;
+  width: 100%;
+  background: var(--ifm-color-white);
+  border-radius: 1rem;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.statsSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--ifm-color-primary-lighter) 20%,
+    var(--ifm-color-primary-lighter) 80%,
+    transparent 100%
+  );
+  opacity: 0.3;
+}
+
+.statsSection::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--ifm-color-primary-lighter) 20%,
+    var(--ifm-color-primary-lighter) 80%,
+    transparent 100%
+  );
+  opacity: 0.3;
+}
+
+.statsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* 统计卡片样式 */
+.statsCardTitle {
+  font-size: 1.5rem !important;
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.5rem !important;
+}
+
+.updateTime {
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-600);
+  opacity: 0.8;
+}
+
+/* 统计网格 */
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.statItem {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background: var(--ifm-color-white);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.statItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--ifm-color-primary-light);
+}
+
+.statNumber {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.25rem;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  transition: color 0.3s ease;
+}
+
+.statItem:hover .statNumber {
+  color: var(--ifm-color-primary-dark);
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-700);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.statItem:hover .statLabel {
+  color: var(--ifm-color-emphasis-800);
+}
+
+/* 分类统计样式 */
+.categoryStats {
+  margin-top: 2rem;
+}
+
+.categoryTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  margin: 1.5rem 0 1rem 0 !important;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--ifm-color-emphasis-200);
+}
+
+.categoryList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.categoryItem {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background: var(--ifm-color-white);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.5rem;
+  border-left: 3px solid var(--ifm-color-primary-light);
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.categoryItem:hover {
+  background: var(--ifm-color-white);
+  transform: translateX(4px);
+  border-color: var(--ifm-color-primary);
+  border-left-color: var(--ifm-color-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.categoryIcon {
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+  width: 1.5rem;
+  text-align: center;
+}
+
+.categoryInfo {
+  flex: 1;
+}
+
+.categoryName {
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.875rem;
+}
+
+.categoryData {
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-600);
+  margin-top: 0.125rem;
+}
+
+/* 运行时间样式 */
+.uptimeSection, .visitSection {
+  margin-bottom: 1.5rem;
+}
+
+.uptimeDisplay, .visitDisplay {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem;
+  background: var(--ifm-color-white);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.uptimeDisplay:hover, .visitDisplay:hover {
+  border-color: var(--ifm-color-primary-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.uptimeIcon, .visitIcon {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.uptimeText, .visitText {
+  flex: 1;
+}
+
+.uptimeLabel, .visitLabel {
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.875rem;
+}
+
+.uptimeValue, .visitValue {
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-600);
+  margin-top: 0.25rem;
+}
+
+.visitNumber {
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+/* 分隔线 */
+.statsDivider {
+  height: 1px;
+  background: var(--ifm-color-emphasis-200);
+  margin: 1.5rem 0;
+}
+
+/* 卡片底部 */
+.cardFooter {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  background: var(--ifm-color-success);
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  animation: pulse 2s infinite;
+}
+
+.statusText {
+  font-weight: 500;
+}
+
+.copyrightInfo {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.copyrightText {
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-600);
+  line-height: 1.4;
+}
+
+.copyrightText a {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.copyrightText a:hover {
+  color: var(--ifm-color-primary-dark);
+  text-decoration: underline;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statNumber {
+    font-size: 1.5rem;
+  }
+
+  .statsCardTitle {
+    font-size: 1.25rem !important;
+  }
 }

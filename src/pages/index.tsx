@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import styles from "./index.module.css";
 import { useState } from "react";
 import React, { useEffect, useRef } from "react";
+import useIntersectionObserver from "@site/src/components/HomepageFeatures/useIntersectionObserver";
 
 const WaveAnimation = ({
   width,
@@ -123,6 +124,8 @@ export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   const [width, setWidth] = useState<number | undefined>(undefined);
   const [scrollY, setScrollY] = useState(0);
+  const { ref: mainRef, isVisible: mainVisible } = useIntersectionObserver({ threshold: 0.1 });
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleResize = () => setWidth(window.innerWidth);
@@ -141,8 +144,14 @@ export default function Home(): JSX.Element {
       description="Description will go into a meta tag in <head />"
     >
       <HomepageHeader width={width} scrollY={scrollY} />
-      <main>
-        <HomepageFeatures />
+      <main ref={mainRef}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={mainVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+        >
+          <HomepageFeatures />
+        </motion.div>
       </main>
     </Layout>
   );
