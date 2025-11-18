@@ -40,6 +40,7 @@ export interface WordCountResult {
   totalChars: number;
   byCategory: {
     blog: CategoryCount;
+    techNotes: CategoryCount;
     docs: {
       gewu: CategoryCount;
       zhizhi: CategoryCount;
@@ -226,24 +227,35 @@ class WordCounter {
    */
   async countWebsiteWords(): Promise<WordCountResult> {
     const blogDir = path.join(process.cwd(), 'blog');
+    const techNotesDir = path.join(process.cwd(), 'tech-notes');
     const docsDir = path.join(process.cwd(), 'docs');
     const gewuDir = path.join(docsDir, 'gewu');
     const zhizhiDir = path.join(docsDir, 'zhizhi');
 
-    const [blog, gewu, zhizhi] = await Promise.all([
+    const [blog, techNotes, gewu, zhizhi] = await Promise.all([
       this.countDirectoryFiles(blogDir),
+      this.countDirectoryFiles(techNotesDir),
       this.countDirectoryFiles(gewuDir),
       this.countDirectoryFiles(zhizhiDir)
     ]);
 
-    const totalWords = blog.words + gewu.words + zhizhi.words;
-    const totalChars = blog.chars + gewu.chars + zhizhi.chars;
+    // 将技术笔记合并到博客统计中
+    const combinedBlog: CategoryCount = {
+      count: blog.count + techNotes.count,
+      words: blog.words + techNotes.words,
+      chars: blog.chars + techNotes.chars,
+      articles: [...blog.articles, ...techNotes.articles]
+    };
+
+    const totalWords = combinedBlog.words + gewu.words + zhizhi.words;
+    const totalChars = combinedBlog.chars + gewu.chars + zhizhi.chars;
 
     return {
       totalWords,
       totalChars,
       byCategory: {
-        blog,
+        blog: combinedBlog,
+        techNotes,
         docs: {
           gewu,
           zhizhi
@@ -271,6 +283,12 @@ export function generateReport(stats: WordCountResult): string {
 - **总字数**: ${stats.byCategory.blog.words.toLocaleString()} 字
 - **平均字数**: ${Math.round(stats.byCategory.blog.words / stats.byCategory.blog.count)} 字
 - **总字符数**: ${stats.byCategory.blog.chars.toLocaleString()} 字符
+*包含博客文章和技术笔记*
+
+### 🔧 技术笔记 (${stats.byCategory.techNotes.count} 篇)
+- **总字数**: ${stats.byCategory.techNotes.words.toLocaleString()} 字
+- **平均字数**: ${Math.round(stats.byCategory.techNotes.words / stats.byCategory.techNotes.count)} 字
+- **总字符数**: ${stats.byCategory.techNotes.chars.toLocaleString()} 字符
 
 ### 🔬 格物文档 (${stats.byCategory.docs.gewu.count} 篇)
 - **总字数**: ${stats.byCategory.docs.gewu.words.toLocaleString()} 字
@@ -295,6 +313,13 @@ ${[...stats.byCategory.blog.articles, ...stats.byCategory.docs.gewu.articles, ..
 ${stats.byCategory.blog.articles
   .sort((a, b) => b.words - a.words)
   .slice(0, 5)
+  .map((article, index) => `${index + 1}. **${article.title}** - ${article.words} 字`)
+  .join('\n')}
+
+### 技术笔记排行 TOP 3
+${stats.byCategory.techNotes.articles
+  .sort((a, b) => b.words - a.words)
+  .slice(0, 3)
   .map((article, index) => `${index + 1}. **${article.title}** - ${article.words} 字`)
   .join('\n')}
 
@@ -325,6 +350,10 @@ export function updateTotalWordsJson(stats: WordCountResult): void {
     blog: {
       count: stats.byCategory.blog.count,
       words: stats.byCategory.blog.words
+    },
+    techNotes: {
+      count: stats.byCategory.techNotes.count,
+      words: stats.byCategory.techNotes.words
     },
     docs: {
       gewu: {

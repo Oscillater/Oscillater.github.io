@@ -4,6 +4,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "@docusaurus/theme-mermaid";
+import "@docusaurus/plugin-content-blog"
 const config: Config = {
   title: "凌川的小站",
   tagline: "浮沉随浪记今朝",
@@ -54,25 +55,47 @@ const config: Config = {
           editUrl:
             "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
         },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ["rss", "atom"],
-            xslt: true,
-          },
-          blogSidebarTitle: "All posts",
-          blogSidebarCount: "ALL",
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-
-          onInlineTags: "warn",
-          onInlineAuthors: "warn",
-          onUntruncatedBlogPosts: "warn",
-        },
+        blog: false, // 禁用预设中的博客插件，使用增强版本
         theme: {
           customCss: "./src/css/custom.css",
         },
       } satisfies Preset.Options,
+    ],
+  ],
+  plugins: [
+    [
+      './plugins/enhanced-blog-plugin.js',
+      {
+        routeBasePath: 'lit-blog',
+        showReadingTime: true,
+        feedOptions: {
+          type: ["rss", "atom"],
+          xslt: true,
+        },
+        blogSidebarTitle: "文学创作",
+        blogSidebarCount: "ALL",
+        onInlineTags: "warn",
+        onInlineAuthors: "warn",
+        onUntruncatedBlogPosts: "warn",
+      },
+    ],
+    [
+      './plugins/enhanced-blog-plugin.js',
+      {
+        id: 'tech-notes',
+        routeBasePath: 'tech-notes',
+        path: 'tech-notes',
+        showReadingTime: true,
+        feedOptions: {
+          type: ["rss", "atom"],
+          xslt: true,
+        },
+        blogSidebarTitle: "技术笔记",
+        blogSidebarCount: "ALL",
+        onInlineTags: "warn",
+        onInlineAuthors: "warn",
+        onUntruncatedBlogPosts: "warn",
+      },
     ],
   ],
   themeConfig: {
