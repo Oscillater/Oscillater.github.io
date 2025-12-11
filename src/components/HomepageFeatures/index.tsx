@@ -115,7 +115,7 @@ export default function HomepageFeatures(): JSX.Element {
                       SJTU 本科在读，主修 MNE （微电子科学与工程），辅修 CS
                       （计算机科学与技术）
                     </li>
-                    <li> 电子信息领域学习者，想用技术做点有意思的事情</li>
+                    <li> 电子信息领域学习者，想用技术做点有意思的事情，目前对 Agent 比较感兴趣</li>
                     <li>半吊子泛幻想类文学爱好者和写手</li>
                     <li>
                       看了微量文论和痕量哲学，民（人文社）科（研究者）预备役

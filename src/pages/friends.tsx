@@ -56,6 +56,12 @@ function friends(): JSX.Element {
       description: "且寄有涯岁，酬月戴花归。",
       imageUrl: "http://lyy0323.space/writing/favicon.png",
     },
+    {
+      name: "大土的小站",
+      url: "https://zhangyan-didu.github.io/",
+      description: "非必要不学习",
+      imageUrl: "https://origin.picgo.net/2025/12/08/logo3426928b591ec79a.png",
+    },
       {
       name: "???",
       url: "/friends",
