@@ -53,7 +53,7 @@ async function main() {
     };
 
     if (!options.silent) {
-      console.log('🔍 正在统计网站字数...\n');
+      console.log('正在统计网站字数...\n');
     }
 
     let result: any;
@@ -65,7 +65,7 @@ async function main() {
       if (options.output) {
         fs.writeFileSync(options.output, report, 'utf-8');
         if (!options.silent) {
-          console.log(`📄 详细报告已生成到: ${options.output}`);
+          console.log(`详细报告已生成到: ${options.output}`);
         }
       } else {
         console.log(report);
@@ -77,11 +77,11 @@ async function main() {
       const stats = await updateWordCount(countOptions);
 
       if (!options.silent) {
-        console.log('✅ totalWords.json 已更新');
-        console.log(`📊 总字数: ${stats.totalWords.toLocaleString()} 字`);
-        console.log(`📝 博客: ${stats.byCategory.blog.count} 篇, ${stats.byCategory.blog.words.toLocaleString()} 字`);
-        console.log(`🔬 格物: ${stats.byCategory.docs.gewu.count} 篇, ${stats.byCategory.docs.gewu.words.toLocaleString()} 字`);
-        console.log(`📚 致知: ${stats.byCategory.docs.zhizhi.count} 篇, ${stats.byCategory.docs.zhizhi.words.toLocaleString()} 字`);
+        console.log('totalWords.json 已更新');
+        console.log(`总字数: ${stats.totalWords.toLocaleString()} 字`);
+        console.log(`博客: ${stats.byCategory.blog.count} 篇, ${stats.byCategory.blog.words.toLocaleString()} 字`);
+        console.log(`格物: ${stats.byCategory.docs.gewu.count} 篇, ${stats.byCategory.docs.gewu.words.toLocaleString()} 字`);
+        console.log(`致知: ${stats.byCategory.docs.zhizhi.count} 篇, ${stats.byCategory.docs.zhizhi.words.toLocaleString()} 字`);
       }
 
       result = stats;
@@ -92,17 +92,17 @@ async function main() {
       if (options.json) {
         console.log(JSON.stringify(stats, null, 2));
       } else {
-        console.log('📊 网站字数统计结果');
+        console.log('网站字数统计结果');
         console.log('=' .repeat(40));
-        console.log(`📈 总字数: ${stats.totalWords.toLocaleString()} 字`);
-        console.log(`🔤 总字符数: ${stats.totalChars.toLocaleString()} 字符`);
-        console.log(`📝 博客文章: ${stats.byCategory.blog.count} 篇, ${stats.byCategory.blog.words.toLocaleString()} 字`);
-        console.log(`🔬 格物文档: ${stats.byCategory.docs.gewu.count} 篇, ${stats.byCategory.docs.gewu.words.toLocaleString()} 字`);
-        console.log(`📚 致知文档: ${stats.byCategory.docs.zhizhi.count} 篇, ${stats.byCategory.docs.zhizhi.words.toLocaleString()} 字`);
-        console.log(`⏰ 统计时间: ${new Date(stats.lastUpdated).toLocaleString('zh-CN')}`);
+        console.log(`总字数: ${stats.totalWords.toLocaleString()} 字`);
+        console.log(`总字符数: ${stats.totalChars.toLocaleString()} 字符`);
+        console.log(`博客文章: ${stats.byCategory.blog.count} 篇, ${stats.byCategory.blog.words.toLocaleString()} 字`);
+        console.log(`格物文档: ${stats.byCategory.docs.gewu.count} 篇, ${stats.byCategory.docs.gewu.words.toLocaleString()} 字`);
+        console.log(`致知文档: ${stats.byCategory.docs.zhizhi.count} 篇, ${stats.byCategory.docs.zhizhi.words.toLocaleString()} 字`);
+        console.log(`统计时间: ${new Date(stats.lastUpdated).toLocaleString('zh-CN')}`);
 
         // 显示排行
-        console.log('\n🏆 最长文章 TOP 5:');
+        console.log('\n最长文章 TOP 5:');
         const allArticles = [
           ...stats.byCategory.blog.articles,
           ...stats.byCategory.docs.gewu.articles,
@@ -126,7 +126,7 @@ async function main() {
     }
 
   } catch (error) {
-    console.error('❌ 统计过程中出现错误:');
+    console.error('统计过程中出现错误:');
     console.error(error);
     process.exit(1);
   }

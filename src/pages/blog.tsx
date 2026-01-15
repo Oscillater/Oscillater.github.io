@@ -2,59 +2,14 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import styles from './blog.module.css';
 import { motion } from 'framer-motion';
-import BrowserOnly from '@docusaurus/BrowserOnly';
 import { useTopTags } from '../utils/tagUtils';
 
 // 动态标签组件
 function DynamicTags({ pluginId, limit = 5, categoryColor }: { pluginId: string; limit?: number; categoryColor: string }) {
   const topTags = useTopTags(limit, pluginId);
 
-  // 处理标签点击事件
-  const handleTagClick = (permalink: string) => {
-    window.location.href = permalink;
-  };
-
-  // 阻止事件冒泡的标签点击处理
-  const handleTagClickWithStopPropagation = (permalink: string) => (e: React.MouseEvent) => {
-    e.stopPropagation(); // 阻止事件冒泡到父级的 motion.div
-    handleTagClick(permalink);
-  };
-
   if (topTags.length === 0) {
-    // 如果无法获取动态标签，显示备用静态标签
-    const fallbackTags = pluginId === 'tech-notes'
-      ? [{ label: '项目开发随笔', permalink: '/tech-notes/tags/项目开发随笔' }]
-      : [
-          { label: '随笔', permalink: '/suibi' },
-          { label: '文学评论', permalink: '/lunwen' },
-          { label: '小说', permalink: '/xiaoshuo' },
-          { label: '游记', permalink: '/youji' },
-          { label: '诗歌', permalink: '/shige' }
-        ];
-
-    return (
-      <div className={styles.tagsContainer}>
-        {fallbackTags.map((tag, index) => (
-          <span
-            key={index}
-            className={styles.tag}
-            style={{ backgroundColor: categoryColor + '20', borderColor: categoryColor + '60' }}
-            title={`标签: ${tag.label}`}
-            onClick={handleTagClickWithStopPropagation(tag.permalink)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.stopPropagation(); // 阻止事件冒泡
-                handleTagClick(tag.permalink);
-              }
-            }}
-          >
-            {tag.label}
-          </span>
-        ))}
-      </div>
-    );
+    return null;
   }
 
   // 根据使用频率确定透明度
@@ -65,12 +20,12 @@ function DynamicTags({ pluginId, limit = 5, categoryColor }: { pluginId: string;
     return '20';  // 低频 - 最透明
   };
 
-  const maxCount = Math.max(...topTags.map(tag => tag.count));
+  const maxCount = Math.max(...topTags.map(tag => tag.count), 1);
 
   return (
     <div className={styles.tagsContainer}>
-      {topTags.map((tag, index) => (
-        <span
+      {topTags.map(tag => (
+        <a
           key={tag.permalink}
           className={styles.tag}
           style={{
@@ -78,18 +33,11 @@ function DynamicTags({ pluginId, limit = 5, categoryColor }: { pluginId: string;
             borderColor: categoryColor + '80'
           }}
           title={`${tag.label} (${tag.count} 篇文章)`}
-          onClick={handleTagClickWithStopPropagation(tag.permalink)}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.stopPropagation(); // 阻止事件冒泡
-              handleTagClick(tag.permalink);
-            }
-          }}
+          href={tag.permalink}
+          onClick={(e) => e.stopPropagation()}
         >
           {tag.label}
-        </span>
+        </a>
       ))}
     </div>
   );

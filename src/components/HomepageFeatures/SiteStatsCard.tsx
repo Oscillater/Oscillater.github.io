@@ -25,7 +25,7 @@ const SiteStatsCard: React.FC<SiteStatsCardProps> = ({ timeData }) => {
     >
       <div className="card__header">
         <Heading as="h3" className={styles.statsCardTitle}>
-          🏠 网站运行状态
+          网站运行状态
         </Heading>
       </div>
 
