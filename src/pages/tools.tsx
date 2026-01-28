@@ -87,6 +87,12 @@ function friends(): JSX.Element {
       description: "简单上手的玩音乐网站",
       imageUrl: "https://via.placeholder.com/50",
     },
+    {
+      name: "中国科幻数据库",
+      url: "https://csfdb.cn/",
+      description: "见证，记录，讲述",
+      imageUrl: "https://via.placeholder.com/50",
+    }
   ];
 
   return (

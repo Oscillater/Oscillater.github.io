@@ -47,10 +47,11 @@ function friends(): JSX.Element {
     {
       name: "图案人的小站",
       url: "https://florentine-blade-35f.notion.site/25119f251acc808c9d59cc3040b00541",
-      description: "HELLO，我是图案人，有时也叫NightKnight，这里是我的个人主页！",
+      description:
+        "HELLO，我是图案人，有时也叫NightKnight，这里是我的个人主页！",
       imageUrl: "https://s21.ax1x.com/2025/08/21/pVDJn0S.png",
     },
-      {
+    {
       name: "椰椰的小世界",
       url: "https://lyy0323.space/",
       description: "且寄有涯岁，酬月戴花归。",
@@ -62,7 +63,19 @@ function friends(): JSX.Element {
       description: "非必要不学习",
       imageUrl: "https://origin.picgo.net/2025/12/08/logo3426928b591ec79a.png",
     },
-      {
+    {
+      name: "西门美月匈XD",
+      url: "https://xmmxovo.online/",
+      description: "一定会成为一个很棒的大人！",
+      imageUrl: "https://xmmxovo.online/images/avatar.png",
+    },
+    {
+      name: "上海交通大学科幻奇幻协会",
+      url: "https://gpabooks.github.io/",
+      description: "生生不息，繁荣昌盛！",
+      imageUrl: "https://gpabooks.github.io/assets/images/logo-blue.png",
+    },
+    {
       name: "???",
       url: "/friends",
       description: "加入友链，请将站名、URL、介绍与图片 URL 按格式写在评论区。",
