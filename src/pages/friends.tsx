@@ -76,6 +76,12 @@ function friends(): JSX.Element {
       imageUrl: "https://gpabooks.github.io/assets/images/logo-blue.png",
     },
     {
+      name: "北辕记",
+      url: "https://lithiumcr.github.io",
+      description: "记录思考、文学、还有一路向北的歧途",
+      imageUrl: "https://lithiumcr.github.io/image/avatar.jpg"
+    },
+    {
       name: "???",
       url: "/friends",
       description: "加入友链，请将站名、URL、介绍与图片 URL 按格式写在评论区。",
