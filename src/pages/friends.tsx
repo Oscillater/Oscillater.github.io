@@ -79,7 +79,7 @@ function friends(): JSX.Element {
       name: "北辕记",
       url: "https://lithiumcr.github.io",
       description: "记录思考、文学、还有一路向北的歧途",
-      imageUrl: "https://lithiumcr.github.io/image/avatar.jpg"
+      imageUrl: "https://lithiumcr.github.io/image/logo.png"
     },
     {
       name: "???",
