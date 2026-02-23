@@ -124,7 +124,7 @@ export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   const [width, setWidth] = useState<number | undefined>(undefined);
   const [scrollY, setScrollY] = useState(0);
-  const { ref: mainRef, isVisible: mainVisible } = useIntersectionObserver({ threshold: 0.1 });
+  const { ref: mainRef, isVisible: mainVisible } = useIntersectionObserver({ threshold: 0.2, rootMargin: '-50px' });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -146,9 +146,9 @@ export default function Home(): JSX.Element {
       <HomepageHeader width={width} scrollY={scrollY} />
       <main ref={mainRef}>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={mainVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={mainVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.9, delay: 0.15, ease: "easeOut" }}
         >
           <HomepageFeatures />
         </motion.div>

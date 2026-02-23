@@ -17,24 +17,20 @@ interface SiteStatsCardProps {
 const SiteStatsCard: React.FC<SiteStatsCardProps> = ({ timeData }) => {
   return (
     <motion.div
-      className="card margin-vert--md"
-      whileHover={{
-        scale: 1.02,
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-      }}
+      className={styles.statsCard}
+      whileHover={{ y: -4 }}
     >
-      <div className="card__header">
-        <Heading as="h3" className={styles.statsCardTitle}>
-          网站运行状态
+      <div className={styles.cardHeader}>
+        <Heading as="h3" className={styles.cardTitle}>
+          运行状态
         </Heading>
       </div>
 
-      <div className="card__body">
+      <div className={styles.cardBody}>
         <div className={styles.uptimeSection}>
           <div className={styles.uptimeDisplay}>
-            <div className={styles.uptimeIcon}>⏱️</div>
             <div className={styles.uptimeText}>
-              <div className={styles.uptimeLabel}>本站已安全运行</div>
+              <div className={styles.uptimeLabel}>已安全运行</div>
               <div className={styles.uptimeValue}>
                 {timeData.days} 天 {timeData.hours} 时 {timeData.minutes} 分 {timeData.seconds} 秒
               </div>
@@ -46,7 +42,6 @@ const SiteStatsCard: React.FC<SiteStatsCardProps> = ({ timeData }) => {
 
         <div className={styles.visitSection}>
           <div className={styles.visitDisplay}>
-            <div className={styles.visitIcon}>👥</div>
             <div className={styles.visitText}>
               <div className={styles.visitLabel}>网站访问量</div>
               <div className={styles.visitValue}>

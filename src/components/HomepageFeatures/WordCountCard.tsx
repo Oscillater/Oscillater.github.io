@@ -26,23 +26,20 @@ const WordCountCard: React.FC<WordCountCardProps> = ({ stats }) => {
 
   return (
     <motion.div
-      className="card margin-vert--md"
-      whileHover={{
-        scale: 1.02,
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-      }}
+      className={styles.statsCard}
+      whileHover={{ y: -4 }}
     >
-      <div className="card__header">
-        <Heading as="h3" className={styles.statsCardTitle}>
-          📊 网站字数统计
+      <div className={styles.cardHeader}>
+        <Heading as="h3" className={styles.cardTitle}>
+          字数统计
         </Heading>
         <span className={styles.updateTime}>
-          更新于 {formatDate(stats.lastUpdated)}
+          {formatDate(stats.lastUpdated)}
         </span>
       </div>
 
-      <div className="card__body">
-        <div className={styles.statsGrid}>
+      <div className={styles.cardBody}>
+        <div className={styles.statsGridInner}>
           <div className={styles.statItem}>
             <div className={styles.statNumber}>
               {stats.totalWords.toLocaleString()}
@@ -59,12 +56,9 @@ const WordCountCard: React.FC<WordCountCardProps> = ({ stats }) => {
         </div>
 
         <div className={styles.categoryStats}>
-          <h4 className={styles.categoryTitle}>📝 分类统计</h4>
+          <h4 className={styles.categoryTitle}>分类统计</h4>
           <div className={styles.categoryList}>
-            
-
             <div className={styles.categoryItem}>
-              <span className={styles.categoryIcon}>🔬</span>
               <div className={styles.categoryInfo}>
                 <div className={styles.categoryName}>格物</div>
                 <div className={styles.categoryData}>
@@ -74,7 +68,6 @@ const WordCountCard: React.FC<WordCountCardProps> = ({ stats }) => {
             </div>
 
             <div className={styles.categoryItem}>
-              <span className={styles.categoryIcon}>📚</span>
               <div className={styles.categoryInfo}>
                 <div className={styles.categoryName}>致知</div>
                 <div className={styles.categoryData}>
@@ -82,8 +75,8 @@ const WordCountCard: React.FC<WordCountCardProps> = ({ stats }) => {
                 </div>
               </div>
             </div>
+
             <div className={styles.categoryItem}>
-              <span className={styles.categoryIcon}>📝</span>
               <div className={styles.categoryInfo}>
                 <div className={styles.categoryName}>有所得</div>
                 <div className={styles.categoryData}>

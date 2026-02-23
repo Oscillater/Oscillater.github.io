@@ -1,264 +1,319 @@
-.features {
-  align-items: center;
-  padding: 2rem 0 3rem 0;
-  width: 100%;
-  min-height: 80vh;
+/* 主容器样式 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
-.hero__title {
+/* 项目展示区域样式 */
+.projectsSection {
+  padding: 3.5rem 0;
+}
+
+.projectsContainer {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.sectionTitle {
   font-family: "SimSun";
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-900);
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 0.75rem;
+  text-align: center;
 }
 
-.card {
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 2px;
+  background: var(--ifm-color-primary);
+}
+
+
+.projectsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.projectCard {
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
   display: flex;
+  flex-direction: column;
+}
+
+.projectCard:hover {
+  border-color: var(--ifm-color-primary-light);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.projectImage {
+  width: 100%;
+  height: 160px;
+  background: var(--ifm-color-emphasis-100);
+  overflow: hidden;
+}
+
+.projectImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.projectCard:hover .projectImage img {
+  transform: scale(1.05);
+}
+
+.projectContent {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.projectTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-900);
+  margin: 0 0 0.75rem 0;
+}
+
+.projectDescription {
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-600);
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  flex: 1;
+}
+
+.projectTech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.techTag {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-emphasis-700);
+  border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+.projectLink {
+  font-size: 0.875rem;
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.projectLink:hover {
+  color: var(--ifm-color-primary-dark);
+  text-decoration: underline;
 }
 
 /* 统计区域样式 */
 .statsSection {
-  padding: 4rem 0;
-  width: 100%;
-  background: transparent;
-  border-radius: 1rem;
-  margin: 2rem 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.statsSection::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    var(--ifm-color-primary-lighter) 20%,
-    var(--ifm-color-primary-lighter) 80%,
-    transparent 100%
-  );
-  opacity: 0.3;
-}
-
-.statsSection::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    var(--ifm-color-primary-lighter) 20%,
-    var(--ifm-color-primary-lighter) 80%,
-    transparent 100%
-  );
-  opacity: 0.3;
+  padding: 3rem 0;
 }
 
 .statsContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* 关于区域样式 */
+.aboutSection {
+  padding: 3rem 0;
+}
+
+.aboutContainer {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: left;
+}
+
+/* 统计区域样式 - 简洁风格 */
+.statsContent {
+  padding: 0;
+}
+
+/* 统计内容样式 */
+.statsMainContent {
+  margin-top: 1.5rem;
+}
+
+/* 主要数据展示 */
+.primaryStats {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-/* 统计卡片样式 */
-.statsCardTitle {
-  font-size: 1.5rem !important;
-  font-weight: 600;
-  color: var(--ifm-color-primary);
-  margin-bottom: 0.5rem !important;
-}
-
-.updateTime {
-  font-size: 0.875rem;
-  color: var(--ifm-color-emphasis-600);
-  opacity: 0.8;
-}
-
-/* 统计网格 */
-.statsGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin: 1.5rem 0;
-}
-
-.statItem {
-  text-align: center;
-  padding: 1.5rem 1rem;
-  background: var(--ifm-background-color);
-  border: 1px solid var(--ifm-color-emphasis-200);
+  justify-content: space-around;
+  margin: 0 auto 2rem auto;
+  padding: 1.5rem 0;
+  background: linear-gradient(135deg, var(--ifm-color-emphasis-50) 0%, var(--ifm-color-emphasis-100) 100%);
   border-radius: 0.5rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  max-width: 100%;
 }
 
-.statItem:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-color: var(--ifm-color-primary-light);
+.primaryStatItem {
+  text-align: center;
 }
 
-.statNumber {
-  font-size: 2rem;
+.primaryNumber {
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--ifm-color-primary);
   margin-bottom: 0.25rem;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  transition: color 0.3s ease;
 }
 
-.statItem:hover .statNumber {
-  color: var(--ifm-color-primary-dark);
-}
-
-.statLabel {
-  font-size: 0.875rem;
-  color: var(--ifm-color-emphasis-700);
+.primaryLabel {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
   font-weight: 500;
-  transition: color 0.3s ease;
 }
 
-.statItem:hover .statLabel {
-  color: var(--ifm-color-emphasis-800);
-}
-
-/* 分类统计样式 */
-.categoryStats {
-  margin-top: 2rem;
-}
-
-.categoryTitle {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--ifm-color-emphasis-800);
-  margin: 1.5rem 0 1rem 0 !important;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--ifm-color-emphasis-200);
-}
-
-.categoryList {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+/* 简化的分类统计 */
+.simpleCategoryStats {
+  margin: 0 auto 1.5rem auto;
+  padding: 1rem;
+  background: var(--ifm-color-emphasis-50);
+  border-radius: 0.375rem;
+  max-width: 70%;
 }
 
 .categoryItem {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background: var(--ifm-background-color);
-  border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 0.5rem;
-  border-left: 3px solid var(--ifm-color-primary-light);
-  transition: all 0.3s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 0.5rem 0;
 }
 
-.categoryItem:hover {
-  background: var(--ifm-background-color);
-  transform: translateX(4px);
-  border-color: var(--ifm-color-primary);
-  border-left-color: var(--ifm-color-primary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.categoryIcon {
-  font-size: 1.25rem;
-  margin-right: 0.75rem;
-  width: 1.5rem;
-  text-align: center;
-}
-
-.categoryInfo {
-  flex: 1;
+.categoryItem:not(:last-child) {
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
 }
 
 .categoryName {
   font-weight: 600;
   color: var(--ifm-color-emphasis-800);
-  font-size: 0.875rem;
+  font-size: 0.9rem;
 }
 
 .categoryData {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--ifm-color-emphasis-600);
-  margin-top: 0.125rem;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
 }
 
-/* 运行时间样式 */
-.uptimeSection, .visitSection {
-  margin-bottom: 1.5rem;
+/* 状态和协议信息 */
+.statusAndCopyright {
+  margin: 1.5rem auto 0 auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  max-width: 60%;
 }
 
-.uptimeDisplay, .visitDisplay {
+/* 访问量信息 */
+.visitInfo {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 1.25rem;
-  background: var(--ifm-background-color);
-  border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 0.5rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  margin: 0.5rem auto 1.5rem auto;
+  background: var(--ifm-color-emphasis-50);
+  border-radius: 0.375rem;
+  max-width: 85%;
 }
 
-.uptimeDisplay:hover, .visitDisplay:hover {
-  border-color: var(--ifm-color-primary-light);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.uptimeIcon, .visitIcon {
-  font-size: 1.5rem;
-  margin-right: 1rem;
-}
-
-.uptimeText, .visitText {
-  flex: 1;
-}
-
-.uptimeLabel, .visitLabel {
+.visitLabel {
   font-weight: 600;
   color: var(--ifm-color-emphasis-800);
-  font-size: 0.875rem;
-}
-
-.uptimeValue, .visitValue {
-  font-size: 0.875rem;
-  color: var(--ifm-color-emphasis-600);
-  margin-top: 0.25rem;
+  font-size: 0.9rem;
 }
 
 .visitNumber {
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--ifm-color-primary);
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
 }
 
-/* 分隔线 */
-.statsDivider {
-  height: 1px;
-  background: var(--ifm-color-emphasis-200);
-  margin: 1.5rem 0;
+/* 关于内容样式 */
+.aboutContent {
+  padding: 0;
 }
 
-/* 卡片底部 */
-.cardFooter {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--ifm-color-emphasis-200);
+.aboutMainContent {
+  margin-top: 1.5rem;
 }
+
+.aboutMainContent p {
+  font-size: 1rem;
+  color: var(--ifm-color-emphasis-700);
+  margin-bottom: 1rem;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.aboutMainContent p:last-child {
+  margin-bottom: 0;
+}
+
+.statsCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.statsCard {
+  background: var(--ifm-background-color);
+  border: none;
+  border-radius: 0.375rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.statsCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* 统计信息样式 */
+.updateTime {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-500);
+  margin: 1rem auto 0 auto;
+  text-align: center;
+  max-width: 50%;
+}
+
 
 .statusIndicator {
   display: flex;
   align-items: center;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: var(--ifm-color-emphasis-600);
+  margin-bottom: 0.75rem;
 }
 
 .statusDot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background: var(--ifm-color-success);
   border-radius: 50%;
   margin-right: 0.5rem;
@@ -270,16 +325,13 @@
 }
 
 .copyrightInfo {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--ifm-color-emphasis-200);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
 .copyrightText {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--ifm-color-emphasis-600);
   line-height: 1.4;
 }
@@ -295,24 +347,257 @@
   text-decoration: underline;
 }
 
+.aboutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.625rem;
+  text-align: center;
+}
+
+.aboutContent p {
+  font-size: 0.7rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0;
+  line-height: 1.5;
+}
+
+
+
+/* 运行时间和访问量样式 */
+.uptimeSection, .visitSection {
+  margin-bottom: 0.625rem;
+}
+
+.uptimeDisplay, .visitDisplay {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  background: var(--ifm-color-emphasis-50);
+  border-radius: 0.25rem;
+}
+
+.uptimeText, .visitText {
+  flex: 1;
+}
+
+.uptimeLabel, .visitLabel {
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.65rem;
+}
+
+.uptimeValue {
+  font-size: 0.65rem;
+  color: var(--ifm-color-emphasis-600);
+  margin-top: 0.125rem;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.visitLabel {
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.65rem;
+}
+
+.visitValue {
+  font-size: 0.65rem;
+  color: var(--ifm-color-emphasis-600);
+  margin-top: 0.125rem;
+}
+
+.visitNumber {
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.statsDivider {
+  height: 1px;
+  background: var(--ifm-color-emphasis-200);
+  margin: 0.5rem 0;
+}
+
+/* 卡片底部 */
+.cardFooter {
+  margin-top: 0.625rem;
+  padding-top: 0.625rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  font-size: 0.6rem;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 0.5rem;
+}
+
+.statusDot {
+  width: 5px;
+  height: 5px;
+  background: var(--ifm-color-success);
+  border-radius: 50%;
+  margin-right: 0.375rem;
+  animation: pulse 2s infinite;
+}
+
+.statusText {
+  font-weight: 500;
+}
+
+.copyrightInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.copyrightText {
+  font-size: 0.6rem;
+  color: var(--ifm-color-emphasis-600);
+  line-height: 1.3;
+}
+
+.copyrightText a {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.copyrightText a:hover {
+  color: var(--ifm-color-primary-dark);
+  text-decoration: underline;
+}
+
+/* 关于部分样式 */
+.aboutSection {
+  padding: 4rem 0 6rem 0;
+}
+
+.aboutContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.aboutTitle {
+  font-family: "SimSun";
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-900);
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.aboutTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 2px;
+  background: var(--ifm-color-primary);
+}
+
+.aboutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.aboutContent p {
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+/* 响应式设计 */
+@media (max-width: 996px) {
+  .projectsContainer {
+    max-width: 800px;
+  }
+
+  .statsAboutContainer {
+    max-width: 700px;
+  }
+
+  .projectsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .projectsContainer,
+  .statsAboutContainer {
+    padding: 0 1rem;
+  }
+
+  .projectsSection {
+    padding: 2.5rem 0;
+  }
+
+  .projectsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .projectImage {
+    height: 140px;
+  }
+
+  .sectionTitle {
+    font-size: 1.25rem;
+  }
+
+  .statsSection {
+    padding: 2rem 0;
+  }
+
+  .aboutSection {
+    padding: 2rem 0;
+  }
+
+  .statsSection {
+    padding: 0;
+  }
+
+  .primaryStats {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0;
+    max-width: 100%;
+  }
+
+  .primaryNumber {
+    font-size: 1.2rem;
+  }
+
+  .visitInfo {
+    max-width: 90%;
+  }
+
+  .simpleCategoryStats {
+    max-width: 85%;
+  }
+
+  .statusAndCopyright {
+    max-width: 80%;
+  }
+
+  .updateTime {
+    max-width: 70%;
+  }
+
+}
+
 @keyframes pulse {
   0% { opacity: 1; }
   50% { opacity: 0.5; }
   100% { opacity: 1; }
-}
-
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .statsGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .statNumber {
-    font-size: 1.5rem;
-  }
-
-  .statsCardTitle {
-    font-size: 1.25rem !important;
-  }
 }

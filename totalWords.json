@@ -1,14 +1,14 @@
 {
-  "totalWords": 345508,
-  "totalChars": 487966,
-  "lastUpdated": "2026-01-15T16:08:18.071Z",
+  "totalWords": 349284,
+  "totalChars": 492333,
+  "lastUpdated": "2026-02-23T11:06:46.545Z",
   "blog": {
-    "count": 60,
-    "words": 129825
+    "count": 71,
+    "words": 133601
   },
   "techNotes": {
-    "count": 2,
-    "words": 1898
+    "count": 3,
+    "words": 2654
   },
   "docs": {
     "gewu": {
