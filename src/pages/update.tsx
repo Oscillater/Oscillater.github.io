@@ -24,6 +24,10 @@ const updates: TimelineItem[] = [
     {
     date: "2026-02-23",
     title: "主页重构与UI优化，在主页加入“项目”板块"
+  },
+  {
+    date: "2026-02-26",
+    title: "主页重构与UI优化，在主页加入“安利”板块"
   }
 ];
 function update(): JSX.Element {

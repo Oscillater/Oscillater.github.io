@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import styles from './styles.module.css';
 
 interface TimeData {
@@ -51,7 +50,6 @@ const StatsSection: React.FC<StatsSectionProps> = ({ timeData, wordStats, isVisi
             <div className={styles.primaryLabel}>运行天数</div>
           </div>
         </div>
-
 
         {/* 访问量 */}
         <div className={styles.visitInfo}>

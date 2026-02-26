@@ -1,3 +1,4 @@
+/* === 桌面端样式 (768px+) === */
 .featureCard {
   position: relative;
 }
@@ -7,6 +8,10 @@
   text-decoration: none;
   color: inherit;
   height: 100%;
+}
+
+.featureLink:hover {
+  text-decoration: none;
 }
 
 .featureInner {
@@ -30,7 +35,7 @@
 }
 
 .featureTitle {
-  font-family: "SimSun";
+  font-family: "Montserrat", "Serif";
   font-size: 1.5rem !important;
   font-weight: 600;
   margin-bottom: 0.75rem !important;
@@ -103,7 +108,8 @@
   transform-origin: left center;
 }
 
-@media (max-width: 768px) {
+/* === 手机端样式 (<768px) === */
+@media (max-width: 767px) {
   .featureInner {
     padding: 2rem 1.5rem;
     min-height: 140px;
@@ -114,12 +120,58 @@
   }
 
   .featureDescription {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
   }
 
   .featureNumber {
     font-size: 1.125rem;
     top: 0.75rem;
     right: 0.75rem;
+  }
+}
+
+/* === 小手机样式 (<425px) === */
+@media (max-width: 424px) {
+  .featureInner {
+    padding: 1.75rem 1.25rem;
+    min-height: 130px;
+  }
+
+  .featureTitle {
+    font-size: 1.25rem !important;
+    margin-bottom: 0.625rem !important;
+  }
+
+  .featureDescription {
+    font-size: 0.825rem;
+  }
+
+  .featureNumber {
+    font-size: 1rem;
+    top: 0.625rem;
+    right: 0.625rem;
+  }
+}
+
+/* === 极小样式 (<375px) === */
+@media (max-width: 374px) {
+  .featureInner {
+    padding: 1.5rem 1rem;
+    min-height: 120px;
+  }
+
+  .featureTitle {
+    font-size: 1.125rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .featureDescription {
+    font-size: 0.8rem;
+  }
+
+  .featureNumber {
+    font-size: 0.875rem;
+    top: 0.5rem;
+    right: 0.5rem;
   }
 }

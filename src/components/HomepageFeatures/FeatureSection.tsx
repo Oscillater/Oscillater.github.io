@@ -25,7 +25,7 @@ function FeatureSection({ features }: FeatureSectionProps): JSX.Element {
               key={idx}
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               animate={featuresVisible ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
-              transition={{ duration: 0.7, delay: 0.15 + idx * 0.1, ease: "easeOut" }}
+              transition={{ duration: 0.7, delay: 0.15 + idx * 0.12, ease: "easeOut" }}
             >
               <FeatureCard feature={feature} index={idx} />
             </motion.div>

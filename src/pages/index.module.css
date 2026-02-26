@@ -4,7 +4,7 @@
  */
 
 .heroBanner {
-  font-family: 'Serif';
+  font-family: "Montserrat", "Serif";
   padding: 4rem 0;
   text-align: center;
   position: relative;
@@ -20,7 +20,7 @@
 
 .hero__title{
   font-size: 4em;
-  font-family: "Serif";
+  font-family: "Montserrat", "Serif";
   font-weight: bold;
 }
 

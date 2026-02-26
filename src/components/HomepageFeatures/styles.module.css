@@ -17,7 +17,7 @@
 }
 
 .sectionTitle {
-  font-family: "SimSun";
+  font-family: "Montserrat", "Serif";
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--ifm-color-emphasis-900);
@@ -481,7 +481,7 @@
 }
 
 .aboutTitle {
-  font-family: "SimSun";
+  font-family: "Montserrat", "Serif";
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--ifm-color-emphasis-900);
@@ -594,6 +594,55 @@
     max-width: 70%;
   }
 
+}
+
+/* 安利展示区域样式 */
+.endorsementSection {
+  padding: 3rem 0;
+}
+
+.endorsementContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.endorsementContainer::before {
+  content: '“';
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  font-size: 3rem;
+  color: var(--ifm-color-primary-light);
+  font-family: "Montserrat", "Serif";
+  opacity: 0.3;
+  line-height: 1;
+}
+
+.endorsementContainer::after {
+  content: '”';
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  font-size: 3rem;
+  color: var(--ifm-color-primary-light);
+  font-family: "Montserrat", "Serif";
+  opacity: 0.3;
+  line-height: 1;
+}
+
+.errorMessage,
+.loadingMessage,
+.emptyMessage {
+  text-align: center;
+  padding: 1rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.errorMessage {
+  color: var(--ifm-color-danger);
 }
 
 @keyframes pulse {

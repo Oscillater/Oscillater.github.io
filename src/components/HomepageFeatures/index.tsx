@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
+import { lazy, Suspense } from "react";
 import { useEffect, useState } from "react";
+import useIntersectionObserver from "./useIntersectionObserver";
 import { createTime } from "./timer";
 import wordStats from "../../../totalWords.json";
 import StatsSection from "./StatsSection";
-import useIntersectionObserver from "./useIntersectionObserver";
 import FeatureSection from "./FeatureSection";
 import { FEATURE_LIST } from "./constants";
+import EndorsementCard from "../EndorsementDisplay/EndorsementCard";
+import { useRandomEndorsement } from "../../hooks/useEndorsements";
 import styles from "./styles.module.css";
 
 type ProjectItem = {
@@ -39,9 +42,15 @@ export default function HomepageFeatures(): JSX.Element {
     seconds: "",
   });
 
-  const { ref: projectsRef, isVisible: projectsVisible } = useIntersectionObserver({ threshold: 0.15, rootMargin: '-30px' });
-  const { ref: statsRef, isVisible: statsVisible } = useIntersectionObserver({ threshold: 0.15, rootMargin: '-30px' });
-  const { ref: aboutRef, isVisible: aboutVisible } = useIntersectionObserver({ threshold: 0.15, rootMargin: '-30px' });
+  // 使用IntersectionObserver检测元素是否可见，在小屏幕下使用更激进的设置
+  const { ref: featuresRef, isVisible: featuresVisible } = useIntersectionObserver({ threshold: 0.01, rootMargin: '100px' });
+  const { ref: projectsRef, isVisible: projectsVisible } = useIntersectionObserver({ threshold: 0.01, rootMargin: '100px' });
+  const { ref: statsRef, isVisible: statsVisible } = useIntersectionObserver({ threshold: 0.01, rootMargin: '100px' });
+  const { ref: aboutRef, isVisible: aboutVisible } = useIntersectionObserver({ threshold: 0.01, rootMargin: '100px' });
+  const { ref: endorsementRef, isVisible: endorsementVisible } = useIntersectionObserver({ threshold: 0.01, rootMargin: '100px' });
+
+  // 安利功能状态管理
+  const { endorsement, loading, error } = useRandomEndorsement();
 
   useEffect(() => {
     const updateTime = createTime("10/17/2023 17:00:51");
@@ -52,9 +61,30 @@ export default function HomepageFeatures(): JSX.Element {
   }, []);
 
   return (
-    <section>
+    <>
+      {/* 滚动进度指示器 */}
+      <motion.div
+        className={styles.scrollProgress}
+        style={{ scaleX: 0 }}
+        initial={{ scaleX: 0 }}
+        transition={{ duration: 0.2 }}
+      />
+
+      <motion.section
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
       {/* 特性模块区域 */}
-      <FeatureSection features={FEATURE_LIST} />
+      <motion.div
+        ref={featuresRef}
+        className={styles.featuresSection}
+        initial={{ opacity: 0, y: 50 }}
+        animate={featuresVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+        transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
+      >
+        <FeatureSection features={FEATURE_LIST} />
+      </motion.div>
 
       {/* 项目展示区域 */}
       <div ref={projectsRef} className={styles.projectsSection}>
@@ -73,12 +103,19 @@ export default function HomepageFeatures(): JSX.Element {
                 initial={{ opacity: 0, y: 40, scale: 0.95 }}
                 animate={projectsVisible ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 40, scale: 0.95 }}
                 transition={{ duration: 0.7, delay: 0.25 + idx * 0.12, ease: "easeOut" }}
-                whileHover={{ y: -8, scale: 1.02 }}
+                whileHover={{ y: -8, scale: 1.02, boxShadow: "0 12px 32px rgba(0, 0, 0, 0.1)" }}
                 whileTap={{ scale: 0.98 }}
+                role="article"
+                aria-label={`项目: ${project.title}`}
               >
                 {project.image && (
                   <div className={styles.projectImage}>
-                    <img src={project.image} alt={project.title} />
+                    <motion.img
+                      src={project.image}
+                      alt={project.title}
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.4 }}
+                    />
                   </div>
                 )}
                 <div className={styles.projectContent}>
@@ -87,14 +124,28 @@ export default function HomepageFeatures(): JSX.Element {
                   {project.tech && project.tech.length > 0 && (
                     <div className={styles.projectTech}>
                       {project.tech.map((tech, i) => (
-                        <span key={i} className={styles.techTag}>{tech}</span>
+                        <motion.span
+                          key={i}
+                          className={styles.techTag}
+                          whileHover={{ scale: 1.1, backgroundColor: "var(--ifm-color-primary-light)" }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          {tech}
+                        </motion.span>
                       ))}
                     </div>
                   )}
                   {project.link && (
-                    <a href={project.link} className={styles.projectLink} target="_blank" rel="noopener noreferrer">
-                      前往
-                    </a>
+                    <motion.a
+                      href={project.link}
+                      className={styles.projectLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ x: 5 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      前往 →
+                    </motion.a>
                   )}
                 </div>
               </motion.div>
@@ -126,7 +177,71 @@ export default function HomepageFeatures(): JSX.Element {
           <AboutSection />
         </motion.div>
       </section>
-    </section>
+
+      {/* 安利展示区域 */}
+      <section ref={endorsementRef} className={styles.endorsementSection}>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={endorsementVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+        >
+          <div className={styles.endorsementContainer}>
+            {/*<h2 className={styles.sectionTitle}>今日安利</h2>*/}
+            {error ? (
+              <motion.div
+                className={styles.errorMessage}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <p>加载失败：{error}</p>
+              </motion.div>
+            ) : loading ? (
+              <motion.div
+                className={styles.loadingMessage}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.p
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  正在加载安利内容...
+                </motion.p>
+              </motion.div>
+            ) : endorsement ? (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <Suspense fallback={
+                  <div className={styles.loadingMessage}>
+                    <p>正在加载安利内容...</p>
+                  </div>
+                }>
+                  <EndorsementCard
+                    endorsement={endorsement}
+                    showCloseButton={false}
+                  />
+                </Suspense>
+              </motion.div>
+            ) : (
+              <motion.div
+                className={styles.emptyMessage}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <p>暂无安利内容</p>
+              </motion.div>
+            )}
+          </div>
+        </motion.div>
+      </section>
+      </motion.section>
+    </>
   );
 }
 

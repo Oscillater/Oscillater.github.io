@@ -1,0 +1,85 @@
+/* 安利卡片容器 */
+.endorsementCard {
+  padding: 1.5rem;
+  margin: 0;
+}
+
+/* 语录区域 */
+.quoteSection {
+  margin-bottom: 1rem;
+}
+
+.quote {
+  font-family: "Montserrat", "Serif";
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--ifm-color-emphasis-800);
+  margin: 0;
+  white-space: pre-wrap;  /* 保留换行符和空格，并允许自动换行 */
+  word-wrap: break-word;  /* 长单词自动换行 */
+}
+
+/* 出处区域 */
+.sourceSection {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-600);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.sourceSection:hover {
+  color: var(--ifm-color-primary);
+}
+
+.sourceSection::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--ifm-color-primary);
+  transition: width 0.3s ease;
+}
+
+.sourceSection:hover::after {
+  width: 100%;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .endorsementCard {
+    padding: 1.25rem;
+  }
+
+  .quote {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .sourceSection {
+    font-size: 0.8125rem;
+  }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+  .quote {
+    color: var(--ifm-color-emphasis-900);
+  }
+
+  .sourceSection::after {
+    height: 2px;
+  }
+}
+
+/* 减少动画偏好支持 */
+@media (prefers-reduced-motion: reduce) {
+  .sourceSection,
+  .sourceSection::after {
+    transition: none;
+  }
+}
