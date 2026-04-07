@@ -1,23 +1,23 @@
 {
-  "totalWords": 349284,
-  "totalChars": 492333,
-  "lastUpdated": "2026-02-26T01:15:59.174Z",
+  "totalWords": 429244,
+  "totalChars": 620537,
+  "lastUpdated": "2026-04-07T14:33:20.129Z",
   "blog": {
-    "count": 71,
-    "words": 133601
+    "count": 72,
+    "words": 137668
   },
   "techNotes": {
-    "count": 3,
-    "words": 2654
+    "count": 4,
+    "words": 6721
   },
   "docs": {
     "gewu": {
-      "count": 13,
-      "words": 74871
+      "count": 25,
+      "words": 138691
     },
     "zhizhi": {
-      "count": 7,
-      "words": 140812
+      "count": 9,
+      "words": 152885
     }
   }
 }

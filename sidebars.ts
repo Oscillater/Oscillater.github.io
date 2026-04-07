@@ -35,7 +35,7 @@ const sidebars: SidebarsConfig = {
         title:"硬件学习相关",
       },
       collapsed: false,
-      items: ["gewu/szdzjs","gewu/re_szdzjs","gewu/dlll","gewu/dgx"],
+      items: ["gewu/szdzjs","gewu/re_szdzjs","gewu/dlll","gewu/dgx","gewu/dic","gewu/semi_dev","gewu/circuit_lab","gewu/ic_process","gewu/e603","gewu/digital_logic","gewu/xhxt_summary"],
     },
     {
       type: "category",
@@ -45,7 +45,7 @@ const sidebars: SidebarsConfig = {
         title:"软件学习相关",
       },
       collapsed: false,
-      items: ["gewu/discretemath","gewu/ds","gewu/python","gewu/typescript"],
+      items: ["gewu/discretemath","gewu/ds","gewu/python","gewu/typescript","gewu/cs61c","gewu/network","gewu/stm32","gewu/code_agent_blog","gewu/gpu_arch"],
     },
     {
       type: "category",
@@ -71,6 +71,16 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Politics",
+      link: {
+        type: "generated-index",
+        title:"政治",
+      },
+      collapsed: false,
+      items: ["zhizhi/maogai"],
+    },
+    {
+      type: "category",
       label: "Economy",
       link: {
         type: "generated-index",
@@ -87,7 +97,7 @@ const sidebars: SidebarsConfig = {
         title:"论文阅读",
       },
       collapsed: false,
-      items: ["zhizhi/hrls","zhizhi/3b&ztx"],
+      items: ["zhizhi/hrls","zhizhi/3b&ztx","zhizhi/literary_anthropology"],
     },
   ],
 };
