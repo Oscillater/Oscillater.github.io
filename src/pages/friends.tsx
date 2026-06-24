@@ -40,7 +40,7 @@ function friends(): JSX.Element {
     },
     {
       name: "CENTER OF ELECANNONIC",
-      url: "https://elecannonic.github.io/",
+      url: "https://elecannonic.com/",
       description: "Build real science",
       imageUrl: "https://elecannonic.github.io/images/logo.png",
     },

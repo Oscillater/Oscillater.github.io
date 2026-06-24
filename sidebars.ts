@@ -35,7 +35,7 @@ const sidebars: SidebarsConfig = {
         title:"硬件学习相关",
       },
       collapsed: false,
-      items: ["gewu/szdzjs","gewu/re_szdzjs","gewu/dlll","gewu/dgx","gewu/dic","gewu/semi_dev","gewu/circuit_lab","gewu/ic_process","gewu/e603","gewu/digital_logic","gewu/xhxt_summary"],
+      items: ["gewu/szdzjs","gewu/re_szdzjs","gewu/dlll","gewu/dgx","gewu/dic","gewu/semi_dev","gewu/circuit_lab","gewu/ic_process","gewu/e603","gewu/digital_logic","gewu/xhxt_summary","gewu/soc"],
     },
     {
       type: "category",
