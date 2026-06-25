@@ -82,7 +82,7 @@ id: soc
 	- 让设计者专注于差异化部分
 
 ### TLM（事务级建模）
-- **TLM = <{Objects}, {Compositions}>**：通过函数调用描述系统，**计算与通信分离**
+- **TLM = `<{Objects}, {Compositions}>`**：通过函数调用描述系统，**计算与通信分离**
 - 三种时序级别：Un-timed / Approximate-timed / Cycle-timed
 - 优势：对象独立性 + 抽象独立性
 
@@ -168,7 +168,7 @@ id: soc
 - **R 型**（寄存器-寄存器）
 	- 算术：`add/sub rd, rs1, rs2`
 	- 逻辑：`and/or/xor rd, rs1, rs2`
-	- 比较：`slt/sltu rd, rs1, rs2`（有符号/无符号，rs1<rs2则置1）
+	- 比较：`slt/sltu rd, rs1, rs2`（有符号/无符号，rs1&lt;rs2则置1）
 	- 移位：`sll/srl/sra rd, rs1, rs2`（逻辑左/逻辑右/算术右；rs2 取低 5 位）
 - **I 型算术**：`addi/andi/ori/xori/slti/sltiu rd, rs1, imm`，`slli/srli/srai rd, rs1, imm`
 	- No-op：`addi x0, x0, 0`
@@ -181,8 +181,8 @@ id: soc
 - **J 型跳转**：`jal rd, imm/label`：跳转并将 PC+4 保存到 rd（默认 rd=x1 即 ra）
 - **I 型跳转**：`jalr rd, imm(rs1)`：目标 = `(rs1 + sext(imm)) & 0xFFFFFFFE`
 - **U 型立即数**：
-	- `lui rd, imm`：rd = imm << 12（**高 20 位**，低 12 位清零）
-	- `auipc rd, imm`：rd = (imm << 12) + PC（**PC 相对地址**）
+	- `lui rd, imm`：rd = imm &lt;&lt; 12（**高 20 位**，低 12 位清零）
+	- `auipc rd, imm`：rd = (imm &lt;&lt; 12) + PC（**PC 相对地址**）
 - 加载 32 位常量：`li x5, 0xdeadbeef` ≈ `lui x5, 0xdeadb` + `addi x5, x5, 0xeef`（注意符号扩展）
 
 ### Endian（字节序）
@@ -226,8 +226,8 @@ srli x5,x5,31
 
 
 
-- **思路 B（SLT 比较）**：判断 `(rs2<0) XOR (rd<rs1)`
-  - 直觉：加正数结果应变大（rd≥rs1）；加负数结果应变小（rd<rs1）；预期与实际不一致即溢出
+- **思路 B（SLT 比较）**：判断 `(rs2&lt;0) XOR (rd&lt;rs1)`
+  - 直觉：加正数结果应变大（rd≥rs1）；加负数结果应变小（rd&lt;rs1）；预期与实际不一致即溢出
   - 用 `slti` + `slt` + `bne` 跳转分支即可
 
 ### CPU 性能度量
@@ -246,7 +246,7 @@ $$T_{improved} = \frac{T_{affected}}{improvement\ factor} + T_{unaffected}$$
 - 改进的部分加速因子越大，整体加速比受限于不能改进的部分
 - **多优化叠加**：若多种优化作用于不同/部分重叠的部分，按"未加速部分 + 各加速部分/对应因子"分别累加得到新执行时间
 - **多核并行 + 并行效率**：$Speedup = \frac{1}{(1-f) + f/(n \cdot \eta)}$
-	- $f$：可并行比例；$n$：核数；$\eta$：并行效率（同步/通信开销造成 $\eta<1$）
+	- $f$：可并行比例；$n$：核数；$\eta$：并行效率（同步/通信开销造成 $\eta\lt 1$）
 
 ### Benchmark
 - **SPEC（Standard Performance Evaluation Corporation, 1988）**：CPU 性能评测标准
@@ -897,7 +897,7 @@ $$
 
 #### 为什么同号最多右移 1 位 / 异号可能左移多位
 
-**核心前提**：规格化尾数 $1.M$ 永远在 $[1, 2)$ 范围（隐藏前导 1 + 小数 < 1）。
+**核心前提**：规格化尾数 $1.M$ 永远在 $[1, 2)$ 范围（隐藏前导 1 + 小数 &lt; 1）。
 
 **同号** = 底层做加法（$|x|+|y|$，数变大）：
 - 两个 $1.M_x + 1.M_y \in [1+1, 2+2) = [2, 4)$
@@ -958,7 +958,7 @@ x + y = 0.00000000000000000001 × 2^0
 - 除零
 - 上溢（Overflow）
 - 下溢（Underflow）
-- 无效运算（→ NaN）：$\infty - \infty$, $0 \times \infty$, $0/0$, $\infty/\infty$, $\sqrt{<0}$
+- 无效运算（→ NaN）：$\infty - \infty$, $0 \times \infty$, $0/0$, $\infty/\infty$, $\sqrt{\lt 0}$
 
 ## 存储层次结构
 ### Memory Wall（存储墙）

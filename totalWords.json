@@ -1,10 +1,10 @@
 {
-  "totalWords": 429244,
-  "totalChars": 620537,
-  "lastUpdated": "2026-04-07T14:33:20.129Z",
+  "totalWords": 474239,
+  "totalChars": 682607,
+  "lastUpdated": "2026-06-25T01:59:02.019Z",
   "blog": {
-    "count": 72,
-    "words": 137668
+    "count": 81,
+    "words": 173825
   },
   "techNotes": {
     "count": 4,
@@ -12,8 +12,8 @@
   },
   "docs": {
     "gewu": {
-      "count": 25,
-      "words": 138691
+      "count": 26,
+      "words": 147529
     },
     "zhizhi": {
       "count": 9,
