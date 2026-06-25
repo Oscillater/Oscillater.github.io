@@ -1,6 +1,6 @@
 ---
 title: SoC
-description: MST3319 25-26 coauthored by ai
+description: MST3319 25-26 春季，design by ai
 id: soc
 ---
 # SoC
@@ -40,7 +40,7 @@ id: soc
 | 处理器核心 | 单核 | 通常单核 | 单核或多核 |
 | 存储与I/O | 外接 | 内置基本块 | 更大存储、更多外设 |
 | 功能模块 | 通用 | 基本控制 | GPU/DSP/NPU等 |
-| OS | -- | -- | 可运行 OS |
+| OS | 可运行轻量化的 OS | 可运行 OS | 可运行 OS |
 | 应用 | 通用计算 | 嵌入式 | 智能手机等高端应用 |
 
 ### SoC 特征
@@ -82,7 +82,7 @@ id: soc
 	- 让设计者专注于差异化部分
 
 ### TLM（事务级建模）
-- **TLM = `<{Objects}, {Compositions}>`**：通过函数调用描述系统，**计算与通信分离**
+- **TLM = <{Objects}, {Compositions}>**：通过函数调用描述系统，**计算与通信分离**
 - 三种时序级别：Un-timed / Approximate-timed / Cycle-timed
 - 优势：对象独立性 + 抽象独立性
 
@@ -168,7 +168,7 @@ id: soc
 - **R 型**（寄存器-寄存器）
 	- 算术：`add/sub rd, rs1, rs2`
 	- 逻辑：`and/or/xor rd, rs1, rs2`
-	- 比较：`slt/sltu rd, rs1, rs2`（有符号/无符号，`rs1 < rs2` 则置 1）
+	- 比较：`slt/sltu rd, rs1, rs2`（有符号/无符号，rs1<rs2则置1）
 	- 移位：`sll/srl/sra rd, rs1, rs2`（逻辑左/逻辑右/算术右；rs2 取低 5 位）
 - **I 型算术**：`addi/andi/ori/xori/slti/sltiu rd, rs1, imm`，`slli/srli/srai rd, rs1, imm`
 	- No-op：`addi x0, x0, 0`
@@ -181,8 +181,8 @@ id: soc
 - **J 型跳转**：`jal rd, imm/label`：跳转并将 PC+4 保存到 rd（默认 rd=x1 即 ra）
 - **I 型跳转**：`jalr rd, imm(rs1)`：目标 = `(rs1 + sext(imm)) & 0xFFFFFFFE`
 - **U 型立即数**：
-	- `lui rd, imm`：`rd = imm << 12`（**高 20 位**，低 12 位清零）
-	- `auipc rd, imm`：`rd = (imm << 12) + PC`（**PC 相对地址**）
+	- `lui rd, imm`：rd = imm << 12（**高 20 位**，低 12 位清零）
+	- `auipc rd, imm`：rd = (imm << 12) + PC（**PC 相对地址**）
 - 加载 32 位常量：`li x5, 0xdeadbeef` ≈ `lui x5, 0xdeadb` + `addi x5, x5, 0xeef`（注意符号扩展）
 
 ### Endian（字节序）
@@ -215,9 +215,20 @@ id: soc
 - **思路 A（符号位 XOR）**：构造 `(rd⊕rs1) AND (rd⊕rs2)`，取最高位
 	- 同号相加溢出时，rd 的符号位与两个操作数符号位都不同
 	- 末尾用 `srli rd, rd, 31` 把符号位移到最低位作为结果
-- **思路 B（SLT 比较）**：判断 `(rs2 < 0) XOR (rd < rs1)`
-	- 直觉：加正数结果应变大（rd≥rs1）；加负数结果应变小（`rd < rs1`）；预期与实际不一致即溢出
-	- 用 `slti` + `slt` + `bne` 跳转分支即可
+
+```asm
+add x3,x1,x2
+xor x4,x1,x3
+xor x5,x2,x3
+and x5,x4,x5
+srli x5,x5,31
+```
+
+
+
+- **思路 B（SLT 比较）**：判断 `(rs2<0) XOR (rd<rs1)`
+  - 直觉：加正数结果应变大（rd≥rs1）；加负数结果应变小（rd<rs1）；预期与实际不一致即溢出
+  - 用 `slti` + `slt` + `bne` 跳转分支即可
 
 ### CPU 性能度量
 - **响应时间（Response Time）**：完成单任务时间
@@ -316,13 +327,6 @@ $$SPECRatio_i = \frac{SPEC_{baseline}\ Time}{SPEC_{CPU}\ Time}, \quad GM = \sqrt
 - **Partial Crossbar**：部分互联，性能/成本折衷
 - **Ring Bus**：**只跟相邻节点连接**，低成本，延迟可能长，支持并发事务
 
-### 总线拓扑
-- **Shared Bus**：所有组件共享一条总线，同一时刻只能一个事务
-- **Hierarchical Shared Bus**：分层，不同总线并行事务
-- **Full Crossbar/Matrix**：点对点全互联，吞吐量极高，布线成本高
-- **Partial Crossbar**：部分互联，性能/成本折衷
-- **Ring Bus**：环形，低成本，延迟可能较长，支持并发事务
-
 #### 4 种主流拓扑对比
 
 | 拓扑 | 并行事务 | 布线成本 | 可扩展性 | 延迟特性 | 典型场景 |
@@ -420,11 +424,8 @@ $$SPECRatio_i = \frac{SPEC_{baseline}\ Time}{SPEC_{CPU}\ Time}, \quad GM = \sqrt
 | SEQ | 11 | master | 突发后续拍 | **继续** |
 
 - **BUSY 的作用**：master 在突发中间临时"按下暂停键"——突发不结束、不浪费仲裁，只占一拍空
-	- 用途：master 内部 FIFO 暂时没数据 / 等待中断 / 临时被高优先级任务占用
-	- **协议约束**：BUSY 不能作为突发首拍；slave 看到 BUSY 时不处理数据（PWDATA 无效）
-	- **不定长突发（INCR）终止必须先发 BUSY** → 后跟 IDLE（完全结束）或 NONSEQ（开新突发）
-		- 因为 slave 不知道 INCR 多长，必须有个"过渡信号"告诉 slave 要结束了
-		- 定长突发（INCR4/WRAP*）不需要 BUSY，数到最后一拍 SEQ 自然结束
+  - 用途：master 内部 FIFO 暂时没数据 / 等待中断 / 临时被高优先级任务占用
+  - **协议约束**：BUSY 不能作为突发首拍；slave 看到 BUSY 时不处理数据（PWDATA 无效）
 - **BUSY vs IDLE 区别（极易混淆！）**：
 	- BUSY：暂停 1 拍，**突发继续**——下一拍 master 可以接 SEQ 继续
 	- IDLE：当前突发**直接结束**——再想传数据要重新仲裁 + 重发 NONSEQ
