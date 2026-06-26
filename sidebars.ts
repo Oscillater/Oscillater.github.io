@@ -45,7 +45,7 @@ const sidebars: SidebarsConfig = {
         title:"软件学习相关",
       },
       collapsed: false,
-      items: ["gewu/discretemath","gewu/ds","gewu/python","gewu/typescript","gewu/cs61c","gewu/network","gewu/stm32","gewu/code_agent_blog","gewu/gpu_arch"],
+      items: ["gewu/discretemath","gewu/ds","gewu/python","gewu/typescript","gewu/cs61c","gewu/network","gewu/stm32","gewu/code_agent_blog","gewu/gpu_arch","gewu/os"],
     },
     {
       type: "category",
