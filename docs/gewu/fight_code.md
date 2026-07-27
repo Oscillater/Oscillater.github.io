@@ -3,6 +3,14 @@ title: 机考全攻略
 description: C++ 机考语法速查与算法选择指南 coauthor by opus 4.6
 id: fight_code
 ---
+# 需要注意的
+
+- 考虑下标范围
+- 注意变量名：思考变量名是否命名重复
+- 注意循环从0开始还是从1开始
+- bfs/dij不要忘记查看是否visited过
+
+
 
 # 机考 C++ 语法汇总
 
@@ -69,6 +77,11 @@ Edge e = {1, 2, 5};
 // 数组
 Edge edges[1000];
 edges[0] = {1, 2, 5};
+
+// 函数返回 struct 时也能用 {}，按成员声明顺序填值
+Edge makeEdge() {
+    return {1, 2, 5};  // 等价于 Edge e; e.u=1; e.v=2; e.w=5; return e;
+}
 ```
 
 **带构造函数的写法**（链表节点常用）：
@@ -221,6 +234,13 @@ if (a == 0)   // 比较
 // 取模
 7 % 3 = 1
 -7 % 3 = -1   // C++ 余数跟被除数同号
+
+// 转义字符：在字符串/字符中，\ 是转义开头
+'\n'   // 换行
+'\t'   // tab
+'\\'   // 一个真正的反斜杠 \
+// 所以按 \ 切割字符串要写 '\\'：
+getline(ss, token, '\\');  // 按 \ 切割
 ```
 
 ---
@@ -240,7 +260,7 @@ STL（Standard Template Library）= 容器 + 算法 + 迭代器。机试核心�
 | `unordered_map` | `<unordered_map>` | 哈希表 | 计数、映射、O(1) 查找 |
 | `unordered_set` | `<unordered_set>` | 哈希集合 | 去重、O(1) 判存在 |
 | `string` | `<string>` | 字符串 | 字符串处理 |
-| `pair` | `<utility>` | 二元组 | 坐标、`{距离, 节点}` |
+| `pair` | `<utility>` | 二元组 | 坐标、{距离, 节点} |
 | `set` | `<set>` | 有序集合 | 需要自动排序 + 去重 |
 | `map` | `<map>` | 有序映射 | 需要按 key 排序 |
 
@@ -317,8 +337,19 @@ for (int x : v) ...                           // range-for
 | `s.insert(pos, "xxx")` | 在 pos 处插入 |
 | `s.push_back(c)` | 末尾加一个字符 |
 | `s.pop_back()` | 删末尾字符 |
+| `s.append(str)` | 末尾追加一个字符串（等价于 `s += str`）|
+| `s.append(n, c)` | 末尾追加 **n 个字符 c**（重复 n 遍）|
 | `s.empty()` | 是否为空 |
 | `s.clear()` | 清空 |
+
+```cpp
+string s = "ab";
+s.append("cd");     // "abcd"
+s.append(3, 'x');   // "abcdxxx"   ← 重复 n 遍，手写循环的替代
+```
+
+`s.append(n, c)` 在「把压缩状态还原成字符串」时很好用，比如栈里存 `{字符, 次数}`，
+最后拼结果：`for (auto& p : st) res.append(p.second, p.first);`
 
 **常用技巧**：
 ```cpp
@@ -328,6 +359,14 @@ if (s.find("abc") != string::npos) ...
 // 大小写转换（单个字符）
 char c = toupper('a');  // 'A'
 char c = tolower('A');  // 'a'
+
+// 字符判断函数（都在 <cctype> 里，但 iostream 一般已包含）
+isalpha(c)   // 是否是字母（a-z A-Z）
+isdigit(c)   // 是否是数字（0-9）
+isalnum(c)   // 是否是字母或数字
+isupper(c)   // 是否是大写字母
+islower(c)   // 是否是小写字母
+isspace(c)   // 是否是空白（空格、\t、\n...）
 
 // 数字 ↔ 字符串
 int n = stoi("123");           // string → int
@@ -518,6 +557,21 @@ for (int x : nums) cnt[x]++;
 
 **坑**：`m[key]` 会自动创建条目！只想查询不想创建用 `m.count(key)` 或 `m.find(key)`。
 
+**技巧：字符种类有限时，用数组代替 map（更快更简单）**：
+```cpp
+int cnt[26] = {};       // 只有小写字母，下标 c - 'a'
+int cnt[128] = {};      // 所有 ASCII 字符，下标直接用 (int)c
+cnt[s[i] - 'a']++;      // 小写字母计数
+char m[(int)128] = {};   // 字符映射表，m['W'] = 'Q'
+```
+
+| 场景 | 数组大小 | 下标 |
+|------|---------|------|
+| 只有小写字母 | `[26]` | `c - 'a'` |
+| 只有大写字母 | `[26]` | `c - 'A'` |
+| 只有数字 | `[10]` | `c - '0'` |
+| 所有可见字符 | `[128]` | `(int)c` |
+
 ---
 
 ### 3.7 unordered_set
@@ -685,6 +739,21 @@ sort(v.begin(), v.end());               // vector，升序
 sort(v.begin(), v.end(), greater<int>()); // 降序
 ```
 
+**`stable_sort`**：值相同的元素保持原来的先后顺序。
+
+```cpp
+// sort：相同值的元素顺序不确定
+// stable_sort：相同值的元素保持输入时的先后顺序
+
+// 典型场景：按忽略大小写排序，但同一字母的大小写保持原序
+stable_sort(v.begin(), v.end(), [](char a, char b) {
+    return tolower(a) < tolower(b);
+});
+// 输入 B a b A → 输出 a A B b（a组内 a 先于 A，因为原始顺序如此）
+```
+
+什么时候用：题目要求"排序后相同元素保持原来顺序"时。其他时候用普通 `sort` 就行。
+
 ### 4.2 自定义比较——三种写法
 
 **写法 A：独立函数**（推荐，清晰可复用）
@@ -702,7 +771,28 @@ sort(v.begin(), v.end(), [](const int& a, const int& b) {
 });
 ```
 
-**写法 C：重载 operator&lt;**（类型天然有序时）
+**Lambda 语法**：`[捕获](参数) { 函数体 }`——就是一个没名字的函数。
+
+| 捕获列表 | 意思 |
+|---------|------|
+| `[]` | 什么都不捕获，lambda 里只能用自己的参数 |
+| `[&]` | 捕获外面所有变量的引用（能读能改外部变量）|
+| `[=]` | 捕获外面所有变量的拷贝（能读不能改）|
+
+"外面" = lambda 写在哪个作用域，那里能看到的变量就是"外面的"。
+
+```cpp
+int target = 5;
+// [&] 让 lambda 能看到 target
+sort(v.begin(), v.end(), [&](int a, int b) {
+    return abs(a - target) < abs(b - target);  // 按离 target 的距离排序
+});
+// 不加 [&] 就看不到 target，编译报错
+```
+
+考试时：lambda 里要用外部变量就写 `[&]`，不需要就写 `[]`。
+
+**写法 C：重载 operator\<**（类型天然有序时）
 ```cpp
 struct Edge {
     int u, v, w;
@@ -710,7 +800,7 @@ struct Edge {
         return w < o.w;
     }
 };
-sort(edges, edges + m);  // 不传 cmp，自动用 operator&lt;
+sort(edges, edges + m);  // 不传 cmp，自动用 operator<
 ```
 
 ### 4.3 多关键字排序
@@ -754,7 +844,7 @@ bool cmp(T a, T b) { ... }            // ❌ 拷贝，大对象巨慢
 bool cmp(const T& a, const T& b) { ... }  // ✅
 ```
 
-**坑 3：operator&lt; 必须是 const 成员函数**
+**坑 3：operator< 必须是 const 成员函数**
 ```cpp
 bool operator<(const T& o) { ... }        // ❌ 缺 const
 bool operator<(const T& o) const { ... }  // ✅
@@ -833,22 +923,205 @@ while (cin >> n) {
 
 ### 5.4 字符串切割
 
-| 方法 | 适合 | 示例 |
-|------|------|------|
-| `cin >> a >> b` | 空格分隔，类型已知 | `01 张三 21` |
-| `find` + `substr` | 固定分隔符 | `[spell] func` |
-| `istringstream` | 灵活切割 | 任意格式 |
-| `sscanf` | C 风格格式解析 | `sscanf(s, "%d+i%d", &a, &b)` |
+**先按「输入长什么样」选方法**：
+
+| 输入长什么样 | 用什么 |
+|-------------|--------|
+| `1 2 3` 空格分隔，个数已知 | `cin >> a >> b >> c` |
+| `1 2 3` 空格分隔，个数不定 | `getline` + `istringstream` + `while (iss >> x)` |
+| `a\b\c` 自定义分隔符 | `istringstream` + `getline(iss, tok, '\\')` |
+| `1,2,,3` CSV（可能有空字段）| 同上，分隔符换 `,` |
+| `255.12.2.3` 数字和符号交替 | `cin >> a >> dot >> b >> ...` |
+| `[key] value` 固定标记切两半 | `find` + `substr` |
+| 整行含空格 | `getline(cin, line)` |
+
+---
+
+#### ① `cin >>` 直接读（空格分隔，最常用）
 
 ```cpp
-// istringstream 切空格
+string id, name;
+int age;
+cin >> id >> name >> age;        // 输入 "01 张三 21"
+
+// 个数不定，读到文件尾
+int x;
+while (cin >> x) { ... }
+```
+
+`>>` 自动跳过空格和换行，所以一行几个、分几行写都无所谓。
+
+---
+
+#### ② `cin >>` 交替读（数字和符号交替的固定格式）
+
+```cpp
+// "255.12.2.3"
+int a, b, c, d;
+char dot;
+cin >> a >> dot >> b >> dot >> c >> dot >> d;
+// a=255, b=12, c=2, d=3
+
+// "1+i2"（复数）
+int re, im;
+char plus, ch_i;
+cin >> re >> plus >> ch_i >> im;
+// re=1, im=2
+
+// "2026-07-27"
+int y, m, d;
+char dash;
+cin >> y >> dash >> m >> dash >> d;
+```
+
+**原理**：`>> int` 读连续数字，遇到非数字就停；`>> char` 读掉那个符号。交替进行。
+
+| 类型 | 行为 |
+|------|------|
+| `>> int` | 跳过空白，读连续数字，遇非数字停 |
+| `>> char` | 跳过空白，读一个字符（`.` `+` `-` 都能读）|
+| `>> string` | 跳过空白，读到下一个空白停 |
+
+---
+
+#### ③ `istringstream` 按空格切（个数不定时用）
+
+```cpp
 #include <sstream>
-string line = "aa bb cc";
-istringstream iss(line);
+
+string line;
+getline(cin, line);              // 先把整行读进来
+istringstream iss(line);         // 把字符串包装成一个"流"
+
 string word;
-while (iss >> word) {
-    cout << word << endl;  // aa, bb, cc
+while (iss >> word) {            // 之后就跟 cin >> 一样用
+    cout << word << endl;        // "aa bb cc" → aa, bb, cc
 }
+```
+
+读数字同理：
+
+```cpp
+istringstream iss(line);
+int x;
+vector<int> nums;
+while (iss >> x) nums.push_back(x);    // 一行里有几个数都能读进来
+```
+
+**为什么要它**：`cin >>` 不知道一行在哪结束。想「按行处理，每行内部再切」就得先 `getline` 拿到整行，再用 `istringstream` 在这一行里面切。
+
+---
+
+#### ④ `istringstream` + `getline` 按任意字符切
+
+`getline` 的第三个参数可以指定分隔符（默认是 `\n`）：
+
+```cpp
+// 按反斜杠切路径 "a\b\c"
+istringstream iss(path);
+string token;
+while (getline(iss, token, '\\')) {     // '\\' 才是一个反斜杠
+    if (token.empty()) continue;         // 开头/连续分隔符会切出空串
+    cout << token << endl;               // a, b, c
+}
+
+// 按逗号切 CSV
+istringstream iss(line);
+string field;
+while (getline(iss, field, ',')) {
+    cout << "[" << field << "]" << endl;
+}
+// "1,2,,3" → [1] [2] [] [3]     ← 注意空字段也会切出来
+```
+
+**跟 ③ 的区别**：
+
+| | `iss >> word` | `getline(iss, tok, ch)` |
+|--|--------------|------------------------|
+| 分隔符 | 只能是空白 | 任意指定字符 |
+| 连续分隔符 | 自动跳过 | **会切出空串**，要自己判 |
+| 场景 | 空格分隔 | 路径、CSV、自定义格式 |
+
+---
+
+#### ⑤ `find` + `substr`（固定标记，切两半）
+
+```cpp
+// "[spell] func" → 取出 "spell" 和 "func"
+string s = "[spell] func";
+int p = s.find(']');                 // 找 ']' 的位置，返回 6
+string a = s.substr(1, p - 1);       // 从下标1开始取5个 → "spell"
+string b = s.substr(p + 2);          // 从下标8取到末尾 → "func"
+```
+
+`substr` 两种用法：
+
+```cpp
+s.substr(start, len)     // 从 start 开始取 len 个
+s.substr(start)          // 从 start 一直取到末尾
+```
+
+**找不到要判**：
+
+```cpp
+int p = s.find(',');
+if (p == (int)string::npos) {        // npos 表示没找到
+    // 没有逗号
+}
+```
+
+**循环切多段**：
+
+```cpp
+string s = "a,b,c";
+int start = 0;
+while (true) {
+    int p = s.find(',', start);      // 从 start 开始往后找
+    if (p == (int)string::npos) {
+        cout << s.substr(start) << endl;      // 最后一段
+        break;
+    }
+    cout << s.substr(start, p - start) << endl;
+    start = p + 1;                   // 跳过这个逗号
+}
+```
+
+这段能用 ④ 的 `getline` 两行搞定，所以**优先用 ④**，`find+substr` 留给「按固定标记切两半」这种场景。
+
+---
+
+#### ⑥ 字符串 ↔ 数字
+
+```cpp
+int n       = stoi("123");
+long long m = stoll("12345678901");
+string s    = to_string(456);
+
+// 手动转（不怕格式问题）
+int num = 0;
+for (int i = 0; i < (int)s.size(); i++) {
+    num = num * 10 + (s[i] - '0');
+}
+```
+
+---
+
+#### ⑦ 三个坑
+
+```cpp
+// 坑1：cin >> 之后接 getline，会读到残留的换行符
+int n;
+cin >> n;
+cin.ignore();                    // ← 必须加
+string line;
+getline(cin, line);
+
+// 坑2：getline 按字符切时，空字段也会被切出来
+// "a,,b" 按 ',' 切 → "a", "", "b"，要不要跳过空串看题目
+
+// 坑3：反斜杠要写两个
+getline(iss, token, '\\');       // ✅ 这才是按 \ 切
+getline(iss, token, '\');        // ❌ 编译错误
 ```
 
 ---
@@ -891,6 +1164,175 @@ max(a, b);  min(a, b);  swap(a, b);  abs(x);
 fill(arr, arr + n, val);  // 用任意值填充（比 memset 安全）
 ```
 
+**手写排序**（题目要求实现排序算法时用）：
+
+```cpp
+// 冒泡排序 O(n^2)：每轮把最大的冒到末尾
+for (int i = 0; i < n; i++)
+    for (int j = 0; j < n - 1 - i; j++)
+        if (a[j] > a[j + 1]) swap(a[j], a[j + 1]);
+
+// 选择排序 O(n^2)：每轮找最小的放到前面
+for (int i = 0; i < n; i++) {
+    int minIdx = i;
+    for (int j = i + 1; j < n; j++)
+        if (a[j] < a[minIdx]) minIdx = j;
+    swap(a[i], a[minIdx]);
+}
+
+// 插入排序 O(n^2)：每个元素往前插到正确位置
+for (int i = 1; i < n; i++) {
+    int key = a[i], j = i - 1;
+    while (j >= 0 && a[j] > key) { a[j + 1] = a[j]; j--; }
+    a[j + 1] = key;
+}
+
+// 快速排序 O(n log n)：选基准，分两半，递归
+void quickSort(int a[], int l, int r) {
+    if (l >= r) return;
+    int pivot = a[l], i = l, j = r;
+    while (i < j) {
+        while (i < j && a[j] >= pivot) j--;
+        a[i] = a[j];
+        while (i < j && a[i] <= pivot) i++;
+        a[j] = a[i];
+    }
+    a[i] = pivot;
+    quickSort(a, l, i - 1);
+    quickSort(a, i + 1, r);
+}
+// 调用：quickSort(a, 0, n - 1);
+
+// 归并排序 O(n log n)：分两半，各自排好，合并
+int tmp[N];
+void mergeSort(int a[], int l, int r) {
+    if (l >= r) return;
+    int mid = (l + r) / 2;
+    mergeSort(a, l, mid);
+    mergeSort(a, mid + 1, r);
+    int i = l, j = mid + 1, k = l;
+    while (i <= mid && j <= r) {
+        if (a[i] <= a[j]) tmp[k++] = a[i++];
+        else tmp[k++] = a[j++];
+    }
+    while (i <= mid) tmp[k++] = a[i++];
+    while (j <= r) tmp[k++] = a[j++];
+    for (int i = l; i <= r; i++) a[i] = tmp[i];
+}
+// 调用：mergeSort(a, 0, n - 1);
+```
+
+考试没要求手写时直接用 `sort()`，不要自找麻烦。
+
+### 6.2.5 矩阵子矩阵处理套路
+
+**二维前缀和**（O(1) 查询任意子矩阵的和）：
+```cpp
+// 建前缀和（下标从 1 开始）
+for (int i = 1; i <= n; i++)
+    for (int j = 1; j <= m; j++)
+        pre[i][j] = mat[i][j] + pre[i-1][j] + pre[i][j-1] - pre[i-1][j-1];
+
+// 查询子矩阵 [r1..r2][c1..c2] 的和（容斥原理）
+int sum = pre[r2][c2] - pre[r1-1][c2] - pre[r2][c1-1] + pre[r1-1][c1-1];
+```
+
+**压缩行 + 一维处理**（把二维问题变成一维）：
+```
+思路：
+1. 枚举上边界 r1 和下边界 r2
+2. 把 r1~r2 行"压扁"成一维数组 col_sum[c] = 第 c 列的列和
+3. 对 col_sum 跑一维算法（Kadane / 双指针 / 暴力）
+
+for (int r1 = 0; r1 < n; r1++) {
+    memset(col_sum, 0, sizeof(col_sum));
+    for (int r2 = r1; r2 < n; r2++) {
+        for (int c = 0; c < m; c++) col_sum[c] += mat[r2][c];  // 逐行累加
+        // 现在 col_sum 是一维数组，跑一维算法
+    }
+}
+```
+
+**第 3 步用什么一维算法，取决于题目**：
+
+| 题目 | 第 3 步 | 复杂度 |
+|------|---------|--------|
+| 最大子矩阵和 | Kadane（最大子数组和） | O(n²m) |
+| 和 >= K 的最小面积（全非负） | 双指针找最短区间 | O(n²m) |
+| 和 >= K 的最小面积（有负数） | 暴力枚举或前缀和 | O(n²m²) |
+
+**双指针找"和 >= K 的最短区间"**（元素全非负时）：
+```cpp
+int left = 0, sum = 0;
+for (int right = 0; right < m; right++) {
+    sum += col_sum[right];       // 不够就扩右
+    while (sum >= k) {           // 够了就缩左，找更短的
+        ans = min(ans, right - left + 1);
+        sum -= col_sum[left++];
+    }
+}
+// 注意：有负数时不能用，因为缩左可能让 sum 变大
+```
+
+**矩阵旋转与转置**：
+
+```cpp
+// 顺时针旋转 90 度：新[i][j] = 旧[n-1-j][i]
+void rotate90(int src[N][N], int dst[N][N], int n) {
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            dst[i][j] = src[n-1-j][i];
+}
+
+// 逆时针旋转 90 度：新[i][j] = 旧[j][n-1-i]
+void rotate90ccw(int src[N][N], int dst[N][N], int n) {
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            dst[i][j] = src[j][n-1-i];
+}
+
+// 转置（就地）：只遍历上三角，swap 对角线两侧
+for (int i = 0; i < n; i++)
+    for (int j = i + 1; j < n; j++)   // 注意 j 从 i+1 开始
+        swap(mat[i][j], mat[j][i]);
+```
+
+**旋转 180/270 度**：调用 rotate90 两次/三次即可。
+
+验证顺时针 90 度公式：
+```
+原矩阵：      旋转后：
+1 2 3         7 4 1
+4 5 6    →    8 5 2
+7 8 9         9 6 3
+
+新[0][0] = 旧[n-1-0][0] = 旧[2][0] = 7 ✓
+新[0][1] = 旧[n-1-1][0] = 旧[1][0] = 4 ✓
+```
+
+**只旋转局部子矩阵**（以 (x,y) 为左上角，边长 size）：
+
+公式不变，只是每个下标加上偏移量 x 和 y：
+
+```cpp
+// 顺时针 90 度旋转子矩阵
+for (int i = 0; i < size; i++)
+    for (int j = 0; j < size; j++)
+        tmp[i][j] = a[x + size-1-j][y + i];
+
+// 逆时针 90 度旋转子矩阵
+for (int i = 0; i < size; i++)
+    for (int j = 0; j < size; j++)
+        tmp[i][j] = a[x + j][y + size-1-i];
+
+// 写回原矩阵
+for (int i = 0; i < size; i++)
+    for (int j = 0; j < size; j++)
+        a[x + i][y + j] = tmp[i][j];
+```
+
+**记忆**：整体旋转的公式里，把 `[i][j]` 换成 `[x+i][y+j]`，`[n-1-j][i]` 换成 `[x+size-1-j][y+i]` 就行。
+
 ### 6.3 数学相关
 
 ```cpp
@@ -906,6 +1348,41 @@ floor(2.9);      // 2.0，向下取整
 __gcd(a, b);  // GCC 内置，头哥可用
 // 头哥没有 std::gcd（C++17），也没有 lcm
 // 最小公倍数 = a / __gcd(a, b) * b（先除后乘防溢出）
+```
+
+**排列数和组合数**：
+
+```
+排列 P(n,k) = 从 n 个里选 k 个，有顺序
+            = n × (n-1) × ... × (n-k+1)    （连乘 k 个）
+            P(5,3) = 5×4×3 = 60
+
+组合 C(n,k) = 从 n 个里选 k 个，没有顺序
+            = P(n,k) / k!
+            = n×(n-1)×...×(n-k+1) / (k×(k-1)×...×1)
+            C(5,3) = 60/6 = 10
+
+区别：排列管顺序（ABC≠ACB），组合不管（ABC=ACB）
+```
+
+**代码（一边乘一边除，防溢出）**：
+```cpp
+long long C(int n, int k) {
+    if (k == 0 || k == n) return 1;
+    long long result = 1;
+    for (int i = 0; i < k; i++) {
+        result = result * (n - i) / (i + 1);
+    }
+    return result;
+}
+
+long long P(int n, int k) {
+    long long result = 1;
+    for (int i = 0; i < k; i++) {
+        result *= (n - i);
+    }
+    return result;
+}
 ```
 
 ### 6.4 大数处理（string 版模板）
@@ -949,6 +1426,69 @@ string bigMulSmall(const string& a, int b) {
 }
 ```
 
+**大数减法**（保证 a >= b）：
+```cpp
+string subAbs(const string& a, const string& b) {
+    string r;
+    int i = a.size()-1, j = b.size()-1, borrow = 0;
+    while (i >= 0) {
+        int d = (a[i--]-'0') - borrow;
+        if (j >= 0) d -= (b[j--]-'0');
+        if (d < 0) { d += 10; borrow = 1; } else borrow = 0;
+        r.push_back('0'+d);
+    }
+    while (r.size() > 1 && r.back() == '0') r.pop_back();
+    reverse(r.begin(), r.end());
+    return r;
+}
+```
+
+**大数 × 大数**（竖式乘法）：
+```cpp
+string mulAbs(const string& a, const string& b) {
+    int n = a.size(), m = b.size();
+    vector<int> res(n+m, 0);
+    for (int i = n-1; i >= 0; i--)
+        for (int j = m-1; j >= 0; j--) {
+            int sum = (a[i]-'0')*(b[j]-'0') + res[i+j+1];
+            res[i+j+1] = sum % 10;
+            res[i+j] += sum / 10;  // 注意 += 不是 =
+        }
+    string r;
+    for (int x : res) if (!(r.empty() && x == 0)) r.push_back('0'+x);
+    return r.empty() ? "0" : r;
+}
+```
+
+**带符号大数运算**（加减乘都支持负数）：
+```cpp
+struct Big { bool neg; string val; };
+
+Big parse(const string& s) {
+    if (s[0] == '-') return {true, s.substr(1)};
+    return {false, s};
+}
+string str(Big x) {
+    if (x.val == "0") return "0";
+    return x.neg ? "-"+x.val : x.val;
+}
+bool geq(const string& a, const string& b) {  // |a| >= |b| ?
+    if (a.size() != b.size()) return a.size() > b.size();
+    return a >= b;
+}
+Big add(Big a, Big b) {
+    if (a.neg == b.neg) return {a.neg, bigAdd(a.val, b.val)};  // 同号：加绝对值
+    if (geq(a.val, b.val)) return {a.neg, subAbs(a.val, b.val)};  // 异号：大减小
+    return {b.neg, subAbs(b.val, a.val)};
+}
+Big sub(Big a, Big b) { b.neg = !b.neg; return add(a, b); }  // a-b = a+(-b)
+Big mul(Big a, Big b) {
+    string p = mulAbs(a.val, b.val);
+    if (p == "0") return {false, "0"};
+    return {a.neg != b.neg, p};  // 异号为负
+}
+```
+
 **大数比较**：
 ```cpp
 // 直接用作 sort 的 cmp（前提：无前导零）
@@ -972,6 +1512,336 @@ long long qpow(long long base, long long exp, long long mod) {
     return result;
 }
 ```
+
+### 6.5 大数运算汇总
+
+大数运算 = 模拟手算。记住方向：**加法乘法从右往左（进位往左传），除法取模从左往右（余数往右传）**。
+
+**大数字符串 mod 小整数**（最常用——费马降幂、判整除）：
+```cpp
+// 就是你从左到右读数字的过程，每读一位顺手取一次模
+//   读 "1234"：  1  →  12  →  123  →  1234
+//   每一步都是：老的往左挪一位(×10)，新的填个位(+d)
+//
+// 为什么可以每步取模：余数只关心「除不尽剩多少」，
+//   中间的商全都扔掉不影响最终余数
+// 为什么必须每步取模：字符串可能 10 万位，不取模什么类型都装不下
+//
+long long bigMod(const string& s, long long m) {
+    long long result = 0;
+    for (char c : s) {
+        result = (result * 10 + (c - '0')) % m;
+        //        └挪一位┘  └填个位┘
+    }
+    return result;
+}
+
+// 验算 "1234" % 7（答案 2，因为 1234 = 7×176 + 2）：
+//   '1'：(0×10+1) % 7 = 1
+//   '2'：(1×10+2) % 7 = 12 % 7 = 5
+//   '3'：(5×10+3) % 7 = 53 % 7 = 4
+//   '4'：(4×10+4) % 7 = 44 % 7 = 2  ✓
+//
+// 注意：取模是【从左往右】，跟大数加法【从右往左】相反
+//       因为取模没有进位，不需要 reverse
+```
+
+**大数字符串 ÷ 小整数**（用于进制转换、大数快速幂）：
+```cpp
+// 从左到右，余数带到下一位
+string divSmall(const string& s, int n, int& remainder) {
+    string result;
+    int carry = 0;
+    for (char c : s) {
+        int cur = carry * 10 + (c - '0');
+        result.push_back('0' + cur / n);
+        carry = cur % n;
+    }
+    remainder = carry;
+    // 去前导零
+    int start = 0;
+    while (start + 1 < (int)result.size() && result[start] == '0') start++;
+    return result.substr(start);
+}
+```
+
+**大数快速幂**（指数是字符串，mod p 不是质数时用）：
+```cpp
+bool isZero(const string& s) { return s == "0"; }
+bool isOdd(const string& s) { return (s.back() - '0') % 2 == 1; }
+
+string divBy2(const string& s) {
+    string result;
+    int carry = 0;
+    for (char c : s) {
+        int cur = carry * 10 + (c - '0');
+        result.push_back('0' + cur / 2);
+        carry = cur % 2;
+    }
+    int start = 0;
+    while (start + 1 < (int)result.size() && result[start] == '0') start++;
+    return result.substr(start);
+}
+
+long long qpowBig(long long base, string exp, long long mod) {
+    long long result = 1;
+    base %= mod;
+    while (!isZero(exp)) {
+        if (isOdd(exp)) result = result * base % mod;
+        base = base * base % mod;
+        exp = divBy2(exp);
+    }
+    return result;
+}
+```
+
+**十进制大数快速幂**（推荐，最好写，不需要费马也不需要 divBy2）：
+```cpp
+// 要算 base^exp，但 exp 是 10 万位的字符串，塞不进 qpow 的参数
+//
+// 核心：result 里装的不是指数，是【base 的「已读部分」次方】
+//       读 "123" 的过程：  base^1  →  base^12  →  base^123
+//                          读完1     读完12      读完123
+//
+// 读一位新数字 d 时，指数从 n 变成 n*10+d，对应到 result：
+//       base^n  →  base^(n*10)     就是 result 做 10 次方
+//               →  base^(n*10+d)   再乘上 base^d
+//
+long long qpowDecimal(long long base, const string& exp, long long mod) {
+    long long result = 1;              // base^0 = 1，还没读任何数字
+    base %= mod;
+    for (char c : exp) {
+        int d = c - '0';
+        result = qpow(result, 10, mod);                 // result: base^n → base^(n*10)
+        result = result * qpow(base, d, mod) % mod;     // result: → base^(n*10+d)
+    }
+    return result;
+}
+
+// 验算 2^12（exp="12"，答案 4096）：
+//   读 '1'：result = 1^10 × 2^1 = 2      → 此刻 result = 2^1  ✓
+//   读 '2'：result = 2^10 × 2^2 = 4096   → 此刻 result = 2^12 ✓
+//
+// 跟 bigMod 是同一个骨架：
+//   bigMod       result = result × 10 + d       算的是「n 是多少」
+//   qpowDecimal  result = result ^10 × base^d   算的是「base^n 是多少」
+//   「挪一位」在值上是 ×10，在幂上是 ^10
+//   「加新位」在值上是 +d， 在幂上是 ×base^d
+```
+
+**费马降幂**（指数是字符串，mod p 是质数时用——更快）：
+```cpp
+// 当 p 是质数时：a^n mod p = a^(n mod (p-1)) mod p
+// 用 bigMod 把大数指数变成 long long，再用普通 qpow
+long long exp = bigMod(n, MOD - 1);
+long long ans = qpow(2, exp, MOD);
+```
+
+**什么时候用哪个**：
+
+| 情况 | 方法 |
+|------|------|
+| 指数是 long long | 普通 qpow |
+| 指数是大数字符串 | 十进制大数快速幂（最通用，推荐） |
+| 指数是大数 + mod 是质数 | 费马降幂（最快，但要记公式） |
+| 指数是大数（二进制版，不推荐） | qpowBig（需要 divBy2，慢且复杂） |
+| 需要大数除法的商 | divSmall |
+| 只需要大数除法的余数 | bigMod |
+
+### 6.6 递归下降解析（字符串解析万能法）
+
+遇到"解析复杂字符串"的题（算术表达式、嵌套括号、方程式...），用递归下降。
+
+**核心思路**：看着输入样例，反复问"这个东西由什么组成"，写出文法，每条规则一个函数。
+
+**怎么定义文法**（三步循环）：
+1. 这一层由什么组成？→ 写下来
+2. 组成部分还能拆吗？→ 能就继续问
+3. 拆不动了（数字/单个字符）？→ 结束
+
+**优先级规则**：优先级低的在外面，优先级高的在里面。外面的函数最后算，里面的先算。
+
+**三个经典文法**：
+
+算术表达式（`1+2*3`、`(1+(2*3))`）：
+```
+expr   = term   (('+' | '-') term)*      ← 优先级最低，最后算
+term   = factor (('*' | '/') factor)*    ← 优先级中，先于加减
+factor = '(' expr ')' | 数字              ← 优先级最高，遇括号递归回 expr
+```
+
+字符串解码（`3[a2[bc]]`）：
+```
+decode = item*
+item   = 数字 '[' decode ']' | 字母       ← [] 里面又是 decode，递归
+```
+
+嵌套数组求和（`[1,[2,3],[4,[5,6]]]`）：
+```
+array   = '[' element (',' element)* ']'
+element = 数字 | array                    ← 元素可能又是数组，递归
+```
+
+**代码模板**（算术表达式为例）：
+```cpp
+string s;
+int pos;
+
+// ⚠️ 必须先前向声明！因为 parseFactor 要调用 parseExpr，
+// 但 parseExpr 定义在后面，不声明会报 'parseExpr' was not declared
+int parseExpr();
+int parseTerm();
+int parseFactor();
+
+int parseNumber() {
+    int num = 0;
+    while (pos < (int)s.size() && s[pos] >= '0' && s[pos] <= '9')
+        num = num * 10 + (s[pos++] - '0');
+    return num;
+}
+
+int parseFactor() {
+    if (s[pos] == '(') {
+        pos++;                    // 跳过 '('
+        int val = parseExpr();    // 递归回最外层
+        pos++;                    // 跳过 ')'
+        return val;
+    }
+    return parseNumber();
+}
+
+int parseTerm() {
+    int val = parseFactor();
+    while (pos < (int)s.size() && (s[pos] == '*' || s[pos] == '/')) {
+        char op = s[pos++];
+        int right = parseFactor();
+        if (op == '*') val *= right;
+        else val /= right;
+    }
+    return val;
+}
+
+int parseExpr() {
+    int val = parseTerm();
+    while (pos < (int)s.size() && (s[pos] == '+' || s[pos] == '-')) {
+        char op = s[pos++];
+        int right = parseTerm();
+        if (op == '+') val += right;
+        else val -= right;
+    }
+    return val;
+}
+```
+
+**记忆**：三层函数互相调用——expr 调 term，term 调 factor，factor 遇到 `(` 调回 expr。每层只处理自己那个优先级的运算符。
+
+**互相调用的函数必须前向声明**（递归下降的必踩坑）：
+
+```cpp
+// ❌ 报错：'parseExpr' was not declared in this scope
+int parseFactor() {
+    ... parseExpr() ...   // parseExpr 还没定义
+}
+int parseExpr() { ... parseFactor() ... }
+
+// ✅ 开头先声明一遍，下面定义顺序随便
+int parseExpr();
+int parseTerm();
+int parseFactor();
+```
+
+原因：C++ 编译器从上往下扫，调用时函数必须"已经出现过"。前向声明 = 提前告诉编译器签名，函数体后面再补。
+
+**例外**：写在 `class` 里的成员函数不受顺序限制（编译器会先扫完整个类）。所以 LeetCode 那种 `class Solution` 里互相调用不用声明，但机试写全局函数就必须声明。
+
+### 6.6.1 递归下降四大必踩坑
+
+写完对着这四条检查，全中过。
+
+**坑 1：`pos` 传值 → 位置推进全丢（最致命，结果全错但不报错）**
+
+```cpp
+// ❌ 参数 pos 遮蔽了全局 pos，函数内推进的是副本
+int pos = 0;
+int parseExpr(int pos) {
+    int val = parseTerm(pos);   // parseTerm 内部把 pos 推进了，但返回后调用方的 pos 没变
+    ...
+}
+
+// ✅ 用全局 pos，函数不带参数
+int pos;
+int parseExpr() {
+    int val = parseTerm();
+    ...
+}
+// 或者传引用：int parseExpr(int& pos)
+```
+
+**坑 2：while 条件只判 `pos < l`，没检查"当前字符是不是我这层管的"**
+
+```cpp
+// ❌ 遇到不归自己管的字符也进循环，会把别人的字符吃掉
+while (pos < l) {
+    char op = s[pos]; pos++;
+    int right = parseTerm();
+    if (op == '+') ...        // op 是 '>' 时什么都不做，但 pos 已经被推进了
+}
+
+// ✅ 每层只在"当前字符是自己的运算符"时继续
+while (pos < l && (s[pos] == '+' || s[pos] == '-')) {
+    char op = s[pos]; pos++;
+    ...
+}
+```
+
+这个条件还**顺带解决了括号**——遇到 `)` 时所有中间层都会退出，把 `)` 留给 factor 层去跳过。
+
+**坑 3：中间层也去处理括号**
+
+```cpp
+// ❌ term 层不该碰括号
+int parseTerm() {
+    if (s[pos] == '(') { pos++; int r = parseTerm(); pos++; return r; }  // 错，还跳过了优先级更低的层
+    ...
+}
+
+// ✅ 括号只在 factor（最底层）处理，且递归回 expr（最外层）
+int parseFactor() {
+    if (s[pos] == '(') {
+        pos++;                  // 跳过 '('
+        int r = parseExpr();    // 递归回最外层，重走完整优先级
+        pos++;                  // 跳过 ')'
+        return r;
+    }
+    return parseNumber();
+}
+```
+
+**为什么中间层不用管括号**：factor 会把括号处理干净，返回一个纯数字给上层。term 只管"调 factor 拿操作数，看有没有 `*` `/`"。
+
+**坑 4：循环开头多了个 `pos++`**
+
+```cpp
+// ❌ parseTerm() 返回时 pos 已经指向运算符了，不需要先跳
+while (...) {
+    pos++;                // 多余，跳掉了运算符本身
+    char op = s[pos];
+```
+
+**多字符运算符**（如 `<<` `>>`）要跳两格：
+```cpp
+char op = s[pos];
+pos += 2;                 // 跳过 "<<" 或 ">>"
+```
+
+---
+
+**检查清单**（写完 30 秒过一遍）：
+1. `pos` 是全局的吗？函数签名里没有 `int pos` 吧？
+2. 每个 while 条件都有 `&& (s[pos] == 我这层的运算符)` 吗？
+3. 括号只在最底层出现，且调的是最外层函数吗？
+4. 循环里第一句是 `char op = s[pos]` 而不是 `pos++` 吗？
+5. 所有函数都前向声明了吗？
 
 ---
 
@@ -1108,6 +1978,33 @@ q = queue<int>();
 
 ---
 
+## 附：高频手滑错误清单
+
+写完代码后花 1 分钟，对着这个表逐条检查：
+
+| 错误 | ❌ 错的写法 | ✅ 对的写法 |
+|------|-----------|-----------|
+| getline 参数顺序 | `cin(getline, s)` | `getline(cin, s)` |
+| 从错误的流读 | `while(cin >> word)` | `while(iss >> word)` |
+| 求最小值初始化 | `int minVal = 0;` | `int minVal = INT_MAX;` |
+| 求最大值初始化 | `int maxVal = INT_MAX;` | `int maxVal = INT_MIN;`（或 0，看数据）|
+| `cin >>` 后接 getline | 直接 getline（读到空行） | 中间加 `cin.ignore()` |
+| size() 跟 int 比较 | `if (s.size() > n)` | `if ((int)s.size() > n)` |
+| 变量名混用 | 用 b 时写了 `a[i]` | 检查每个下标对应哪个数组 |
+| 循环体漏操作 | 忘了 `i--` / `push_back` / `return` | 逐行确认 |
+| 累加写成覆盖 | `res[i] = x;` | `res[i] += x;` |
+| 赋值 vs 比较 | `if (a = 0)` | `if (a == 0)` |
+| 变量名相同 | 函数名和数组名都叫 `dp` | 起不同的名字 |
+| 多组数据没清空 | 上一组的数据残留 | 每组开头 memset / clear |
+
+**检查顺序**（30 秒够了）：
+1. 变量名——每个下标对应的数组对吗？
+2. 初始化——求 min 用 INT_MAX 了吗？多组数据清空了吗？
+3. 循环体——`i--`、`push_back`、`return` 都写了吗？
+4. 边界——下标会越界吗？`size()` 强转了吗？
+
+---
+
 ## 附：速查索引
 
 | 我要... | 看哪里 |
@@ -1128,6 +2025,9 @@ q = queue<int>();
 | 数据类型选什么 | 1.1 |
 | memset 初始化 | 6.1 |
 | 大数模板 | 6.4 |
+| 区间 DP 模板 | 板子 3.11 |
+| 矩阵旋转/转置 | 6.2.5 |
+| 递归下降解析表达式 | 6.6（坑见 6.6.1）|
 ---
 
 
@@ -1145,81 +2045,267 @@ q = queue<int>();
 拿到任何一道题，按顺序问自己：
 
 ```
-Q1: 题目里有没有"图"的结构？
-    （节点+边、网格、关系、连通、路径...）
-    ├── 有 → 去第 2 节（图论）
+Q1: 输入是不是「一个数组 / 一个字符串」？
+    （没有节点边、没有网格，就是一列数或一串字符）
+    ├── 是 → 去第 2 节（序列题）        ← 机试第一题最常见
+    └── 不是 ↓
+
+Q2: 有没有「图」的结构？
+    （节点+边、网格、关系、连通、路径、状态转移...）
+    ├── 有 → 去第 3 节（图论）
     └── 没有 ↓
 
-Q2: 是不是求"最优值"？（最大/最小/最长/最短/最少...）
-    ├── 有，且能拆成子问题 → 去第 3 节（DP）
-    ├── 有，且每步选当前最好就行 → 去第 4 节（贪心）
-    └── 没有 ↓
+Q3: 是不是求「最优值」？（最大/最小/最长/最短/最少/方案数）
+    ├── 是，且能拆成子问题 → 去第 4 节（DP）
+    ├── 是，且每步选当前最好就行 → 去第 5 节（贪心）
+    └── 不是 ↓
 
-Q3: 是不是"搜索所有方案"或"构造一个满足条件的东西"？
-    ├── 是 → 去第 5 节（搜索/回溯）
-    └── 没有 ↓
-
-Q4: 是不是纯粹的数据操作/模拟/数学计算？
-    └── 是 → 去第 6 节（数学/模拟/数据结构）
+Q4: 是不是「搜索所有方案」或「构造一个满足条件的东西」？
+    ├── 是 → 去第 6 节（搜索/回溯）
+    └── 不是 → 去第 7 节（数学/模拟/数据结构）
 ```
 
-**关键**：很多题可以归到多个类别。比如"最短路径"既是图论又是求最优——这时候图论特征更明显，优先按图论处理。
+**判断优先级**：
+**有图结构就按图论走**（"最短路径"既是图论又是求最优，图论特征更明显）；
+**输入是单个数组/字符串就先看第 2 节**（那里的方法比通用 DP 更直接）。
 
 ---
 
-## 2. 图论：看到"节点+边"就进这里
+## 2. 序列题：一个数组 / 一个字符串
 
-### 2.1 先判断图的类型
+> 机试第一题最常出这类。核心只有一刀。
+
+### 2.1 第一刀：连续 还是 不连续
+
+先把概念钉死：
+
+| 英文 | 中文 | 连续吗 | 原串 `abcde` 的例子 |
+|------|------|--------|-------------------|
+| substring / subarray | 子串 / 子数组 | **连续** | `bcd` ✓ ，`bce` ✗ |
+| subsequence | 子序列 | **可以跳** | `bce` ✓ ，`ace` ✓（顺序不能乱）|
+
+```
+问「连续的一段」（子串 / 子数组 / 区间 / 窗口）
+    → 前缀和 / 双指针 / 单调栈 / Kadane        见 2.2
+
+问「可以跳着选」（子序列 / 选或不选）
+    → 基本都是 DP                              见 2.3
+```
+
+**最容易混的一对**：
+
+| | 连续吗 | 不匹配时怎么转移 |
+|---|--------|----------------|
+| 最长公共**子串** | 连续 | `dp[i][j] = 0`（断了就归零）|
+| 最长公共**子序列**（LCS）| 可跳 | `dp[i][j] = max(dp[i-1][j], dp[i][j-1])` |
+
+**只差一行，意思完全不同。**
+
+### 2.2 连续区间类
+
+| 方法 | 一句话原理 | 什么时候用 |
+|------|-----------|-----------|
+| **前缀和** | 先把「从头累加到 i」全算好存起来，任意区间和 = 两个前缀和**相减** | 反复查询「区间和」<br/>和为 K 的子数组、二维子矩阵和 |
+| **差分数组** | 只在区间**头尾**打标记，所有操作做完后做一次前缀和还原 | 反复「区间加值」，最后统一查询<br/>区间修改、会议室重叠 |
+| **双指针 / 滑动窗口** | 右指针不断扩大窗口，一旦满足条件就收缩左指针，**一趟扫完** | 找最长/最短满足条件的连续段<br/>和≥K的最短子数组、无重复最长子串 |
+| **Kadane** | 从左往右累加，**累加和一旦变负就丢掉重开** | 最大子数组和<br/>最大连续子序列和（+ 记首尾）|
+| **单调栈** | 栈里维持单调，新元素把破坏单调性的栈顶弹出，**弹出那一刻就是它的答案** | 「下一个更大/更小的元素在哪」<br/>接雨水、柱状图最大矩形、每日温度 |
+| **单调队列** | 队列维持单调，队头就是最值；**过期的从队头删，比新元素小的从队尾删** | 滑动窗口内的最值<br/>窗口最大值 |
+| **KMP** | 匹配失败时**不回退文本指针**，靠 next 数组决定模式串跳到哪 | 在长文本里找子串<br/>字符串匹配、统计出现次数 |
+
+**双指针 vs 单调栈怎么分**：
+
+```
+问「一段区间」满不满足条件      → 双指针（窗口扩右缩左）
+问「某个元素」左右第一个更大的  → 单调栈（栈里存下标，弹出时结算）
+```
+
+### 2.3 不连续 / 选或不选类（全是 DP）
+
+| 方法 | 全称 | 一句话原理 |
+|------|------|-----------|
+| **LIS** | **最长递增子序列**<br/>Longest Increasing Subsequence | 对每个位置，看它**前面所有比它小的数**，接在最长的那个后面 |
+| **LIS 计数** | — | 同上，额外记「有几条能达到这个长度」：更优就重置，等优就累加 |
+| **LCS** | **最长公共子序列**<br/>Longest Common Subsequence | 两串逐字符比：相同就 +1；不同就从「去掉 a 末尾」和「去掉 b 末尾」里**取大的** |
+| **最长公共子串** | Longest Common Substring | 同 LCS，但不同时**直接归零**（因为必须连续，断了就重新开始） |
+| **编辑距离** | Edit Distance | 相同就跳过；不同就在「改 / 删 / 加」三种操作里**选最省的** |
+| **背包** | Knapsack | 对每个物品，比较「不选」和「选了 + 剩余容量的最优解」 |
+
+| 方法 | 状态定义 | 答案在哪 |
+|------|---------|---------|
+| LIS | `dp[i]` = 以 i **结尾**的最长长度 | 全表扫 max（最长的可能结尾在任何位置）|
+| LCS | `dp[i][j]` = a 前 i 个、b 前 j 个的 LCS 长度 | `dp[n][m]` |
+| 最长公共子串 | `dp[i][j]` = 以 a[i]、b[j] **结尾**的公共长度 | 全表扫 max |
+| 编辑距离 | `dp[i][j]` = a 前 i 个改成 b 前 j 个的最少步数 | `dp[n][m]` |
+| 背包 | `dp[j]` = 容量 j 时的最优值 | `dp[W]` |
+
+> **凡是状态定义里有「以 i 结尾」的，答案都要全表扫一遍**，不能只看最后一格。
+
+**「求最优解的方案数」通用套路**：在原 DP 旁边**并行**加一个计数数组，
+转移时「**更优就重置，等优就累加**」。不只 LIS——最短路条数、最大子段和的取法数，都是这个。
+
+### 2.4 通用工具
+
+| 方法 | 一句话原理 | 什么时候用 |
+|------|-----------|-----------|
+| **二分查找** | 每次砍掉一半，看中间值决定往左还是往右 | 有序数组找位置 / `lower_bound` `upper_bound` |
+| **二分答案** | **对答案本身二分**，写个 `check(x)` 判断 x 可不可行 | 「最大值最小化」「最小值最大化」|
+| **排序 + 贪心** | 先按某个维度排好序，再从头到尾每次选当前最优 | 区间调度、按某维排完依次处理 |
+| **哈希表计数** | 用 `map` 或数组记每个值出现几次，O(1) 查 | 出现次数、去重、两数之和 |
+
+**二分答案的判据**：答案有单调性（x 可行 ⟹ x+1 也可行），且**验证一个答案比直接求答案容易**。
+
+### 2.5 一页速查
+
+| 题面怎么说 | 用什么 |
+|-----------|--------|
+| 「区间和」被反复查询 | 前缀和 |
+| 「区间加值」被反复执行 | 差分数组 |
+| 「最长/最短的**连续**子数组，满足 X」 | 双指针（元素非负时）|
+| 「最大**连续**子数组和」 | Kadane |
+| 「下一个比它大的元素」「能接多少水」 | 单调栈 |
+| 「滑动窗口的最大值」 | 单调队列 |
+| 「在文本里找模式串出现几次」 | KMP |
+| 「最长**递增**子序列」（可跳）| LIS |
+| 「两个串的最长公共**子序列**」 | LCS |
+| 「两个串的最长公共**子串**」 | LCS 变体，不匹配归零 |
+| 「把 A 改成 B 最少几步」 | 编辑距离 |
+| 「选一些数，和不超过 W，价值最大」 | 01 背包 |
+| 「最大值最小化 / 最小值最大化」 | 二分答案 |
+
+---
+
+## 3. 图论：看到"节点+边"就进这里
+
+> 完整版见 `图论总纲.md`（含 SPFA、Bellman-Ford、0-1 BFS、Prim 等）
+
+### 3.1 先判断是不是图论题
+
+看到这些词就是：节点/边/路径/连通/网络/城市和道路、**网格**（格子是节点、上下左右是边）、依赖关系/先修课、状态转移（每步有限选择）。
 
 | 题面信号 | 图的类型 |
 |---------|----------|
-| "A 和 B 相连"、"无向边"、"双向路" | 无向图 |
+| "A 和 B 相连"、"双向路" | 无向图 |
 | "A 指向 B"、"单向路"、"先修课" | 有向图 |
-| "网格"、"矩阵"、"地图"、上下左右 | 网格图（隐式图） |
+| "网格"、"矩阵"、"地图" | 网格图（隐式图，不用建图）|
 | "边有权重/距离/花费" | 带权图 |
 
-### 2.2 图论算法选择
+### 3.2 问的是什么类型的问题
 
 ```
-是图论题 →
-├── 问的是"是否连通"/"有几个连通分量"/"有没有环"？
-│   └── 并查集
-│
-├── 问的是"最短路径/最小距离"？
-│   ├── 边有权重 → Dijkstra（堆优化）
-│   └── 边无权重（或权重都是 1）→ BFS
-│
-├── 问的是"连接所有点的最小代价"？
-│   └── 最小生成树 → Kruskal（排序+并查集）
-│
-├── 问的是"排序/先后顺序/依赖关系"？
-│   ├── 只要顺序 → 拓扑排序
-│   └── 还要最早/最晚完成时间 → 关键路径（拓扑+DP）
-│
-├── 问的是"有几个岛屿"/"填充区域"？
-│   └── 网格 DFS/BFS（flood fill）
-│
-└── 问的是"遍历所有节点"/"路径存在性"？
-    └── DFS
+├── 最短距离 / 最少步数 / 最小代价     → 最短路（见 2.3）
+├── 连通所有点的最小代价               → 最小生成树（Kruskal）
+├── 是否连通 / 几个连通块 / 有没有环   → 并查集
+├── 排出合法顺序（有依赖）             → 拓扑排序
+├── 最早/最晚完成时间                  → 关键路径（拓扑 + DP）
+├── 数岛屿 / 填充区域 / 遍历           → DFS / BFS（flood fill）
+└── 删掉哪个点会断开                   → 割点（Tarjan，或枚举删点跑 DFS）
 ```
 
-### 2.3 每个算法一句话
+### 3.3 最短路：两步定算法
 
-| 算法 | 干什么的 | 核心思路 |
-|------|---------|---------|
-| **并查集** | 判连通、检测环 | 每个节点指向父节点，find 找根，unite 合并 |
-| **BFS** | 无权图最短路 | 队列，一层一层扩展，第一次到达就是最短 |
-| **DFS** | 遍历、回溯、flood fill | 递归/栈，一条路走到底再回头 |
-| **Dijkstra** | 带权图最短路（非负权）| 小顶堆，每次取最近的点，更新邻居 |
-| **Kruskal** | 最小生成树 | 边排序，从小到大加，用并查集判是否成环 |
-| **拓扑排序** | 有向无环图排序 | 每次取入度为 0 的点，删掉它，更新邻居入度 |
-| **关键路径** | 项目最短工期 | 拓扑排序 + DP 求最长路径 |
+**第 1 问：单源还是全源？**
+
+```
+"从 X 到其他所有点" / "从 X 到 Y"   → 单源  → 往下走
+"任意两点之间" / "所有点对"          → 全源  → Floyd（n≤500）
+```
+
+> 这一步最容易漏。看到"某点到其他点"就该立刻排除 Floyd。
+
+**第 2 问：边权长什么样？**
+
+| 边权 | 算法 | 复杂度 | 容器 |
+|------|------|--------|------|
+| **全相等**（都是 1）| BFS | O(V+E) | `queue` |
+| 只有 0 和 1 | 0-1 BFS | O(V+E) | `deque`（不熟就用 Dijkstra）|
+| **任意非负** | **Dijkstra** | O(E log V) | `priority_queue` |
+| **有负权** | **SPFA** | O(VE) | `queue` + `inQueue` 标记 |
+| 限制"最多经过 k 条边" | Bellman-Ford | O(kE) | 无，松弛 k 轮 |
+
+**不确定就用 Dijkstra**——非负权万能，多个 log 而已。
+
+**为什么 Dijkstra 不能有负权**：它假设「取出的最小距离点已定型」。负权会打破这个——
+
+```
+1 --5--> 2      Dijkstra 先定型 2（dist=5）
+1 --2--> 3      但 1→3→2 = 2+(-4) = -2 更小
+3 --(-4)--> 2   2 已标记 vis，改不了了 → 答案错
+```
+
+**给所有边加常数变正数？不行。** 一条 k 条边的路径被加了 k×C，边数多的被罚得狠，最短路径本身会变。
+
+### 3.4 加状态维度（高频变体）
+
+**信号**：同一个位置，「到达时的状态不同」会导致「后续走法/代价不同」。
+
+```
+dist[x]  →  dist[x][state]
+```
+
+| 题目条件 | 加什么 | 第二维大小 |
+|---------|--------|-----------|
+| 可以消除 k 个障碍 / 有 k 张券 | `used` | k+1 |
+| 代价随状态循环变化 | `state` | 状态数 |
+| 拿到钥匙才能开门 | `hasKey` | 2 |
+| 最多转 k 次弯 | `turns` | k+1 |
+
+**改造只有 5 处，框架一个字不动**：
+
+```
+① dist[N]  →  dist[N][K]
+② vis[N]   →  vis[N][K]
+③ 队列节点加一个字段
+④ 转移时算出 newState，用 dist[v][newState] 比较和更新
+⑤ 答案 = min(dist[终点][0..K])
+```
+
+**没有回溯**——`dist[u][0]` 和 `dist[u][1]` 是两个独立格子，互不污染，不需要撤销。
+约束靠「转移只能 `used → used+1`，不能倒回去」保证。
+
+### 3.5 每个算法一句话
+
+| 算法 | 干什么 | 核心 |
+|------|--------|------|
+| **并查集** | 判连通、检测环、数连通块 | `find` 找根（路径压缩），`unite` 合并 |
+| **BFS** | 边权全相等的最短路 | `queue`，**判重 → 赋值 → 入队** |
+| **Dijkstra** | 非负权最短路 | 小顶堆，出队 `vis` 判重，取出即定型 |
+| **SPFA** | 有负权的最短路 | 普通队列，`inQueue` 标记，**可重复入队** |
+| **Floyd** | 所有点对最短路 | 三层循环，**k 必须最外层** |
+| **Kruskal** | 最小生成树 | 边排序 + 并查集，凑够 n-1 条 |
+| **拓扑排序** | 有向无环图排顺序 | 入度为 0 入队，排出的点数 < n 就是有环 |
+| **DFS** | 遍历、回溯、flood fill | 递归，走过就标记 |
+
+### 3.6 判环的三种情况
+
+| 图的类型 | 方法 |
+|---------|------|
+| 无向图 | 并查集：加边前两端已在同一集合 → 有环 |
+| 有向图 | 拓扑排序：排出的点数 < n → 有环 |
+| 带权图判负环 | SPFA：某点入队 ≥ n 次 → 有负环 |
+
+### 3.7 一页总表
+
+| 我要干什么 | 用什么 | 关键点 |
+|-----------|--------|--------|
+| 单源最短路，边权全 1 | BFS | 判重→赋值→入队 |
+| 单源最短路，边权非负 | Dijkstra | `vis` 判重，`greater` 是小顶堆 |
+| 单源最短路，有负权 | SPFA | `inQueue`，可重复入队 |
+| 限制"最多 k 条边" | Bellman-Ford | 松弛 k 轮 |
+| 全源最短路 | Floyd | k 最外层 |
+| 判负环 | SPFA / Floyd | 入队≥n次 / `dist[i][i]<0` |
+| 最小生成树 | Kruskal | 排边+并查集，凑 n-1 条 |
+| 判连通 / 数连通块 | 并查集 | `init` 别忘 |
+| 依赖顺序 | 拓扑排序 | 入度 0 入队 |
+| 最早完成时间 | 拓扑 + DP | `e[v]=max(e[v], e[u]+w)` |
+| 网格数岛屿 | DFS/BFS | flood fill，走过就改掉 |
+| 带特殊能力的最短路 | 上面任一 + 状态维度 | `dist` 多一维 |
 
 ---
 
-## 3. DP：看到"最优"且有"重叠子问题"
+## 4. DP：看到"最优"且有"重叠子问题"
 
-### 3.1 怎么判断是 DP 题
+### 4.1 怎么判断是 DP 题
 
 满足以下**全部**条件：
 
@@ -1231,14 +2317,14 @@ Q4: 是不是纯粹的数据操作/模拟/数学计算？
 
 **三个条件缺一个就不是 DP**：条件 1 告诉你目标是什么，条件 2 告诉你能拆，条件 3 告诉你拆了之后 DP 比暴力快。
 
-### 3.2 DP 四步走
+### 4.2 DP 四步走
 
 1. **定义状态**：`dp[i]` 或 `dp[i][j]` 代表什么？
 2. **写转移方程**：`dp[i]` 怎么从之前的状态算出来？
 3. **确定边界**：`dp[0]`、`dp[0][0]` 是什么？
 4. **确定遍历顺序**：从小到大？从大到小？
 
-### 3.3 常见 DP 类型速查
+### 4.3 常见 DP 类型速查
 
 | 题面信号 | DP 类型 | 状态定义 | 转移方程 |
 |---------|---------|---------|---------|
@@ -1250,8 +2336,22 @@ Q4: 是不是纯粹的数据操作/模拟/数学计算？
 | "最大子数组和" | Kadane | `dp[i]` = 以 i 结尾的最大子数组和 | `dp[i] = max(dp[i-1]+a[i], a[i])` |
 | "三角形/网格走路求最大" | 网格DP | `dp[i][j]` = 到 (i,j) 的最大值 | `dp[i][j] = a[i][j] + max(来的方向)` |
 | "爬楼梯"、"走台阶" | 线性DP | `dp[i]` = 到第 i 阶的方案数 | `dp[i] = dp[i-1] + dp[i-2]` |
+| "只能操作相邻"、"删掉后左右变邻居" | 区间DP | `dp[i][j]` = 处理完区间 [i,j] 的最优值 | 枚举 k：`dp[i][k-1] + dp[k+1][j] + 代价`，**短区间先算**（板子见 3.11）|
 
-### 3.4 分治 vs DP vs 贪心
+**背包问题的本质：从一堆东西里选一部分，满足某个限制，求最优。**
+
+看到"选/不选"的二元决策 + 某种上限/目标 → 背包。
+
+不同的皮，同一个背包：
+
+| 题面 | "物品" | "容量" | "求什么" |
+|------|--------|--------|---------|
+| 经典背包 | 物品 | 背包重量 | 最大价值 |
+| 零钱兑换 | 硬币面值 | 目标金额 | 最少硬币数 |
+| 分两组差最小 | 数组元素 | sum/2 | 最接近的和 |
+| 能不能凑出某个和 | 数组元素 | 目标和 | 能/不能（bool） |
+
+### 4.4 分治 vs DP vs 贪心
 
 三个都是"把大问题拆成小问题"，区别在**拆完之后怎么选**：
 
@@ -1282,18 +2382,37 @@ Q4: 是不是纯粹的数据操作/模拟/数学计算？
 
 ---
 
-## 4. 贪心：每步选当前最好的
+## 5. 贪心：每步选当前最好的
 
-### 4.1 怎么判断能用贪心
+### 5.1 怎么判断能用贪心
 
-核心：**局部最优选择能导致全局最优**。
+核心：**当前选了最好的，后面不会因此更惨 → 贪心。当前选了最好的，后面可能因此更惨 → DP。**
 
 判断方法：
-1. 想一个贪心策略
-2. 试着举反例
-3. 举不出来 → 大概率能用
+1. 找到"决策点"——哪里需要做选择？
+2. 想一个贪心策略——每次选什么最好？
+3. 验证——这样选会不会让后面更差？举不出反例 → 贪心
 
-### 4.2 常见贪心模式
+**贪心的信号**：
+
+| 信号 | 为什么贪心对 |
+|------|-----------|
+| "最少切换/操作次数" + 资源可复用 | 每次选最远的，不影响后续选择 |
+| "最多不重叠的区间" | 选结束早的，给后面留最多空间 |
+| 每次选择相互独立（选了 A 不妨碍后面选 B） | 天然贪心 |
+
+**不能贪心的信号**：
+
+| 信号 | 为什么不行 |
+|------|-----------|
+| 容量有限 + 选了就占容量（不可复用）| 选了 A 可能放不下 B → DP |
+| 选择之间有依赖 | 选了 A 导致后面只能选 C → DP/搜索 |
+
+**关键区分：资源可复用 vs 不可复用**
+- 代理服务器：选了一个代理，之后还能再选它 → 贪心
+- 01背包：选了一个物品，容量被占了不能再用 → DP
+
+### 5.2 常见贪心模式
 
 | 题面信号 | 贪心策略 |
 |---------|---------|
@@ -1305,9 +2424,9 @@ Q4: 是不是纯粹的数据操作/模拟/数学计算？
 
 ---
 
-## 5. 搜索/回溯：枚举所有可能
+## 6. 搜索/回溯：枚举所有可能
 
-### 5.1 BFS vs DFS 怎么选
+### 6.1 BFS vs DFS 怎么选
 
 ```
 要"最短/最少步数"？
@@ -1326,7 +2445,7 @@ Q4: 是不是纯粹的数据操作/模拟/数学计算？
 | 特点 | 一定找到最短，但内存大 | 不保证最短，但内存小 |
 | 典型 | 迷宫最短路、BFS 构造 | N皇后、全排列、岛屿数量 |
 
-### 5.2 DFS 回溯模板思路
+### 6.2 DFS 回溯模板思路
 
 写之前先回答 5 个问题（来自你的 feedback）：
 1. **输入参数**是什么？（当前状态、路径、层级...）
@@ -1335,7 +2454,124 @@ Q4: 是不是纯粹的数据操作/模拟/数学计算？
 4. **递归怎么展开**？（有哪些选择？）
 5. **回溯需要撤销什么**？（visited 标记、路径...）
 
-### 5.3 剪枝
+**回溯：两个独立的维度，分开判断**
+
+铁律只有一条：**函数返回时，共享状态必须和进入时一模一样**（兄弟分支还要用）。
+
+在此之上有两个独立的选择：
+
+| 维度 | 问什么 | 决定于 |
+|------|--------|--------|
+| **① 谁标记**（callee / caller）| 标记恢复写在函数里还是调用处 | **参数形状** |
+| **② 能否提前 return** | 找到一个解要不要停 | **题目性质** |
+
+---
+
+**维度 ①：callee 标记 还是 caller 标记**
+
+判断标准：**dfs 的参数能不能说明"我这一步选了什么"**。
+
+```cpp
+dfs(int cur)              // 参数=我在哪个点 → 函数自己知道标记谁 → callee
+dfs(vector<int>& nums)    // 参数=整个集合，看不出这步选了啥 → caller
+```
+
+```cpp
+// callee 标记：函数进门标记自己，出门恢复自己
+void dfs(int cur) {
+    vis[cur] = true;
+    ...
+    vis[cur] = false;
+}
+dfs(i);                        // 调用方什么都不用管
+
+// caller 标记：调用方在前后 push/pop
+path.push_back(val);
+dfs(path);
+path.pop_back();
+```
+
+**为什么数字链必须 caller**：一对 `(i,j)` 能产生 `sum` 和 `diff` 两个候选，
+但 `dfs(nums, depth)` 的参数里没有"我选了哪个"，函数进门不知道该标记什么。
+
+---
+
+**维度 ②：能不能提前 return**
+
+| 题目求什么 | 找到一个解之后 | 提前 return |
+|-----------|--------------|------------|
+| 最值 / 计数 | 还得比别的路径 | ❌ 不行，会漏解 |
+| 存在性（返回 bool）| 收工 | ✅ 可以（先恢复状态再 return）|
+
+---
+
+**两个维度任意组合**
+
+| | 不能提前 return | 能提前 return |
+|---|---|---|
+| **callee** | 超级问号 `dfs(place)` 求最大金币 | 迷宫可达 `bool dfs(x,y)` |
+| **caller** | 全排列输出所有方案 `dfs(path)` | 数字链 `bool dfs(nums)` |
+
+---
+
+**模板 A：callee + 不能 return**（求最值最常见）
+
+回溯代码统一放函数末尾，用 `if-else` 代替中途 `return`，保证只有一个出口：
+
+```cpp
+void dfs(int cur, int depth) {
+    vis[cur] = true;
+    sum += gain(cur);
+
+    if (depth == n) {
+        ans = max(ans, sum);        // base case 只更新答案，不 return
+    } else {
+        for (int i = 0; i < n; i++)
+            if (!vis[i]) dfs(i, depth + 1);
+    }
+
+    sum -= gain(cur);               // 回溯统一写在末尾
+    vis[cur] = false;
+}
+```
+
+**模板 B：caller + 能 return**
+
+```cpp
+bool dfs(vector<int>& path, int depth, int maxDepth) {
+    if (剪枝条件) return false;
+    if (depth == maxDepth) return 是否达成;
+
+    for (每个候选 val) {
+        path.push_back(val);
+        bool found = dfs(path, depth + 1, maxDepth);
+        path.pop_back();            // 先恢复
+        if (found) return true;     // 再返回
+    }
+    return false;
+}
+```
+
+`pop_back()` 必须写在 `if (found)` **之前**。写成 `if (dfs(...)) return true; pop();`
+成功时状态是脏的，只有"之后不再用这个状态"才碰巧安全。
+
+---
+
+**三个高频错误**
+
+```cpp
+// ❌ 回溯写在 for 里，恢复的是子节点的状态（该由 dfs(i) 自己恢复）
+for (int i = 0; i < n; i++)
+    if (!vis[i]) { dfs(i, depth+1); vis[i] = false; }
+
+// ❌ base case 直接 return，状态没恢复
+if (depth == n) { ans = max(ans, sum); return; }
+
+// ❌ 求最值时提前 return，漏掉后面的路径
+if (dfs(...)) return;
+```
+
+### 6.3 剪枝
 
 搜索太慢时加剪枝：
 - **可行性剪枝**：当前路径已经不可能满足条件，直接 return
@@ -1345,9 +2581,9 @@ Q4: 是不是纯粹的数据操作/模拟/数学计算？
 
 ---
 
-## 6. 其他：数学/模拟/数据结构
+## 7. 其他：数学/模拟/数据结构
 
-### 6.1 数学题信号
+### 7.1 数学题信号
 
 | 题面信号 | 算法 |
 |---------|------|
@@ -1358,7 +2594,7 @@ Q4: 是不是纯粹的数据操作/模拟/数学计算？
 | "N 进制转换" | 除基取余法 |
 | "超大数字（100位+）" | 大数模板（string） |
 
-### 6.2 数据结构题信号
+### 7.2 数据结构题信号
 
 | 题面信号 | 用什么 |
 |---------|--------|
@@ -1369,7 +2605,7 @@ Q4: 是不是纯粹的数据操作/模拟/数学计算？
 | "构建二叉树"、"遍历" | 递归建树 |
 | "查找/插入有序" | BST |
 
-### 6.3 模拟题信号
+### 7.3 模拟题信号
 
 | 题面信号 | 做法 |
 |---------|------|
@@ -1380,7 +2616,7 @@ Q4: 是不是纯粹的数据操作/模拟/数学计算？
 
 ---
 
-## 7. 易混淆对比
+## 8. 易混淆对比
 
 ### 并查集 vs DFS 判连通
 
@@ -1404,9 +2640,28 @@ Q4: 是不是纯粹的数据操作/模拟/数学计算？
 | 时间复杂度 | O(V+E) | O((V+E)logV) |
 | 什么时候用 | "最少步数"、每步代价相同 | "最短距离"、每步代价不同 |
 
+### 什么时候把额外信息加进节点（多维状态）
+
+普通最短路：节点 = `(x, y)`。但如果有某个信息**影响后续走法**，就必须把它加进节点定义。
+
+**判断方法**：同一个位置，到达时状态不同，后续代价是否不同？
+- 不同 → 把状态加进节点，它们是不同的节点
+- 相同 → 不需要加
+
+**常见场景**：
+
+| 题目条件 | 需要加进节点的信息 | 节点定义 |
+|---------|-------------------|---------|
+| 代价随步数/状态变化 | 当前状态 | `(x, y, state)` |
+| 有钥匙才能开门 | 有没有钥匙 | `(x, y, hasKey)` |
+| 奇偶步代价不同 | 走了奇数还是偶数步 | `(x, y, parity)` |
+| 最多转 k 次弯 | 已经转了几次 | `(x, y, turns)` |
+
+加了之后，dist 数组从 `dist[x][y]` 变成 `dist[x][y][state]`，其他跟普通 Dijkstra 一样。
+
 ---
 
-## 8. 终极决策流程图
+## 9. 终极决策流程图
 
 ```
 拿到题 →
@@ -1445,7 +2700,7 @@ Q4: 是不是纯粹的数据操作/模拟/数学计算？
 
 ---
 
-## 9. 考场实战建议
+## 10. 考场实战建议
 
 1. **读题 2 分钟**：划出关键词（最短、最大、连通、所有方案...），对照上面的信号表
 2. **想算法 1 分钟**：走一遍决策流程图
@@ -1509,6 +2764,177 @@ void dijkstra(int s, int n) {
     }
 }
 ```
+
+### 3.2.4 SPFA（有负权时用）
+
+Dijkstra 不能处理负权，负权就用这个。是 Bellman-Ford 的队列优化版：
+**只有距离被更新过的点，才可能让它的邻居变短**，所以只把这些点放队列里。
+
+```cpp
+int dist[N];
+bool inQueue[N];        // 这个点在不在队列里（不是"访问过"）
+int cnt[N];             // 每个点入队几次，用来判负环
+
+bool spfa(int s, int n) {
+    memset(dist, 0x3f, sizeof dist);
+    memset(inQueue, false, sizeof inQueue);
+    memset(cnt, 0, sizeof cnt);
+
+    queue<int> q;                    // 普通队列，不是优先队列
+    dist[s] = 0;
+    q.push(s);
+    inQueue[s] = true;
+
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+        inQueue[u] = false;          // 出队了，标记清掉（还能再进来）
+
+        for (int i = 0; i < (int)adj[u].size(); i++) {
+            int v = adj[u][i].first;
+            int w = adj[u][i].second;
+            if (dist[u] + w < dist[v]) {
+                dist[v] = dist[u] + w;
+                if (!inQueue[v]) {   // 不在队里才入队，在队里就不用重复放
+                    q.push(v);
+                    inQueue[v] = true;
+                    cnt[v]++;
+                    if (cnt[v] >= n) return false;   // 入队 n 次 → 有负环
+                }
+            }
+        }
+    }
+    return true;                     // 没有负环
+}
+```
+
+**跟 Dijkstra 的三处区别**：
+
+| | Dijkstra | SPFA |
+|---|---------|------|
+| 容器 | `priority_queue` | 普通 `queue` |
+| 标记 | `vis`：出队即定型，**不再入队** | `inQueue`：**可以反复入队** |
+| 负权 | ✗ | ✓ |
+
+**关键**：SPFA 里一个点可以多次入队——它的距离会被反复刷新。Dijkstra 出队就定型了。
+
+**判负环**：某点入队 ≥ n 次（正常最多 n-1 次）。
+
+**限制"最多经过 k 条边"** 用朴素 Bellman-Ford（把松弛轮数改成 k）：
+
+```cpp
+for (int i = 1; i <= k; i++) {              // 松弛 k 轮 = 最多走 k 条边
+    memcpy(backup, dist, sizeof dist);      // 用上一轮的值，防止串联
+    for (每条边 (u,v,w))
+        dist[v] = min(dist[v], backup[u] + w);
+}
+```
+
+### 3.2.5 Floyd（所有点对最短路）
+
+```cpp
+long long dist[N][N];   // 初始化为邻接矩阵，不通的填 0x3f3f3f3f，dist[i][i]=0
+
+for (int k = 1; k <= n; k++)              // 中转点，必须在最外层！
+    for (int i = 1; i <= n; i++)          // 起点
+        for (int j = 1; j <= n; j++)      // 终点
+            dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+```
+
+O(n³)，n ≤ 500 左右能过。**k 必须是最外层循环**，写错位置结果就是错的。
+
+**关键性质（很多题的钥匙）**：最外层的 `k` 不是"第几轮"，而是**"允许拿哪些点当中转站"**。
+
+```
+跑完 k=1..t 之后：dist[i][j] = 只允许经过 {1,...,t} 中转的最短路
+```
+
+所以 Floyd 是「**逐步放开中转点**」的过程，可以中途取用。
+
+**什么时候用 Floyd 而不是 Dijkstra**：
+
+| 需求 | 用什么 |
+|------|--------|
+| 单个起点到所有点 | Dijkstra O((V+E)logV) |
+| 所有点对之间 + n 小（≤500） | Floyd O(n³)，好写 |
+| 所有点对 + n 大 | 跑 n 次 Dijkstra |
+| 有负权边 | Floyd 可以（无负环即可），Dijkstra 不行 |
+
+**典型应用：逐个删点求最短路和（CF 295B）**
+
+题意：按给定顺序逐个关闭节点，每次关闭前求所有开放节点间的最短路之和。
+
+```cpp
+// 关键：倒过来做，把「删点」变成「加点」
+// 新开放一个节点 = Floyd 最外层多跑一个 k
+for (int t = n; t >= 1; t--) {
+    int k = d[t];                         // 新开放的节点
+    for (int i = 1; i <= n; i++)          // Floyd 的一层松弛
+        for (int j = 1; j <= n; j++)
+            dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+
+    long long sum = 0;                    // 统计已开放节点间的距离和
+    for (int a = t; a <= n; a++)
+        for (int b = t; b <= n; b++)
+            sum += dist[d[a]][d[b]];
+    ans[t] = sum;
+}
+// 正序输出 ans[1..n]
+```
+
+**可迁移套路**：**「按顺序删除，每次删前查询」→ 倒过来变成「按逆序添加，每次添加后查询」**。
+因为删除难增量维护，添加容易。同类：逐个删边问连通性 → 倒过来加边用并查集。
+
+**Floyd 输出最短路径本身（不只是长度）**
+
+多开一个 `nxt` 矩阵：`nxt[i][j]` = 从 i 走到 j 的最短路上，**i 的下一步该去哪**。
+
+```cpp
+const int INF = 0x3f3f3f3f;
+int dist[N][N];
+int nxt[N][N];      // nxt[i][j] = i→j 最短路上，i 的下一个节点
+
+// ---- 初始化 ----
+for (int i = 1; i <= n; i++)
+    for (int j = 1; j <= n; j++)
+        nxt[i][j] = (dist[i][j] < INF) ? j : -1;   // 有直达边就直接走 j
+// 注意 dist[i][i]=0 < INF，所以 nxt[i][i] = i
+
+// ---- Floyd（只多了一行）----
+for (int k = 1; k <= n; k++)
+    for (int i = 1; i <= n; i++)
+        for (int j = 1; j <= n; j++)
+            if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                dist[i][j] = dist[i][k] + dist[k][j];
+                nxt[i][j] = nxt[i][k];             // ← 路线改成"先朝 k 的方向走"
+            }
+
+// ---- 输出 i 到 j 的完整路径 ----
+void printPath(int i, int j) {
+    if (nxt[i][j] == -1) { cout << "unreachable" << endl; return; }
+    cout << i;
+    while (i != j) {
+        i = nxt[i][j];
+        cout << " -> " << i;
+    }
+    cout << endl;
+}
+```
+
+**为什么是 `nxt[i][j] = nxt[i][k]`**：新路线是 `i → ... → k → ... → j`，
+那么从 i 迈出的第一步，跟「i 走到 k 的最短路的第一步」是同一步，也就是 `nxt[i][k]`。
+
+**跟踪例子**（`1→2:1, 2→3:1, 3→4:1, 1→3:5`）：
+```
+初始： nxt[1][2]=2  nxt[1][3]=3  nxt[1][4]=-1  nxt[2][3]=3  nxt[3][4]=4
+
+k=2：dist[1][3] 从 5 降到 2  →  nxt[1][3] = nxt[1][2] = 2
+k=3：dist[1][4] 从 ∞ 降到 3  →  nxt[1][4] = nxt[1][3] = 2
+
+查 1→4：1 → nxt[1][4]=2 → nxt[2][4]=3 → nxt[3][4]=4  →  输出 "1 -> 2 -> 3 -> 4"
+```
+
+**Dijkstra 记路径同理**：松弛成功时记 `pre[v] = u`，最后从终点沿 `pre` 往回走再 reverse。
 
 ### 3.3 Kruskal
 
@@ -1584,6 +3010,169 @@ int bfs(int sx, int sy, int ex, int ey, int n, int m) {
     return -1;
 }
 
+```
+
+### 3.5.5 序列题常用板子
+
+**前缀和**（反复查询区间和）
+
+```cpp
+// 一维：pre[i] = a[1..i] 的和
+pre[0] = 0;
+for (int i = 1; i <= n; i++) pre[i] = pre[i-1] + a[i];
+// 查询 [l, r] 的和
+sum = pre[r] - pre[l-1];
+
+// 二维：容斥
+for (int i = 1; i <= n; i++)
+    for (int j = 1; j <= m; j++)
+        pre[i][j] = mat[i][j] + pre[i-1][j] + pre[i][j-1] - pre[i-1][j-1];
+// 查询子矩阵 [r1..r2][c1..c2]
+sum = pre[r2][c2] - pre[r1-1][c2] - pre[r2][c1-1] + pre[r1-1][c1-1];
+```
+
+**差分数组**（反复区间加值，最后统一查询）
+
+```cpp
+// 给 [l, r] 每个数加上 x
+diff[l] += x;
+diff[r+1] -= x;
+
+// 全部操作做完后，前缀和还原成最终数组
+a[0] = diff[0];
+for (int i = 1; i < n; i++) a[i] = a[i-1] + diff[i];
+```
+
+**双指针 / 滑动窗口**（找最短的满足条件的连续段，元素非负）
+
+```cpp
+int left = 0, sum = 0, ans = INT_MAX;
+for (int right = 0; right < n; right++) {
+    sum += a[right];               // 不够就扩右
+    while (sum >= K) {             // 够了就缩左，找更短的
+        ans = min(ans, right - left + 1);
+        sum -= a[left];
+        left++;
+    }
+}
+// 找最长的：把 while 条件反过来（不满足就缩左），在循环外更新 ans
+// 注意：有负数时不能用，缩左可能让 sum 变大
+```
+
+**Kadane**（最大连续子数组和 + 记录首尾）
+
+```cpp
+int maxSum = INT_MIN, curSum = 0;
+int start = 0, end = 0, tempStart = 0;
+
+for (int i = 0; i < n; i++) {
+    curSum += a[i];
+    if (curSum > maxSum) {         // 用 > 不用 >=，保证取最靠前的
+        maxSum = curSum;
+        start = tempStart;
+        end = i;
+    }
+    if (curSum < 0) {              // 前面拖后腿，丢掉重开
+        curSum = 0;
+        tempStart = i + 1;
+    }
+}
+```
+
+**单调栈**（找每个元素右边第一个更大的）
+
+```cpp
+stack<int> st;                     // 栈里存下标，不是值
+vector<int> nextGreater(n, -1);
+
+for (int i = 0; i < n; i++) {
+    // 当前元素比栈顶大 → 栈顶找到答案了，弹出结算
+    while (!st.empty() && a[i] > a[st.top()]) {
+        nextGreater[st.top()] = i;
+        st.pop();
+    }
+    st.push(i);
+}
+// 栈里剩下的都没有更大的，保持 -1
+
+// 找右边第一个更小：把 > 改成 <
+// 找左边第一个更大：从右往左遍历
+```
+
+**二分答案**（最大值最小化 / 最小值最大化）
+
+```cpp
+// check(x)：答案取 x 时可不可行
+bool check(int x) { ... }
+
+int lo = 下界, hi = 上界, ans = -1;
+while (lo <= hi) {
+    int mid = lo + (hi - lo) / 2;      // 防溢出写法
+    if (check(mid)) {
+        ans = mid;
+        hi = mid - 1;                  // 求最小的可行值 → 继续往左找
+    } else {
+        lo = mid + 1;
+    }
+}
+// 求最大的可行值：把 hi=mid-1 和 lo=mid+1 对调
+```
+
+**编辑距离**
+
+```cpp
+// dp[i][j] = a 前 i 个字符 改成 b 前 j 个字符 的最少操作数
+for (int i = 0; i <= n; i++) dp[i][0] = i;      // 全删
+for (int j = 0; j <= m; j++) dp[0][j] = j;      // 全加
+
+for (int i = 1; i <= n; i++)
+    for (int j = 1; j <= m; j++) {
+        if (a[i-1] == b[j-1]) {
+            dp[i][j] = dp[i-1][j-1];            // 一样，不用操作
+        } else {
+            dp[i][j] = min(dp[i-1][j-1],        // 改
+                       min(dp[i-1][j],          // 删 a 的第 i 个
+                           dp[i][j-1])) + 1;    // 在 a 里加一个
+        }
+    }
+// 答案 dp[n][m]
+```
+
+**最长公共子串**（跟 LCS 只差一行）
+
+```cpp
+// dp[i][j] = 以 a[i-1] 和 b[j-1] 【结尾】的最长公共子串长度
+int ans = 0;
+for (int i = 1; i <= n; i++)
+    for (int j = 1; j <= m; j++) {
+        if (a[i-1] == b[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
+        else                  dp[i][j] = 0;     // ← 断了就归零（LCS 是取 max）
+        ans = max(ans, dp[i][j]);               // ← 答案要全表扫（LCS 是 dp[n][m]）
+    }
+```
+
+**LIS + 计数**
+
+```cpp
+vector<int> len(n, 1);
+vector<long long> cnt(n, 1);
+
+for (int i = 0; i < n; i++)
+    for (int j = 0; j < i; j++)
+        if (a[j] < a[i]) {                      // 严格递增
+            if (len[j] + 1 > len[i]) {          // 更长 → 重置
+                len[i] = len[j] + 1;
+                cnt[i] = cnt[j];
+            } else if (len[j] + 1 == len[i]) {  // 等长 → 累加
+                cnt[i] += cnt[j];
+            }
+        }
+
+int maxLen = 0;
+for (int i = 0; i < n; i++) maxLen = max(maxLen, len[i]);
+long long ans = 0;
+for (int i = 0; i < n; i++) if (len[i] == maxLen) ans += cnt[i];
+// len[i] 是「以 i 结尾」的，全局最长可能结尾在任何位置，所以要全扫一遍
 ```
 
 ### 3.6 01背包
@@ -1677,3 +3266,203 @@ int kmpSearch(const string& text, const string& pattern) {
 }
 
 ```
+
+### 3.9 建树
+
+**方式 A：数组建树（输入给编号时用）**
+
+输入格式：`n` 行，每行 `val left right`，-1 表示空。根节点编号 1。
+
+```cpp
+struct Node {
+    int val;
+    int left, right;  // 存子节点编号，-1 表示空
+};
+Node nodes[1005];
+
+// 读入
+int n; cin >> n;
+for (int i = 1; i <= n; i++) {
+    cin >> nodes[i].val >> nodes[i].left >> nodes[i].right;
+}
+
+// DFS 时用编号访问
+void dfs(int u) {
+    if (u == -1) return;
+    // 处理 nodes[u]
+    dfs(nodes[u].left);
+    dfs(nodes[u].right);
+}
+dfs(1);  // 从根开始
+```
+
+**方式 B：new 建树（输入是前序字符串时用）**
+
+输入格式：一个字符串，如 `124##5##36##7##`，`#` 表示空。
+
+```cpp
+struct Node {
+    int val;
+    Node* left;
+    Node* right;
+    Node(int v) : val(v), left(nullptr), right(nullptr) {}
+};
+
+int idx = 0;
+string s;
+
+Node* build() {
+    if (idx >= (int)s.size() || s[idx] == '#') {
+        idx++;
+        return nullptr;
+    }
+    Node* node = new Node(s[idx] - '0');
+    idx++;
+    node->left = build();
+    node->right = build();
+    return node;
+}
+
+// 调用
+cin >> s;
+Node* root = build();
+```
+
+**选哪个**：题目给编号 → 方式 A（简单）。题目给前序/中序字符串 → 方式 B。
+
+**方式 C：完全二叉树（数组直接存，不需要指针）**
+
+完全二叉树 = 除最后一层外都填满，最后一层节点靠左连续排列（中间无空缺）。
+
+按**层序**（从上到下、从左到右）输入，用数组存，下标从 1 开始：
+
+```cpp
+int a[1005];
+for (int i = 1; i <= n; i++) cin >> a[i];
+```
+
+**下标关系**（不需要建树，直接算）：
+```
+节点 i 的左孩子 = 2*i
+节点 i 的右孩子 = 2*i + 1
+节点 i 的父节点 = i / 2
+```
+
+**每层的下标范围**：
+```
+第 1 层：下标 1
+第 2 层：下标 2 ~ 3
+第 3 层：下标 4 ~ 7
+第 4 层：下标 8 ~ 15
+第 d 层：下标 2^(d-1) ~ 2^d - 1
+```
+
+用位运算算 2 的幂：`1 << (d-1)` 就是 2^(d-1)（比 `pow` 快且准确）。
+
+```cpp
+int start = 1 << (d - 1);    // 第 d 层起点
+int end = (1 << d) - 1;      // 第 d 层终点
+for (int i = start; i <= min(end, n); i++) cout << a[i];
+```
+
+### 3.10 LCA（最近公共祖先）
+
+两个节点同时往上爬，第一次碰面的地方就是 LCA。
+
+```cpp
+int parent[N];  // parent[i] = i 的父节点
+int depth[N];   // depth[i] = i 的深度
+
+// 预处理：DFS 算每个节点的深度和父节点
+void dfsDepth(int u, int par, int dep) {
+    parent[u] = par;
+    depth[u] = dep;
+    for (int v : adj[u]) {
+        if (v != par) dfsDepth(v, u, dep + 1);
+    }
+}
+// 调用：dfsDepth(root, -1, 0);
+
+// 查询 u 和 v 的 LCA
+int lca(int u, int v) {
+    // 1. 调到同一深度（深的先爬）
+    while (depth[u] > depth[v]) u = parent[u];
+    while (depth[v] > depth[u]) v = parent[v];
+    // 2. 一起往上爬
+    while (u != v) {
+        u = parent[u];
+        v = parent[v];
+    }
+    return u;
+}
+```
+
+朴素版 O(n)，够用。信号：看到"两个节点的最近公共祖先"/"最近公共父节点"就用这个。
+
+### 3.11 区间 DP
+
+**一句话**：`dp[i][j]` = 把区间 `[i,j]` 处理完的最优值；枚举「**最后一步操作发生在哪个位置 k**」，
+k 把区间劈成左右两半，两半各自处理完，再加上最后这一步的代价。
+
+**信号**：操作会改变元素的相邻关系（撞掉/合并/删除一个后左右变邻居），正着想"先做哪个"很难 → 反过来想"最后做哪个"。
+
+**循环顺序的唯一规则**：`dp[i][j]` 用到 `dp[i][k-1]` 和 `dp[k+1][j]`，这两个都比 `[i,j]` 短 → **短区间先算**。
+
+```cpp
+// 三层循环模板（背下来）
+for (int len = 1; len <= n; len++)             // 1. 区间长度，从小到大
+    for (int i = 0; i + len - 1 < n; i++) {    // 2. 左端点
+        int j = i + len - 1;                    //    右端点跟着确定
+        for (int k = i; k <= j; k++) {          // 3. 枚举分割点/最后操作的位置
+            int left  = (k > i) ? dp[i][k-1] : 0;
+            int right = (k < j) ? dp[k+1][j] : 0;
+            dp[i][j] = max(dp[i][j], left + right + 代价(i, k, j));
+        }
+    }
+// 答案 = dp[0][n-1]
+```
+
+**戳气球 / 超级问号**
+
+> **题意**：一排数，每次撞掉一个，得分 = 左邻居 × 自己 × 右邻居（越界算 1）；
+> 撞掉之后左右两边变成邻居。问全部撞完的最大总得分。
+>
+> **k 的含义**：区间 `[i,j]` 里**最后一个被撞的**是 k。因为它最后撞，撞它时区间里只剩它，
+> 所以左右邻居是**区间外**的 `i-1` 和 `j+1`——这两个是固定的，不受区间内怎么撞影响。
+
+```cpp
+int getCoin(int i) { return (i < 0 || i >= n) ? 1 : coins[i]; }  // 越界视为 1
+
+for (int len = 1; len <= n; len++)
+    for (int i = 0; i + len - 1 < n; i++) {
+        int j = i + len - 1;
+        for (int k = i; k <= j; k++) {
+            int left  = (k > i) ? dp[i][k-1] : 0;
+            int right = (k < j) ? dp[k+1][j] : 0;
+            int gain  = getCoin(i-1) * coins[k] * getCoin(j+1);
+            dp[i][j] = max(dp[i][j], left + right + gain);
+        }
+    }
+cout << dp[0][n-1];
+```
+
+**石子合并**
+
+> **题意**：n 堆石子排成一排，每次只能把**相邻两堆**合成一堆，代价是这两堆的重量之和。
+> 问全部合成一堆的最小总代价。
+>
+> **k 的含义**：`[i,j]` 最终要合成一堆，那**最后一次合并**一定是「左边一大堆」和「右边一大堆」合起来，
+> k 就是这两大堆的分界线（左半 `[i,k]`，右半 `[k+1,j]`）。
+> 最后这一次合并的代价 = 整个区间的重量和 = `prefix[j] - prefix[i-1]`。
+
+```cpp
+for (int len = 2; len <= n; len++)
+    for (int i = 1; i + len - 1 <= n; i++) {
+        int j = i + len - 1;
+        dp[i][j] = 0x3f3f3f3f;
+        for (int k = i; k < j; k++)
+            dp[i][j] = min(dp[i][j], dp[i][k] + dp[k+1][j] + prefix[j] - prefix[i-1]);
+    }
+```
+
+**两者的区别**：戳气球的 k 是"最后撞的球"（k 被排除在左右两半之外）；石子合并的 k 是"分割点"（左半 `[i,k]`、右半 `[k+1,j]`，k 归左半）。看题目是"删掉一个"还是"切成两半"。
