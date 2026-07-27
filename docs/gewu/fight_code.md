@@ -260,7 +260,7 @@ STL（Standard Template Library）= 容器 + 算法 + 迭代器。机试核心�
 | `unordered_map` | `<unordered_map>` | 哈希表 | 计数、映射、O(1) 查找 |
 | `unordered_set` | `<unordered_set>` | 哈希集合 | 去重、O(1) 判存在 |
 | `string` | `<string>` | 字符串 | 字符串处理 |
-| `pair` | `<utility>` | 二元组 | 坐标、{距离, 节点} |
+| `pair` | `<utility>` | 二元组 | 坐标、`{距离, 节点}` |
 | `set` | `<set>` | 有序集合 | 需要自动排序 + 去重 |
 | `map` | `<map>` | 有序映射 | 需要按 key 排序 |
 
