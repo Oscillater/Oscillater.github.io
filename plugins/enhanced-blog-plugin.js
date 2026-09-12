@@ -30,6 +30,20 @@ async function blogPluginEnhanced(context, options) {
         });
         console.log(`Set global data for key: blogTags_${pluginId}`);
       }
+
+      // 最近文章数据,供主页「有所得」板块展示(键: recentPosts_<pluginId>)
+      const blogPosts = content.blogPosts || [];
+      const recentPosts = blogPosts.slice(0, 6).map((post) => ({
+        title: post.title,
+        permalink: post.permalink,
+        date:
+          post.metadata && post.metadata.date
+            ? post.metadata.date.toISOString()
+            : null,
+      }));
+      setGlobalData({
+        [`recentPosts_${pluginId}`]: recentPosts
+      });
     }
   };
 }

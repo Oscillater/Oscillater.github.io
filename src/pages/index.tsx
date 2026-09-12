@@ -121,7 +121,10 @@ export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   const [width, setWidth] = useState<number | undefined>(undefined);
   const [scrollY, setScrollY] = useState(0);
-  const { ref: mainRef, isVisible: mainVisible } = useIntersectionObserver({ threshold: 0.2, rootMargin: '-50px' });
+  // threshold 是「整个 main 同时可见的比例」:窄屏(426-900px)下板块竖向堆叠,
+  // main 高度可达视口的数倍,0.2 所需的绝对像素比整个视口还大 → 永远不触发、
+  // 内容全隐藏。取小值,main 露出一小截就整体淡入。
+  const { ref: mainRef, isVisible: mainVisible } = useIntersectionObserver({ threshold: 0.05, rootMargin: '-50px' });
 
   useEffect(() => {
     if (typeof window !== "undefined") {

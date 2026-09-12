@@ -1,0 +1,225 @@
+/* 「格物 / 致知 / 有所得」滚动展示区 */
+
+/* ---- 布局 ---- */
+
+.showcase {
+  padding: 1rem 0 2rem;
+}
+
+.section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  /* 竖向留白随视口收缩,小屏不至于太空、大屏不至于太挤 */
+  padding: clamp(2.25rem, 4vw, 3.5rem) 1.5rem;
+}
+
+/* 板块之间的竖向留白:下一块不再叠加 padding-top(否则两块 padding 相加,间隔过大) */
+.section + .section {
+  padding-top: 0;
+}
+
+/* 偶数板块左右互换，形成滚动节奏 */
+.reverse {
+  flex-direction: row-reverse;
+}
+
+/* ---- 标题区 ---- */
+
+.header {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  text-align: left;
+}
+
+.reverse .header {
+  text-align: right;
+}
+
+.bigTitle {
+  margin: 0 0 1.75rem;
+  font-family: "STZhongsong", "Noto Serif SC", "SimHei", "Serif";
+  font-size: clamp(3rem, 7vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--ifm-color-emphasis-900);
+}
+
+/* 大标题即入口（点字跳转），字底一道波浪线，与主视觉同语言 */
+.titleLink {
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+  transform: rotate(-1.2deg);
+}
+
+.titleLink:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.titleWave {
+  position: absolute;
+  left: -1%;
+  bottom: -0.22em;
+  width: 102%;
+  height: 0.24em;
+  overflow: visible;
+}
+
+.titleWavePath {
+  fill: none;
+  stroke: var(--ifm-color-primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-opacity: 0.7;
+  transition: stroke-opacity 0.2s ease;
+}
+
+.titleLink:hover .titleWavePath {
+  stroke-opacity: 1;
+}
+
+/* 一句话介绍：疏排、轻微歪斜（旋转放内层，避免被入场动画的 transform 覆盖） */
+.intro {
+  display: inline-block;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.introInner {
+  display: inline-block;
+  transform: rotate(-1deg);
+}
+
+/* ---- 波浪区 ---- */
+
+/*
+ * .waveArea 是两套坐标的公共容器：波点/吊线用 SVG 坐标，标签用百分比定位。
+ * 宽度随视口连续收缩（clamp），aspect-ratio 锁死 = viewBox 的 460/340，
+ * 两套坐标才能在任意宽度下一一对应。
+ */
+.waveArea {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: clamp(300px, 42vw, 540px);
+  aspect-ratio: 460 / 340;
+}
+
+/* 波浪向标题一侧探过去一点,从标题字底下淌出来(负边距小于 gap,不贴字) */
+.waveArea:not(.waveFromRight) {
+  margin-left: -1.5rem;
+}
+
+.waveFromRight {
+  margin-right: -1.5rem;
+}
+
+.waveSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.waveMain {
+  fill: none;
+  stroke: var(--ifm-color-primary);
+  stroke-opacity: 0.55;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+}
+
+.waveEcho {
+  fill: none;
+  stroke: var(--ifm-color-primary);
+  stroke-opacity: 0.22;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.waveDot {
+  fill: var(--ifm-color-primary);
+}
+
+.waveStem {
+  stroke: var(--ifm-color-primary);
+  stroke-opacity: 0.35;
+  stroke-width: 1;
+}
+
+/* ---- 标签 ---- */
+
+.waveTagWrap {
+  position: absolute;
+  white-space: nowrap;
+  /* 居中位移平时由 framer 的 x/y 接管（见 index.tsx），这里只作兜底 */
+  transform: translate(-50%, -50%);
+}
+
+.waveTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.15rem;
+  background: var(--ifm-card-background-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  /* 字号随视口微缩，窄屏时标签不至撑出波浪区 */
+  font-size: clamp(0.92rem, 0.55vw + 0.62rem, 1.08rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--ifm-color-emphasis-900);
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+a.waveTag:hover {
+  color: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+/* ---- 响应式 ---- */
+
+/* ≤900px：波浪隐藏，降级为横排标签 */
+.tagListMobile {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .section,
+  .reverse {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2.25rem 1rem;
+  }
+
+  .header,
+  .reverse .header {
+    text-align: center;
+  }
+
+  .waveArea {
+    display: none;
+  }
+
+  .tagListMobile {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+}

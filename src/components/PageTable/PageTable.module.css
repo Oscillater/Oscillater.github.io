@@ -1,16 +1,49 @@
+/* 统一卡片尺寸:固定高度,内容单行/两行截断,保证每张卡长宽一致 */
+.cardItem {
+    height: 110px;
+}
+
 .cardBody {
     display: flex;
     align-items: center;
-  }
+    height: 100%;
+}
+
+/* 允许内部文本区收缩,让名字能触发 ellipsis 而不是撑高卡片 */
+.cardBody :global(.avatar__intro) {
+    min-width: 0;
+}
+
+/* 纯 CSS 两行截断:NanoClamp 的 JS 行高测量对中文不准,会多出一行导致错位 */
+.description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    margin: 0;
+}
   
 .content {
     flex: 1;
 }
-.img{
-    width: '100%';
-    height: 'auto';
+.img {
+    flex-shrink: 0;
     margin-right: 10px;
 }
-.name{
+
+/* 固定尺寸 + object-fit,避免外站图片比例不一致时被拉伸变形 */
+.avatarImg {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: var(--ifm-color-emphasis-200);
+}
+.name {
     font-family: 'STZhongsong';
+    display: block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

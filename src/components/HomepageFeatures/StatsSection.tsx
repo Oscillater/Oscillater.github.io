@@ -19,82 +19,52 @@ interface WordStats {
 interface StatsSectionProps {
   timeData: TimeData;
   wordStats: WordStats;
-  isVisible?: boolean;
 }
 
-const StatsSection: React.FC<StatsSectionProps> = ({ timeData, wordStats, isVisible = false }) => {
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('zh-CN', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
+// 访问量:busuanzi 依赖真实 <script> 标签执行(写在 JSX 里 React 不会运行它),
+// 因此客户端挂载后动态注入一次,脚本自己回填 #busuanzi_value_site_pv
+function BusuanziCounter() {
+  React.useEffect(() => {
+    if (document.getElementById('busuanzi-script')) return;
+    const script = document.createElement('script');
+    script.id = 'busuanzi-script';
+    script.src = '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+  return <span id="busuanzi_value_site_pv">--</span>;
+}
 
+// 一条居中的数据带:四个主数字(总字数/总文章/运行天数/访问量) + 协议小字,无底色无卡片
+const StatsSection: React.FC<StatsSectionProps> = ({ timeData, wordStats }) => {
   return (
-    <div className={styles.statsContent}>
-      <h2 className={styles.sectionTitle}>关于本站</h2>
-      <div className={styles.statsMainContent}>
-        {/* 主要数据 */}
-        <div className={styles.primaryStats}>
-          <div className={styles.primaryStatItem}>
-            <div className={styles.primaryNumber}>{wordStats.totalWords.toLocaleString()}</div>
-            <div className={styles.primaryLabel}>总字数</div>
-          </div>
-          <div className={styles.primaryStatItem}>
-            <div className={styles.primaryNumber}>{wordStats.docs.gewu.count + wordStats.docs.zhizhi.count + wordStats.blog.count}</div>
-            <div className={styles.primaryLabel}>总文章</div>
-          </div>
-          <div className={styles.primaryStatItem}>
-            <div className={styles.primaryNumber}>{timeData.days}</div>
-            <div className={styles.primaryLabel}>运行天数</div>
-          </div>
+    <div className={styles.statsContainer}>
+      <div className={styles.statsNumbers}>
+        <div className={styles.statItem}>
+          <span className={styles.statNumber}>{wordStats.totalWords.toLocaleString()}</span>
+          <span className={styles.statLabel}>总字数</span>
         </div>
-
-        {/* 访问量 */}
-        <div className={styles.visitInfo}>
-          <span className={styles.visitLabel}>访问量</span>
-          <span className={styles.visitNumber}>
-            <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-            <span id="busuanzi_value_site_pv">--</span>
+        <div className={styles.statItem}>
+          <span className={styles.statNumber}>
+            {wordStats.docs.gewu.count + wordStats.docs.zhizhi.count + wordStats.blog.count}
           </span>
+          <span className={styles.statLabel}>总文章</span>
         </div>
+        <div className={styles.statItem}>
+          <span className={styles.statNumber}>{timeData.days}</span>
+          <span className={styles.statLabel}>运行天数</span>
+        </div>
+        <div className={styles.statItem}>
+          <span className={styles.statNumber}><BusuanziCounter /></span>
+          <span className={styles.statLabel}>访问量</span>
+        </div>
+      </div>
 
-        {/* 简化的分类统计 */}
-        <div className={styles.simpleCategoryStats}>
-          <div className={styles.categoryItem}>
-            <span className={styles.categoryName}>格物</span>
-            <span className={styles.categoryData}>{wordStats.docs.gewu.count} 篇 · {wordStats.docs.gewu.words.toLocaleString()} 字</span>
-          </div>
-          <div className={styles.categoryItem}>
-            <span className={styles.categoryName}>致知</span>
-            <span className={styles.categoryData}>{wordStats.docs.zhizhi.count} 篇 · {wordStats.docs.zhizhi.words.toLocaleString()} 字</span>
-          </div>
-          <div className={styles.categoryItem}>
-            <span className={styles.categoryName}>有所得</span>
-            <span className={styles.categoryData}>{wordStats.blog.count} 篇 · {wordStats.blog.words.toLocaleString()} 字</span>
-          </div>
-        </div>
-
-        {/* 系统状态和协议信息 */}
-        <div className={styles.statusAndCopyright}>
-          <div className={styles.statusIndicator}>
-            <span className={styles.statusDot}></span>
-            <span className={styles.statusText}>系统运行正常</span>
-          </div>
-          <div className={styles.copyrightInfo}>
-            <span className={styles.copyrightText}>
-              本站"格物""致知"内容受 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-ND 4.0</a> 协议保护
-            </span>
-            <span className={styles.copyrightText}>
-              "有所得"内容禁止转载，由作者保留所有权利
-            </span>
-          </div>
-        </div>
-
-        <div className={styles.updateTime}>
-          更新于 {formatDate(wordStats.lastUpdated)}
-        </div>
+      <div className={styles.statsLicense}>
+        <p>
+          本站"格物""致知"内容受 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-ND 4.0</a> 协议保护
+        </p>
+        <p>"有所得"内容禁止转载，由作者保留所有权利</p>
       </div>
     </div>
   );

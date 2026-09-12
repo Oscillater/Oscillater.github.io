@@ -9,7 +9,7 @@ function friends(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   const friendsList = [
     {
-      name: " 绫波的小窝",
+      name: "绫波的小窝",
       url: "https://ayanami1314.github.io/",
       description: "技术博客 & 个人随笔",
       imageUrl: "https://s2.loli.net/2024/12/23/3F8USucjQOq1ys9.jpg",
@@ -70,22 +70,10 @@ function friends(): JSX.Element {
       imageUrl: "https://xmmxovo.online/images/avatar.png",
     },
     {
-      name: "上海交通大学科幻奇幻协会",
-      url: "https://gpabooks.github.io/",
-      description: "生生不息，繁荣昌盛！",
-      imageUrl: "https://gpabooks.github.io/assets/images/logo-blue.png",
-    },
-    {
       name: "北辕记",
       url: "https://lithiumcr.github.io",
       description: "记录思考、文学、还有一路向北的歧途",
       imageUrl: "https://lithiumcr.github.io/image/logo.png"
-    },
-    {
-      name: "???",
-      url: "/friends",
-      description: "加入友链，请将站名、URL、介绍与图片 URL 按格式写在评论区。",
-      imageUrl: "https://via.placeholder.com/50",
     },
   ];
 
@@ -99,6 +87,15 @@ function friends(): JSX.Element {
           <PageHeading string1="侠之小者，" string2="为友为邻" />
 
           <PagesTable Items={friendsList} showImage={true} />
+          <p
+            className="text--center margin-top--lg"
+            style={{
+              fontSize: "0.9rem",
+              color: "var(--ifm-color-emphasis-600)",
+            }}
+          >
+            想加入友链？请将站名、URL、介绍与图片 URL 按格式写在下方评论区。
+          </p>
           <div className="container">
             <div className="row">
               <div className="col col--3" />
