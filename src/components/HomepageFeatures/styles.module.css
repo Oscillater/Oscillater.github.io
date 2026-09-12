@@ -261,14 +261,29 @@
 
 /* ---- 响应式 ---- */
 
-/* 窄屏:关于我竖排(与三板块的降级一致),标题居中 */
+/* 窄屏:关于我竖排(与三板块的降级一致),标题居中,字号与间距收紧便于手机阅读 */
 @media (max-width: 900px) {
   .aboutContainer {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
   .aboutHeaderCol {
+    text-align: center;
+  }
+
+  .waveTitleLarge {
+    margin-bottom: 1rem;
+  }
+
+  .aboutSlogan {
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  .aboutMainContent {
+    gap: 0.6rem;
+    /* 手机端标题、slogan、正文全部居中 */
     text-align: center;
   }
 }

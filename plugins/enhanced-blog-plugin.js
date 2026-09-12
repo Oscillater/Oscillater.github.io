@@ -18,22 +18,22 @@ async function blogPluginEnhanced(context, options) {
       const { setGlobalData } = actions;
       const { blogTags } = content;
 
-      // 将博客标签数据设置为全局数据
       // 使用插件ID作为键名，避免多个博客实例冲突
       const pluginId = options.id || 'default';
-      console.log(`Enhanced blog plugin: setting data for pluginId: ${pluginId}`);
-      console.log(`Blog tags count:`, blogTags ? Object.keys(blogTags).length : 0);
+
+      // 注意:setGlobalData 每次调用会「整体覆盖」该插件实例的 globalData
+      // (见 @docusaurus/core actions.js),blogTags 和 recentPosts 必须合并进
+      // 同一次调用——之前分两次写,后写的 recentPosts 把 blogTags 冲掉了,
+      // 有所得页的标签因此消失
+      const data = {};
 
       if (blogTags && Object.keys(blogTags).length > 0) {
-        setGlobalData({
-          [`blogTags_${pluginId}`]: blogTags
-        });
-        console.log(`Set global data for key: blogTags_${pluginId}`);
+        data[`blogTags_${pluginId}`] = blogTags;
       }
 
       // 最近文章数据,供主页「有所得」板块展示(键: recentPosts_<pluginId>)
       const blogPosts = content.blogPosts || [];
-      const recentPosts = blogPosts.slice(0, 6).map((post) => ({
+      data[`recentPosts_${pluginId}`] = blogPosts.slice(0, 6).map((post) => ({
         title: post.title,
         permalink: post.permalink,
         date:
@@ -41,9 +41,8 @@ async function blogPluginEnhanced(context, options) {
             ? post.metadata.date.toISOString()
             : null,
       }));
-      setGlobalData({
-        [`recentPosts_${pluginId}`]: recentPosts
-      });
+
+      setGlobalData(data);
     }
   };
 }
