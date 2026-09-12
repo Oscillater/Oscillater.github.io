@@ -21,70 +21,67 @@ const WaveAnimation = ({
   useEffect(() => {
     if(!width||!height) return;
     const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        const resizeCanvas = () => {
-          console.log("Canvas width:", width);
-          canvas.width = width;
-          canvas.height = height;
-        };
-        resizeCanvas();
-        const waves = [
-          {
-            amplitude: 20,
-            frequency: 0.02,
-            speed: 0.0125,
-            color: "rgba(255, 255, 255, 0.5)",
-            phase: 0,
-          },
-          {
-            amplitude: 30,
-            frequency: 0.015,
-            speed: 0.0075,
-            color: "rgba(255, 255, 255, 0.35)",
-            phase: 0,
-          },
-          {
-            amplitude: 40,
-            frequency: 0.01,
-            speed: 0.005,
-            color: "rgba(255, 255, 255, 0.15)",
-            phase: 0,
-          },
-        ];
-        const centerY = (canvas.height * 2) / 3;
-        const startX = 0;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    canvas.width = width;
+    canvas.height = height;
+    const waves = [
+      {
+        amplitude: 20,
+        frequency: 0.02,
+        speed: 0.0125,
+        color: "rgba(255, 255, 255, 0.5)",
+        phase: 0,
+      },
+      {
+        amplitude: 30,
+        frequency: 0.015,
+        speed: 0.0075,
+        color: "rgba(255, 255, 255, 0.35)",
+        phase: 0,
+      },
+      {
+        amplitude: 40,
+        frequency: 0.01,
+        speed: 0.005,
+        color: "rgba(255, 255, 255, 0.15)",
+        phase: 0,
+      },
+    ];
+    const centerY = (canvas.height * 2) / 3;
+    const startX = 0;
+    let rafId: number;
 
-        const animate = () => {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-          waves.forEach((wave) => {
-            ctx.beginPath();
-            ctx.moveTo(startX, centerY);
+      waves.forEach((wave) => {
+        ctx.beginPath();
+        ctx.moveTo(startX, centerY);
 
-            for (let x = startX; x < canvas.width; x++) {
-              const y =
-                centerY +
-                wave.amplitude * Math.sin(wave.frequency * x + wave.phase);
-              ctx.lineTo(x, y);
-            }
+        for (let x = startX; x < canvas.width; x++) {
+          const y =
+            centerY +
+            wave.amplitude * Math.sin(wave.frequency * x + wave.phase);
+          ctx.lineTo(x, y);
+        }
 
-            ctx.lineTo(canvas.width, canvas.height);
-            ctx.lineTo(startX, canvas.height);
-            ctx.closePath();
-            ctx.fillStyle = wave.color;
-            ctx.fill();
+        ctx.lineTo(canvas.width, canvas.height);
+        ctx.lineTo(startX, canvas.height);
+        ctx.closePath();
+        ctx.fillStyle = wave.color;
+        ctx.fill();
 
-            wave.phase += wave.speed;
-          });
+        wave.phase += wave.speed;
+      });
 
-          requestAnimationFrame(animate);
-        };
+      rafId = requestAnimationFrame(animate);
+    };
 
-        animate();
-      }
-    }
+    animate();
+    // 组件卸载或 width 变化时取消旧动画帧，避免循环叠加
+    return () => cancelAnimationFrame(rafId);
   }, [width]);
 
   return <canvas ref={canvasRef} className={styles.waveAnimation}></canvas>;

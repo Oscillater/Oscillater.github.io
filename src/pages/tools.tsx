@@ -6,7 +6,7 @@ import PagesTable from "../components/PageTable/PageTable";
 import BrowserOnly from "@docusaurus/BrowserOnly";
 import Comment from "../components/Comment/Comment";
 
-function friends(): JSX.Element {
+function Tools(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   const toolsList = [
     {
@@ -123,4 +123,4 @@ function friends(): JSX.Element {
   );
 }
 
-export default friends;
+export default Tools;

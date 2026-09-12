@@ -11,29 +11,6 @@ import EndorsementCard from "../EndorsementDisplay/EndorsementCard";
 import { useRandomEndorsement } from "../../hooks/useEndorsements";
 import styles from "./styles.module.css";
 
-type ProjectItem = {
-  title: string;
-  description: string;
-  link?: string;
-  image?: string;
-  tech?: string[];
-};
-
-const ProjectList: ProjectItem[] = [
-  {
-    title: "凌川的小站",
-    description: "个人博客，搭建于2023年，尝试在技术和个人表达之间达成某种平衡。希望它在逼近这个目标。",
-    link: "https://oscillater.github.io/",
-    tech: ["React", "TypeScript"],
-  },
-  {
-    title: "《银河先锋联盟》（上海交通大学科幻奇幻协会社团刊物）",
-    description: "本人于2023-2024年担任SJTUSFFA的社长，并参与主编了社团刊物《银河先锋联盟》（aka GPA）。作为社员和社长，在社团度过了一段难忘的时光。社刊，也就作为激情燃烧后的余烬。Anyway，生生不息，繁荣昌盛。",
-    image: "https://gpabooks.github.io/assets/images/logo-blue.png",
-    link: "https://gpabooks.github.io/",
-  }
-];
-
 export default function HomepageFeatures(): JSX.Element {
   const [timeData, setTimeData] = useState({
     days: 0,
@@ -44,7 +21,6 @@ export default function HomepageFeatures(): JSX.Element {
 
   // 使用IntersectionObserver检测元素是否可见，在小屏幕下使用更激进的设置
   const { ref: featuresRef, isVisible: featuresVisible } = useIntersectionObserver({ threshold: 0.01, rootMargin: '100px' });
-  const { ref: projectsRef, isVisible: projectsVisible } = useIntersectionObserver({ threshold: 0.01, rootMargin: '100px' });
   const { ref: statsRef, isVisible: statsVisible } = useIntersectionObserver({ threshold: 0.01, rootMargin: '100px' });
   const { ref: aboutRef, isVisible: aboutVisible } = useIntersectionObserver({ threshold: 0.01, rootMargin: '100px' });
   const { ref: endorsementRef, isVisible: endorsementVisible } = useIntersectionObserver({ threshold: 0.01, rootMargin: '100px' });
@@ -62,14 +38,6 @@ export default function HomepageFeatures(): JSX.Element {
 
   return (
     <>
-      {/* 滚动进度指示器 */}
-      <motion.div
-        className={styles.scrollProgress}
-        style={{ scaleX: 0 }}
-        initial={{ scaleX: 0 }}
-        transition={{ duration: 0.2 }}
-      />
-
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -85,74 +53,6 @@ export default function HomepageFeatures(): JSX.Element {
       >
         <FeatureSection features={FEATURE_LIST} />
       </motion.div>
-
-      {/* 项目展示区域 */}
-      <div ref={projectsRef} className={styles.projectsSection}>
-        <motion.div
-          className={styles.projectsContainer}
-          initial={{ opacity: 0, y: 60 }}
-          animate={projectsVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
-          transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
-        >
-          <h2 className={styles.sectionTitle}>值得守护之物</h2>
-          <div className={styles.projectsGrid}>
-            {ProjectList.map((project, idx) => (
-              <motion.div
-                key={idx}
-                className={styles.projectCard}
-                initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                animate={projectsVisible ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 40, scale: 0.95 }}
-                transition={{ duration: 0.7, delay: 0.25 + idx * 0.12, ease: "easeOut" }}
-                whileHover={{ y: -8, scale: 1.02, boxShadow: "0 12px 32px rgba(0, 0, 0, 0.1)" }}
-                whileTap={{ scale: 0.98 }}
-                role="article"
-                aria-label={`项目: ${project.title}`}
-              >
-                {project.image && (
-                  <div className={styles.projectImage}>
-                    <motion.img
-                      src={project.image}
-                      alt={project.title}
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.4 }}
-                    />
-                  </div>
-                )}
-                <div className={styles.projectContent}>
-                  <h3 className={styles.projectTitle}>{project.title}</h3>
-                  <p className={styles.projectDescription}>{project.description}</p>
-                  {project.tech && project.tech.length > 0 && (
-                    <div className={styles.projectTech}>
-                      {project.tech.map((tech, i) => (
-                        <motion.span
-                          key={i}
-                          className={styles.techTag}
-                          whileHover={{ scale: 1.1, backgroundColor: "var(--ifm-color-primary-light)" }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          {tech}
-                        </motion.span>
-                      ))}
-                    </div>
-                  )}
-                  {project.link && (
-                    <motion.a
-                      href={project.link}
-                      className={styles.projectLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ x: 5 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      前往 →
-                    </motion.a>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
 
       {/* 统计区域 */}
       <section ref={statsRef} className={styles.statsSection}>

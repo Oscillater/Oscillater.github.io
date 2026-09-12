@@ -13,7 +13,7 @@ export const FEATURE_LIST: FeatureItem[] = [
   },
   {
     title: "有所得",
-    description: <>代码、小说与随笔</>,
+    description: <>项目、技术博客与文学创作</>,
     href: "/blog",
   },
 ];

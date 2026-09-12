@@ -80,6 +80,10 @@ const config: Config = {
       },
     ],
     [
+      './plugins/collections-plugin.js',
+      {},
+    ],
+    [
       './plugins/enhanced-blog-plugin.js',
       {
         id: 'tech-notes',
