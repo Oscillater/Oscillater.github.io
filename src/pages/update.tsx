@@ -31,7 +31,7 @@ const updates: TimelineItem[] = [
   },
   {
     date: "2026-09-12",
-    title: "「有所得」重构为项目展示页"
+    title: "重构「有所得」以及主页"
   }
 ];
 function update(): JSX.Element {
