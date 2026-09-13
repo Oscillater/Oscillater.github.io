@@ -5,14 +5,8 @@
  */
 
 /* You can override the default Infima variables here. */
-@font-face {
-  font-family: 'Montserrat'; /* 定义字体名称 */
-  src:url('../../static/fonts/Montserrat/Montserrat-VariableFont_wght.ttf'); /* 字体 URL */
-}
-@font-face {
-  font-family: 'Serif'; /* 定义字体名称 */
-  src:url('../../static/fonts/Serif/SourceHanSerif-VF.ttf'); /* 字体 URL */
-}
+/* 字体声明已改为分片按需加载：分片在各字体目录的 result.css 里（fonts:subset 脚本生成），
+   经 docusaurus.config.ts 的 stylesheets 全局引入 */
 :root {
   --ifm-color-primary: #00b3ff;
   --ifm-color-primary-dark: #00a1e6;

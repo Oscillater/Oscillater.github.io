@@ -22,7 +22,8 @@ export const homeSections: HomeSection[] = [
     id: "gewu",
     title: "格物",
     intro: "泛理工科笔记与感想思考",
-    href: "/docs",
+    // 标题链接到侧边栏第一个分类的索引页(与导航栏 docSidebar 的行为一致)
+    href: "/docs/category/physics",
     blocks: [
       { label: "物理", href: "/docs/category/physics" },
       { label: "硬件", href: "/docs/category/ee" },
@@ -34,7 +35,7 @@ export const homeSections: HomeSection[] = [
     id: "zhizhi",
     title: "致知",
     intro: "人文社科相关笔记",
-    href: "/docs",
+    href: "/docs/category/literature",
     blocks: [
       { label: "文学", href: "/docs/category/literature" },
       { label: "政治", href: "/docs/category/politics" },

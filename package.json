@@ -16,7 +16,8 @@
     "count:words": "npx tsx scripts/wordCount.ts",
     "count:words:update": "npx tsx scripts/wordCount.ts --update --silent",
     "count:words:report": "npx tsx scripts/wordCount.ts --report --output WORD_COUNT_REPORT.md",
-    "count:words:json": "npx tsx scripts/wordCount.ts --json"
+    "count:words:json": "npx tsx scripts/wordCount.ts --json",
+    "fonts:subset": "node scripts/subset-fonts.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "3.5.2",
@@ -39,6 +40,7 @@
     "@docusaurus/module-type-aliases": "3.5.2",
     "@docusaurus/tsconfig": "3.5.2",
     "@docusaurus/types": "3.5.2",
+    "cn-font-split": "^7.4.3",
     "commander": "^12.0.0",
     "tsx": "^4.6.2",
     "typescript": "~5.5.2"

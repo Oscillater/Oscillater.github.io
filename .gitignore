@@ -8,6 +8,9 @@
 .docusaurus
 .cache-loader
 
+# 字体源文件（120MB 级二进制，切片产物在 static/fonts/，见 scripts/subset-fonts.mjs）
+/font-src/
+
 # Misc
 .DS_Store
 .env.local
