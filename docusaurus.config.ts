@@ -41,9 +41,6 @@ const config: Config = {
         "sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM",
       crossorigin: "anonymous",
     },
-    // 中文字体分片按需加载（unicode-range），源文件与脚本见 font-src/ 与 scripts/subset-fonts.mjs
-    { href: "/fonts/Serif/result.css", type: "text/css" },
-    { href: "/fonts/Montserrat/result.css", type: "text/css" },
   ],
   presets: [
     [
