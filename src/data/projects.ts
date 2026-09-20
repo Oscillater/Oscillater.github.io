@@ -33,7 +33,7 @@ export const projects: Project[] = [
     links: [
       { label: "GitHub", url: "https://github.com/Oscillater/TermRail" },
       { label: "Blog", url: "/collections/termrail" },
-      { label: "视频", url: "" },
+      { label: "视频", url: "https://www.bilibili.com/video/BV1hheq6jEeM/" },
     ],
     featured: true,
   },
