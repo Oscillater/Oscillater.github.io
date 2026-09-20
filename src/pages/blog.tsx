@@ -90,7 +90,7 @@ export default function BlogSelection() {
   return (
     <Layout
       title="有所得"
-      description="项目、技术博客与文学创作"
+      description="我的作品、技术博客与文学创作"
     >
       <div className={styles.blogSelection}>
 
@@ -126,7 +126,7 @@ export default function BlogSelection() {
           ))}
         </motion.div>
 
-        <h2 className={styles.sectionTitle}>项目</h2>
+        <h2 className={styles.sectionTitle}>作品</h2>
 
         <div className={styles.projectsList}>
           {projects.map(project => (

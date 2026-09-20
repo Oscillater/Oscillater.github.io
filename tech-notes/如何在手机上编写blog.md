@@ -1,8 +1,8 @@
 ---
 date: 2026-01-29
 tags: 
-    - blog
-    - app
+    - Blog
+    - App
     - 折腾
 ---
 

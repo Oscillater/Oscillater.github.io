@@ -22,6 +22,8 @@ function LinkIcon({ url }: { url: string }) {
 }
 
 export default function ProjectCard({ project }: { project: Project }) {
+  const visibleLinks = project.links.filter(link => link.url.trim().length > 0);
+
   return (
     <motion.article
       className={styles.projectCard}
@@ -51,16 +53,16 @@ export default function ProjectCard({ project }: { project: Project }) {
                 const spec = TAG_ICONS[tag];
                 return (
                   <span key={tag} className={styles.techTag}>
-                    {spec && <spec.icon size="0.95em" color={spec.color} aria-hidden={true} />}
+                    {spec && <spec.icon size="0.95em" aria-hidden={true} />}
                     {tag}
                   </span>
                 );
               })}
             </div>
           )}
-          {project.links.length > 0 && (
+          {visibleLinks.length > 0 && (
             <div className={styles.linkRow}>
-              {project.links.map(link => (
+              {visibleLinks.map(link => (
                 <Link
                   key={link.url}
                   href={link.url}

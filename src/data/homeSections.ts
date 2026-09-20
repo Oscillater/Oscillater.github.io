@@ -46,10 +46,10 @@ export const homeSections: HomeSection[] = [
   {
     id: "suode",
     title: "有所得",
-    intro: "项目、技术博客与文学创作",
+    intro: "我的作品、技术博客与文学创作",
     href: "/blog",
     blocks: [
-      { label: "RAG4Spice", href: "/blog" },
+      { label: "TermRail", href: "/blog" },
       { label: "银河先锋联盟", href: "/blog" },
       { label: "凌川的小站", href: "/blog" },
     ],

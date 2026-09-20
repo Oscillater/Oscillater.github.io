@@ -6,6 +6,7 @@
  */
 export type ProjectLink = {
   label: string;
+  /** 留空时不渲染，可用于预留后续链接位 */
   url: string;
 };
 
@@ -21,6 +22,21 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    id: "termrail",
+    title: "TermRail",
+    description:
+      "一个面向 Windows 操作系统的 Coding Agent 多任务工作台，用于提高我多线程 Vibe Coding 的效率。第一个严肃制作的项目。 From now on, to the infinity.",
+    image: "/img/termrail/termrail-icon-centered.png",
+    tags: ["React", "TypeScript", "xterm.js", "node-pty", "WebSocket"],
+    period: "2026.08 – 2026.09",
+    links: [
+      { label: "GitHub", url: "https://github.com/Oscillater/TermRail" },
+      { label: "Blog", url: "/collections/termrail" },
+      { label: "视频", url: "" },
+    ],
+    featured: true,
+  },
   {
     id: "rag4spice",
     title: "RAG4Spice",

@@ -1,10 +1,10 @@
 ---
 date: 2026-04-07
 tags: 
-    - self-evolving
-    - agent
-    - research
-    - talk
+    - Self-Evolving
+    - Agent
+    - Research
+    - Talk
 ---
 ps:这是我为一个一个关于self-evolving agent的talk准备的逐字稿，请配合PPT食用：
 

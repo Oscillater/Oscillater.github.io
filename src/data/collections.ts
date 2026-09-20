@@ -26,4 +26,19 @@ export type Collection = {
   items: CollectionItem[];
 };
 
-export const collections: Collection[] = [];
+export const collections: Collection[] = [
+  {
+    id: "termrail",
+    title: "【持续更新中】TermRail 开发手记",
+    description:
+      "TermRail 是一个面向 Windows 的 Coding Agent 多任务工作台。它把分散在不同项目目录、不同终端窗口里的 Agent Session 集中到一个看板中管理，让你可以在多个项目和任务之间快速切换、持续跟进进度，不必反复轮询不同的 PowerShell 窗口。你可以基于不同文件夹创建不同项目 Session ，在内置 Terminal 中调用常用 Coding Agent，并通过 Prompt 面板一键插入高频提示词；当 Agent 完成输出时，TermRail 也会用状态变化提醒你及时回到任务。",
+    kind: "项目开发手记",
+    items: [
+      {
+        url: "/tech-notes/termrail-raft-to-termrail",
+        label: "从 Raft 到 TermRail :  Multi-Agent 还是 Multi-Task？",
+        part: "缘起",
+      },
+    ],
+  },
+];
