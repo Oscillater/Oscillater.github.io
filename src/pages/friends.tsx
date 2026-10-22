@@ -75,6 +75,12 @@ function friends(): JSX.Element {
       description: "记录思考、文学、还有一路向北的歧途",
       imageUrl: "https://lithiumcr.github.io/image/logo.png"
     },
+    {
+      name: "木猫的窝",
+      url: "https://www.mumoiscat.site/",
+      description: "举杯挥酒浪，送我度兰汀。",
+      imageUrl: "https://www.mumoiscat.site/img/favicon.png",
+    }
   ];
 
   return (
