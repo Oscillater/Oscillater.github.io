@@ -80,6 +80,12 @@ function friends(): JSX.Element {
       url: "https://www.mumoiscat.site/",
       description: "举杯挥酒浪，送我度兰汀。",
       imageUrl: "https://www.mumoiscat.site/img/favicon.png",
+    },
+    {
+      name: "纸烟的博物馆奇妙夜",
+      url: "https://zhiyancigarecloud.github.io/",
+      description: "心中有绿色，出门便是草",
+      imageUrl: "https://zhiyancigarecloud.github.io/img/brand-origami-rex.png",
     }
   ];
 
